@@ -1,0 +1,17 @@
+{
+  "name": "messenger-dashboard",
+  "version": "1.0.0",
+  "description": "Messenger Dashboard is an application that automates responses for multiple Facebook pages and displays controls and analytics on a separate frontend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Ki Jung Kim",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "knex": "^0.18.3"
+  }
+}
