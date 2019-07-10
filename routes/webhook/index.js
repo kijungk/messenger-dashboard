@@ -45,7 +45,7 @@ router.route('/')
       let payload = '';
 
       // entry has page id which can be differentiated to respond to multiple pages
-			console.log('\n\nentry:\n' + entry);
+			console.log('\n\nentry:\n' + JSON.parse(entry));
       if (event.message) {
         // differentiate between user inputs and assign payload here
         payload = event.message.text;
