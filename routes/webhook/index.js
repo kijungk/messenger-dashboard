@@ -1,7 +1,7 @@
 const
   express = require('express'),
   { httpStatusCodes } = require('../../utilities/constants'),
-  eventHandler = require('../../utilities/handlers/eventHandler'),
+  { processPayload } = require('../../utilities/handlers/eventHandler'),
   sendHandler = require('../../utilities/handlers/sendHandler'),
   router = express.Router();
 
@@ -40,24 +40,27 @@ router.route('/')
     }
 
     body.entry.forEach((entry) => {
-      const event = entry.messaging[0];
+      // differentiate between message event and referral event here
+      const interactionEvent = entry.messaging[0];
+
+      const entryId = entry.Id;
+      console.log(entryId);
+
       const senderId = event.sender.id;
       let payload = '';
 
-      // entry has page id which can be differentiated to respond to multiple pages
-			console.log('\n\nentry:\n' + JSON.stringify(entry));
-      if (event.message) {
+      if (interactionEvent.message) {
         // differentiate between user inputs and assign payload here
         payload = event.message.text;
       }
 
-      if (event.postback) {
+      if (interactionEvent.postback) {
         payload = event.postback.payload;
       }
 
-      const message = eventHandler.processPayload(payload);
+      const message = processPayload(payload);
 
-      return sendHandler.send(senderId, message);
+      return sendHandler.send(entryId, senderId, message);
     });
 
     return response.status(httpStatusCodes.ok).json({
