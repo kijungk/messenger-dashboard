@@ -45,6 +45,7 @@ router.route('/')
 
       const entryId = entry.Id;
       console.log(entry);
+      console.log(entry.sender);
 
       const senderId = entry.sender.id;
       let payload = '';
