@@ -1,6 +1,10 @@
 module.exports = (function () {
   //const responseBuilder = require('../builders/responseBuilder');
 
+  function processEntryId(entryId) {
+    return process.env[entryId];
+  }
+
   function processPayload(payload) {
     let message = null;
     switch (payload) {
@@ -51,6 +55,7 @@ module.exports = (function () {
   }
 
   return {
-    processPayload: processPayload
+    processPayload: processPayload,
+    processEntryId: processEntryId
   };
 })();
