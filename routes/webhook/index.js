@@ -51,11 +51,11 @@ router.route('/')
 
       if (interactionEvent.message) {
         // differentiate between user inputs and assign payload here
-        payload = event.message.text;
+        payload = interactionEvent.message.text;
       }
 
       if (interactionEvent.postback) {
-        payload = event.postback.payload;
+        payload = interactionEvent.postback.payload;
       }
 
       const message = processPayload(payload);
