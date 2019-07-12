@@ -44,9 +44,9 @@ router.route('/')
       const interactionEvent = entry.messaging[0];
 
       const entryId = entry.Id;
-      console.log(entryId);
+      console.log(entry);
 
-      const senderId = event.sender.id;
+      const senderId = entry.sender.id;
       let payload = '';
 
       if (interactionEvent.message) {
