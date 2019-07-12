@@ -51,7 +51,6 @@ module.exports = (function () {
   }
 
   return {
-    processPayload: processPayload,
-    processEntryId: processEntryId
+    processPayload: processPayload
   };
 })();
