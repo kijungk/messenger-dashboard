@@ -13,7 +13,6 @@ module.exports = (function () {
     const options = {
       uri: 'https://graph.facebook.com/v2.6/me/messages',
       qs: {
-        // Need to parameterize this based on page entry id
         access_token: process.env[entryId]
       },
       method: 'POST',
