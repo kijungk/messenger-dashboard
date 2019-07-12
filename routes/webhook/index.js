@@ -43,8 +43,7 @@ router.route('/')
       // differentiate between message event and referral event here
       const interactionEvent = entry.messaging[0];
 
-      console.log(entry);
-      const entryId = entry.Id;
+      const entryId = entry.id;
       console.log(entryId);
 
       const senderId = interactionEvent.sender.id;
