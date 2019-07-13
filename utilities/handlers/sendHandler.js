@@ -1,19 +1,22 @@
 module.exports = (function () {
   const
-    rp = require('request-promise');
+    rp = require('request-promise'),
+    { processEntryId } = require('../handlers/entryHandler');
 
   function send(entryId, recipientId, content) {
+    const access_token = processEntryId(entryId);
+
     const body = {
       recipient: {
         id: recipientId
       },
       message: content
     };
-    console.log(process.env[entryId])
+
     const options = {
       uri: 'https://graph.facebook.com/v2.6/me/messages',
       qs: {
-        access_token: process.env[entryId]
+        access_token
       },
       method: 'POST',
       json: body
