@@ -49,6 +49,10 @@ router.route('/')
       const senderId = event.sender.id;
       let payload = '';
 
+      if (event.referral) {
+        payload = event.referral.ref;
+      }
+
       if (event.message) {
         // differentiate between user inputs and assign payload here
         payload = event.message.text;
