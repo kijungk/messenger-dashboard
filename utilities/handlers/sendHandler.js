@@ -9,11 +9,11 @@ module.exports = (function () {
       },
       message: content
     };
-    console.log(process.env.entryId)
+    console.log(process.env[entryId])
     const options = {
       uri: 'https://graph.facebook.com/v2.6/me/messages',
       qs: {
-        access_token: process.env.entryId
+        access_token: process.env[entryId]
       },
       method: 'POST',
       json: body
