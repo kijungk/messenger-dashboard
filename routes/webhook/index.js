@@ -30,7 +30,6 @@ router.route('/')
   })
 
   .post((request, response) => {
-    console.log('hit');
     const body = request.body;
 
     if (body.object !== 'page') {
@@ -39,24 +38,24 @@ router.route('/')
         message: 'POST request to /webhook has failed. Please check that the event is from a page subscription.'
       });
     }
-    console.log(body);
     body.entry.forEach((entry) => {
-      console.log(entry);
       // differentiate between message event and referral event here
-      const interactionEvent = entry.messaging[0];
+      const event = entry.messaging[0];
+      console.log(event.referral);
+      // event.referral.ref? has the ref param.
 
       const entryId = entry.id;
 
-      const senderId = interactionEvent.sender.id;
+      const senderId = event.sender.id;
       let payload = '';
 
-      if (interactionEvent.message) {
+      if (event.message) {
         // differentiate between user inputs and assign payload here
-        payload = interactionEvent.message.text;
+        payload = event.message.text;
       }
 
-      if (interactionEvent.postback) {
-        payload = interactionEvent.postback.payload;
+      if (event.postback) {
+        payload = event.postback.payload;
       }
 
       const message = processPayload(payload);
