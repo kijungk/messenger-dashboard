@@ -38,7 +38,7 @@ router.route('/')
         message: 'POST request to /webhook has failed. Please check that the event is from a page subscription.'
       });
     }
-
+    console.log(body);
     body.entry.forEach((entry) => {
       console.log(entry);
       // differentiate between message event and referral event here
