@@ -30,6 +30,7 @@ router.route('/')
   })
 
   .post((request, response) => {
+    console.log('hit');
     const body = request.body;
 
     if (body.object !== 'page') {
