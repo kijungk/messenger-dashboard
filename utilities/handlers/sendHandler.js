@@ -14,7 +14,7 @@ module.exports = (function () {
     };
 
     const options = {
-      uri: 'https://graph.facebook.com/v3.3 /me/messages',
+      uri: 'https://graph.facebook.com/v3.3/me/messages',
       qs: {
         access_token
       },

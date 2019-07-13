@@ -41,8 +41,8 @@ router.route('/')
     body.entry.forEach((entry) => {
       // differentiate between message event and referral event here
       const event = entry.messaging[0];
-      console.log(event.referral);
-      // event.referral.ref? has the ref param.
+
+      // event.referral.ref has the ref param.
 
       const entryId = entry.id;
 
