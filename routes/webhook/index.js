@@ -40,11 +40,11 @@ router.route('/')
     }
 
     body.entry.forEach((entry) => {
+      console.log(entry);
       // differentiate between message event and referral event here
       const interactionEvent = entry.messaging[0];
 
       const entryId = entry.id;
-      console.log(entryId);
 
       const senderId = interactionEvent.sender.id;
       let payload = '';
