@@ -1,21 +1,17 @@
 module.exports = (function responses() {
-    function button() {
+  function generic() {
 
-    }
+  }
 
-    function generic() {
+  function list() {
 
-    }
-  
-    function list() {
+  }
 
-    }
+  function quickReply() {
 
-    function quickReply() {
-        
-    }
+  }
 
-    return {
-      button: button
-    }
-  })();
+  return {
+    button: button
+  }
+})();
