@@ -7,6 +7,7 @@ module.exports = (function () {
   function assignPayload(event) {
     switch (true) {
       case !!event.referral:
+        console.log(event.referral.ref);
         return event.referral.ref;
 
       case !!event.message:
