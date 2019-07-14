@@ -1,8 +1,8 @@
 const
   express = require('express'),
   { httpStatusCodes } = require('../../utilities/constants'),
-  { processPayload } = require('../../utilities/handlers/eventHandler'),
-  sendHandler = require('../../utilities/handlers/sendHandler'),
+  { assignPayload, processPayload } = require('../../utilities/handlers/eventHandler'),
+  { sendMessage } = require('../../utilities/handlers/sendHandler'),
   router = express.Router();
 
 router.route('/')
@@ -40,31 +40,18 @@ router.route('/')
     }
     body.entry.forEach((entry) => {
       // differentiate between message event and referral event here
-      const event = entry.messaging[0];
+      const
+        entryId = entry.id,
+        event = entry.messaging[0],
+        senderId = event.sender.id;
 
-      // event.referral.ref has the ref param.
-
-      const entryId = entry.id;
-
-      const senderId = event.sender.id;
       let payload = '';
 
-      if (event.referral) {
-        payload = event.referral.ref;
-      }
-
-      if (event.message) {
-        // differentiate between user inputs and assign payload here
-        payload = event.message.text;
-      }
-
-      if (event.postback) {
-        payload = event.postback.payload;
-      }
+      payload = assignPayload(event);
 
       const message = processPayload(payload);
 
-      return sendHandler.send(entryId, senderId, message);
+      return sendMessage(entryId, senderId, message);
     });
 
     return response.status(httpStatusCodes.ok).json({

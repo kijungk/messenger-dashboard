@@ -1,9 +1,9 @@
 module.exports = (function () {
   const
     rp = require('request-promise'),
-    { processEntryId } = require('../handlers/entryHandler');
+    { processEntryId } = require('../handlers/eventHandler');
 
-  function send(entryId, recipientId, content) {
+  function sendMessage(entryId, recipientId, content) {
     const access_token = processEntryId(entryId);
 
     const body = {
@@ -34,6 +34,6 @@ module.exports = (function () {
   }
 
   return {
-    send: send
+    sendMessage: sendMessage
   };
 })();
