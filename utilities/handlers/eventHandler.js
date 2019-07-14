@@ -50,6 +50,8 @@ module.exports = (function () {
             buttons: [new Button('Testing', 'postback', 'Home')]
           }
         }
+
+        return message;
       // case 'General_Information':
       //   message = responseBuilder.generalInformation();
       //   return message;
