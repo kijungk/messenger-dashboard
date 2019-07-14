@@ -45,13 +45,16 @@ module.exports = (function () {
       case 'Test':
         message = {
           attachment: {
-            type: 'button',
-            text: 'Test',
-            buttons: [new Button('Testing', 'postback', 'Home')]
+            type: 'template',
+            payload: {
+              template_type: 'button',
+              text: 'Test',
+              buttons: [new Button('Testing', 'postback', 'Home')]
+            }
           }
         }
 
-        return message;
+        return message
       // case 'General_Information':
       //   message = responseBuilder.generalInformation();
       //   return message;
