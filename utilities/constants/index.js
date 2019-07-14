@@ -6,7 +6,13 @@ module.exports = (function constants() {
     notFound: 404
   };
 
+  const entryIds = {
+    FMS2019: '2248986022080033',
+    OXC2019: '583562918839570'
+  };
+
   return {
+    entryIds: entryIds,
     httpStatusCodes: httpStatusCodes
   }
 })();

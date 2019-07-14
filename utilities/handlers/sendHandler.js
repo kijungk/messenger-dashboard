@@ -3,7 +3,9 @@ module.exports = (function () {
     rp = require('request-promise'),
     { processEntryId } = require('../handlers/eventHandler');
 
-  function send(entryId, recipientId, content) {
+  function sendMessage(entryId, recipientId, content) {
+    const access_token = processEntryId(entryId);
+
     const body = {
       recipient: {
         id: recipientId
@@ -12,10 +14,9 @@ module.exports = (function () {
     };
 
     const options = {
-      uri: 'https://graph.facebook.com/v2.6/me/messages',
+      uri: 'https://graph.facebook.com/v3.3/me/messages',
       qs: {
-        // Need to parameterize this based on page entry id
-        access_token: processEntryId(entryId)
+        access_token
       },
       method: 'POST',
       json: body
@@ -33,6 +34,6 @@ module.exports = (function () {
   }
 
   return {
-    send: send
+    sendMessage: sendMessage
   };
 })();

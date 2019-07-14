@@ -1,8 +1,8 @@
 const
   express = require('express'),
   { httpStatusCodes } = require('../../utilities/constants'),
-  { processPayload } = require('../../utilities/handlers/eventHandler'),
-  sendHandler = require('../../utilities/handlers/sendHandler'),
+  { assignPayload, processPayload } = require('../../utilities/handlers/eventHandler'),
+  { sendMessage } = require('../../utilities/handlers/sendHandler'),
   router = express.Router();
 
 router.route('/')
@@ -38,29 +38,20 @@ router.route('/')
         message: 'POST request to /webhook has failed. Please check that the event is from a page subscription.'
       });
     }
-
     body.entry.forEach((entry) => {
       // differentiate between message event and referral event here
-      const interactionEvent = entry.messaging[0];
+      const
+        entryId = entry.id,
+        event = entry.messaging[0],
+        senderId = event.sender.id;
 
-      const entryId = entry.Id;
-      console.log(entryId);
-
-      const senderId = event.sender.id;
       let payload = '';
 
-      if (interactionEvent.message) {
-        // differentiate between user inputs and assign payload here
-        payload = event.message.text;
-      }
-
-      if (interactionEvent.postback) {
-        payload = event.postback.payload;
-      }
+      payload = assignPayload(event);
 
       const message = processPayload(payload);
 
-      return sendHandler.send(entryId, senderId, message);
+      return sendMessage(entryId, senderId, message);
     });
 
     return response.status(httpStatusCodes.ok).json({
