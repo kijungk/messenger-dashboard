@@ -9,6 +9,7 @@ module.exports = (function () {
         return event.referral.ref;
 
       case event.message:
+        console.log(event.message.text);
         return event.message.text;
 
       case event.postback:
