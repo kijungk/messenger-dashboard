@@ -4,14 +4,13 @@ module.exports = (function () {
 
   function assignPayload(event) {
     switch (true) {
-      case event.referral:
+      case !!event.referral:
         return event.referral.ref;
 
-      case event.message:
-        console.log(event.message.text);
+      case !!event.message:
         return event.message.text;
 
-      case event.postback:
+      case !!event.postback:
         return event.postback.payload;
     }
   }
