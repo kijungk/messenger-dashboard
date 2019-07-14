@@ -3,8 +3,7 @@ module.exports = (function () {
   const { entryIds } = require('../constants/index');
 
   function assignPayload(event) {
-    console.log(event);
-    switch (event) {
+    switch (true) {
       case event.referral:
         return event.referral.ref;
 
