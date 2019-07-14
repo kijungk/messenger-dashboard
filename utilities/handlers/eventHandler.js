@@ -1,6 +1,8 @@
 module.exports = (function () {
   //const responseBuilder = require('../builders/responseBuilder');
-  const { entryIds } = require('../constants/index');
+  const
+    { entryIds } = require('../constants/index'),
+    Button = require('../models/button');
 
   function assignPayload(event) {
     switch (true) {
@@ -39,6 +41,14 @@ module.exports = (function () {
         };
         return message;
 
+      case 'Test':
+        message = {
+          attachment: {
+            type: 'button',
+            text: 'Test',
+            buttons: [new Button('Testing', 'postback', 'Home')]
+          }
+        }
       // case 'General_Information':
       //   message = responseBuilder.generalInformation();
       //   return message;
