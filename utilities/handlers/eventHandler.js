@@ -2,7 +2,11 @@ module.exports = (function () {
   //const responseBuilder = require('../builders/responseBuilder');
   const
     { entryIds } = require('../constants/index'),
-    Button = require('../models/button');
+    Attachment = require('../models/Attachment'),
+    Button = require('../models/Button'),
+    Element = require('../models/Element'),
+    Message = require('../models/Message');
+
 
   function assignPayload(event) {
     switch (true) {
@@ -32,23 +36,27 @@ module.exports = (function () {
   }
 
   function processPayload(payload) {
-    let message = null;
+    let message = new Message();
     switch (payload) {
       case 'Home':
         // message = responseBuilder.home();
-        message = {
-          text: 'hello world'
-        };
+        const attachment = new Attachment('generic', [new Element('Welcome!', 'Feel free to browse around', 'https://via.placeholder.com/1910x1000', [new Button('Agenda', 'postback', 'Agenda')])])
+        message.attachment = attachment;
         return message;
 
       case 'Test':
         message = {
           attachment: {
-            type: 'button',
-            text: 'Test',
-            buttons: [new Button('Testing', 'postback', 'Home')]
+            type: 'template',
+            payload: {
+              template_type: 'button',
+              text: 'Test',
+              buttons: [new Button('Testing', 'postback', 'Home')]
+            }
           }
         }
+
+        return message
       // case 'General_Information':
       //   message = responseBuilder.generalInformation();
       //   return message;
