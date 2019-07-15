@@ -2,7 +2,7 @@ module.exports = class Attachment {
     constructor(type, elements, text) {
         this.type = 'template';
         this.payload = {
-            template_type = type
+            template_type: type
         }
 
         switch (type) {
