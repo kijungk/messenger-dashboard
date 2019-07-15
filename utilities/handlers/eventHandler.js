@@ -2,12 +2,15 @@ module.exports = (function () {
   //const responseBuilder = require('../builders/responseBuilder');
   const
     { entryIds } = require('../constants/index'),
-    Button = require('../models/button');
+    Attachment = require('../models/Attachment'),
+    Button = require('../models/Button'),
+    Element = require('../models/Element'),
+    Message = require('../models/Message');
+
 
   function assignPayload(event) {
     switch (true) {
       case !!event.referral:
-        console.log(event.referral.ref);
         return event.referral.ref;
 
       case !!event.message:
@@ -33,13 +36,12 @@ module.exports = (function () {
   }
 
   function processPayload(payload) {
-    let message = null;
+    let message = new Message();
     switch (payload) {
       case 'Home':
         // message = responseBuilder.home();
-        message = {
-          text: 'hello world'
-        };
+        const attachment = new Attachment('generic', [new Element('Welcome!', 'Feel free to browse around', 'https://via.placeholder.com/1910x1000', [new Button('Agenda', 'postback', 'Agenda')])])
+        message.attachment = attachment;
         return message;
 
       case 'Test':
