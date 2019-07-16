@@ -55,7 +55,7 @@ module.exports = (function payloadHandler() {
         ];
 
         elements = [
-          new Element('Experience and Learn', 'Details on QR code? < 80 characters', 'https://via.placeholder.com/1910x1000', buttons)
+          new Element('Experience and Learn', 'Earn SWAG using QR codes at each booth', 'https://via.placeholder.com/1910x1000', buttons)
         ];
 
         attachment = new Attachment('generic', elements);
