@@ -13,7 +13,11 @@ module.exports = (function () {
       case !!event.referral:
         return event.referral.ref;
 
+      case !!event.message.quick_reply:
+        return event.message.quick_reply.payload;
+
       case !!event.message:
+
         return event.message.text;
 
       case !!event.postback:
