@@ -1,7 +1,7 @@
 module.exports = (function payloadHandler() {
   const
     { entryIds } = require('../constants/index'),
-    { processFMS2019Payload, processOXC2019Payload } = require('./responseHandler');
+    { processFMS2019Response, processOXC2019Response } = require('./responseHandler');
 
   function processPayload(entryId, payload) {
     switch (entryId) {
