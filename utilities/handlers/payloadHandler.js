@@ -6,10 +6,10 @@ module.exports = (function payloadHandler() {
   function processPayload(entryId, payload) {
     switch (entryId) {
       case entryIds.FMS2019:
-        return processFMS2019Payload(payload);
+        return processFMS2019Response(payload);
 
       case entryIds.OXC2019:
-        return processOXC2019Payload(payload);
+        return processOXC2019Response(payload);
     }
   }
 
