@@ -63,23 +63,6 @@ module.exports = (function payloadHandler() {
 
         break;
 
-      case 'GeneralInformation':
-        buttons = [
-          new Button('Venue', 'postback', 'Venue'),
-          new Button('Transport', 'postback', 'Transport'),
-          new Button('Contact', 'postback', 'Contact')
-        ];
-
-        elements = [
-          new Element('General Information', 'Find out more about this event', 'https://via.placeholder.com/1910x1000', buttons)
-        ];
-
-        attachment = new Attachment('generic', elements);
-
-        quickReplies = [new QuickReply('Back', 'Home')];
-
-        break;
-
       case 'Booths':
         elements = [
           new Element('Booth 1', 'Booth 1 details', 'https://via.placeholder.com/1910x1000'),
@@ -98,8 +81,64 @@ module.exports = (function payloadHandler() {
 
         break;
 
+      case 'GeneralInformation':
+        buttons = [
+          new Button('Venue', 'postback', 'Venue'),
+          new Button('Transport', 'postback', 'Transport'),
+          new Button('Contact', 'postback', 'Contact')
+        ];
+
+        elements = [
+          new Element('General Information', 'Find out more about this event', 'https://via.placeholder.com/1910x1000', buttons)
+        ];
+
+        attachment = new Attachment('generic', elements);
+
+        quickReplies = [new QuickReply('Back', 'Home')];
+
+        break;
+
+      case 'Venue':
+        buttons = [new Button('Website', 'web_url', 'https://www.ddp.or.kr/main')];
+
+        attachment = new Attachment('button', buttons, 'This demo event will be held at Dongdaemun Design Plaza (DDP).\n\nYou can find more about the venue on its website!')
+
+        quickReplies = [
+          new QuickReply('Back', 'GeneralInformation'),
+          new QuickReply('Home', 'Home')
+        ]
+
+        break;
+
+      case 'Transport':
+        buttons = [
+          new Button('Metro', 'web_url', 'https://english.visitkorea.or.kr/enu/TRP/TP_ENG_6.jsp'),
+          new Button('Bus', 'web_url', 'https://english.visitkorea.or.kr/enu/TRP/TP_ENG_5_1.jsp')
+        ];
+
+        attachment = new Attachment('button', buttons, 'You can get around Seoul via metro, bus, or a taxi.\n\nFind metro and bus routes near you to conveniently commute to the venue!')
+
+        quickReplies = [
+          new QuickReply('Back', 'GeneralInformation'),
+          new QuickReply('Home', 'Home')
+        ]
+
+        break;
+
+      case 'Contact':
+        attachment = "You can find information kiosks at the venue during the event, or contact us via email.\n\nPlease forward all inquiries to xxxx@xxxx.xxx";
+
+        quickReplies = [
+          new QuickReply('Back', 'GeneralInformation'),
+          new QuickReply('Home', 'Home')
+        ]
+
+        break;
+
       default:
         attachment = 'I don\'t understand that input :('
+
+        quickReplies = [new QuickReply('Home', 'Home')];
 
         break;
     }
