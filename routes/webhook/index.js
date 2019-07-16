@@ -49,7 +49,7 @@ router.route('/')
 
       payload = assignPayload(event);
 
-      const message = processPayload(payload);
+      const message = processPayload(entryId, payload);
 
       return sendMessage(entryId, senderId, message);
     });
