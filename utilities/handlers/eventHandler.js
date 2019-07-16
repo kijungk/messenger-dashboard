@@ -35,70 +35,8 @@ module.exports = (function () {
     }
   }
 
-  function processPayload(payload) {
-    let message = new Message();
-    switch (payload) {
-      case 'Home':
-        // message = responseBuilder.home();
-        const attachment = new Attachment('generic', [new Element('Welcome!', 'Feel free to browse around', 'https://via.placeholder.com/1910x1000', [new Button('Agenda', 'postback', 'Agenda')])])
-        message.attachment = attachment;
-        return message;
-
-      case 'Test':
-        message = {
-          attachment: {
-            type: 'template',
-            payload: {
-              template_type: 'button',
-              text: 'Test',
-              buttons: [new Button('Testing', 'postback', 'Home')]
-            }
-          }
-        }
-
-        return message
-      // case 'General_Information':
-      //   message = responseBuilder.generalInformation();
-      //   return message;
-
-      // case 'About_Application':
-      //   message = responseBuilder.aboutApplication();
-      //   return message;
-
-      // case 'About_Application_Why':
-      //   message = responseBuilder.aboutApplicationWhy();
-      //   return message;
-
-      // case 'About_Developer':
-      //   message = responseBuilder.aboutDeveloper();
-      //   return message;
-
-      // case 'About_Contact':
-      //   message = responseBuilder.aboutContact();
-      //   return message;
-
-      // case 'About_Developer_Bio':
-      //   message = responseBuilder.aboutDeveloperBio();
-      //   return message;
-
-      // case 'About_Developer_Stack':
-      //   message = responseBuilder.aboutDeveloperStack();
-      //   return message;
-
-      // case 'About_Developer_Projects':
-      //   message = responseBuilder.aboutDeveloperProjects();
-      //   return message;
-
-      default:
-        return {
-          text: 'I\'m sorry... I don\'t recognize that input :('
-        };
-    }
-  }
-
   return {
     assignPayload: assignPayload,
-    processEntryId: processEntryId,
-    processPayload: processPayload
+    processEntryId: processEntryId
   };
 })();

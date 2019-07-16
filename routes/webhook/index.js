@@ -1,7 +1,8 @@
 const
   express = require('express'),
   { httpStatusCodes } = require('../../utilities/constants'),
-  { assignPayload, processPayload } = require('../../utilities/handlers/eventHandler'),
+  { assignPayload } = require('../../utilities/handlers/eventHandler'),
+  { processPayload } = require('../../utilities/handlers/payloadHandler'),
   { sendMessage } = require('../../utilities/handlers/sendHandler'),
   router = express.Router();
 
@@ -39,7 +40,6 @@ router.route('/')
       });
     }
     body.entry.forEach((entry) => {
-      // differentiate between message event and referral event here
       const
         entryId = entry.id,
         event = entry.messaging[0],
