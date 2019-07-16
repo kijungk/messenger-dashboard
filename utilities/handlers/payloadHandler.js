@@ -81,6 +81,62 @@ module.exports = (function payloadHandler() {
 
         break;
 
+      case 'BoothOneComplete':
+        attachment = 'You completed Booth 1 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
+
+        quickReplies = [new QuickReply('Booths', 'Booths'), new QuickReply('Home', 'Home')];
+
+        break;
+
+      case 'BoothTwoComplete':
+        attachment = 'You completed Booth 2 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
+
+        quickReplies = [new QuickReply('Booths', 'Booths'), new QuickReply('Home', 'Home')];
+
+        break;
+
+      case 'BoothThreeComplete':
+        attachment = 'You completed Booth 3 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
+
+        quickReplies = [new QuickReply('Booths', 'Booths'), new QuickReply('Home', 'Home')];
+
+        break;
+
+      case 'BoothFourComplete':
+        attachment = 'You completed Booth 4 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
+
+        quickReplies = [new QuickReply('Booths', 'Booths'), new QuickReply('Home', 'Home')];
+
+        break;
+
+      case 'BoothFiveComplete':
+        attachment = 'You completed Booth 5 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
+
+        quickReplies = [new QuickReply('Booths', 'Booths'), new QuickReply('Home', 'Home')];
+
+        break;
+
+      case 'BoothSixComplete':
+        attachment = 'You completed Booth 6 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
+
+        quickReplies = [new QuickReply('Booths', 'Booths'), new QuickReply('Home', 'Home')];
+
+        break;
+
+      case 'BoothSevenComplete':
+        attachment = 'You completed Booth 7 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
+
+        quickReplies = [new QuickReply('Booths', 'Booths'), new QuickReply('Home', 'Home')];
+
+        break;
+
+      case 'BoothEightComplete':
+        attachment = 'You completed Booth 8 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
+
+        quickReplies = [new QuickReply('Booths', 'Booths'), new QuickReply('Home', 'Home')];
+
+        break;
+
       case 'GeneralInformation':
         buttons = [
           new Button('Venue', 'postback', 'Venue'),
