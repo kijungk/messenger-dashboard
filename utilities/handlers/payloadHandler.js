@@ -11,7 +11,8 @@ module.exports = (function payloadHandler() {
       buttons,
       elements,
       attachment,
-      message;
+      message,
+      quickReplies;
 
     switch (payload) {
       case 'Home':
@@ -27,9 +28,7 @@ module.exports = (function payloadHandler() {
 
         attachment = new Attachment('generic', elements);
 
-        message = new Message(attachment);
-
-        return message;
+        break;
 
       case 'Agenda':
         elements = [
@@ -45,9 +44,9 @@ module.exports = (function payloadHandler() {
 
         attachment = new Attachment('generic', elements);
 
-        message = new Message(attachment, [new QuickReply('Home', 'Home')]);
+        quickReplies = [new QuickReply('Back', 'Home')];
 
-        return message
+        break;
 
       case 'Experience':
         buttons = [
@@ -60,9 +59,9 @@ module.exports = (function payloadHandler() {
 
         attachment = new Attachment('generic', elements);
 
-        message = new Message(attachment, [new QuickReply('Home', 'Home')]);
+        quickReplies = [new QuickReply('Back', 'Home')];
 
-        return message;
+        break;
 
       case 'GeneralInformation':
         buttons = [
@@ -77,9 +76,9 @@ module.exports = (function payloadHandler() {
 
         attachment = new Attachment('generic', elements);
 
-        message = new Message(attachment, [new QuickReply('Home', 'Home')])
+        quickReplies = [new QuickReply('Back', 'Home')];
 
-        return message;
+        break;
 
       case 'Booths':
         elements = [
@@ -95,15 +94,19 @@ module.exports = (function payloadHandler() {
 
         attachment = new Attachment('generic', elements);
 
-        message = new Message(attachment, [new QuickReply('Home', 'Home'), new QuickReply('Back', 'Experience')]);
+        quickReplies = [new QuickReply('Back', 'Experience'), new QuickReply('Home', 'Home')];
 
-        return message;
+        break;
 
       default:
-        message = new Message('I don\'t understand that input :(')
+        attachment = 'I don\'t understand that input :('
 
-        return message;
+        break;
     }
+
+    message = new Message(attachment, quickReplies);
+
+    return message;
   }
 
   return {

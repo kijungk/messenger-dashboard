@@ -1,12 +1,7 @@
 module.exports = (function () {
   //const responseBuilder = require('../builders/responseBuilder');
   const
-    { entryIds } = require('../constants/index'),
-    Attachment = require('../models/Attachment'),
-    Button = require('../models/Button'),
-    Element = require('../models/Element'),
-    Message = require('../models/Message');
-
+    { entryIds } = require('../constants/index');
 
   function assignPayload(event) {
     switch (true) {
