@@ -163,6 +163,61 @@ module.exports = (function responseHandler() {
 
         break;
 
+      case 'FoodOneMenu':
+        elements = [
+          new Element('Plain Burger', '100% organic', [new Button('Order', 'postback', 'FoodOneItemOne')]),
+          new Element('Cheese Burger', 'Smoked gouda', [new Button('Order', 'postback', 'FoodOneItemTwo')]),
+          new Element('Super Burger', 'Voted #1', [new Button('Order', 'postback', 'FoodOneItemTwo')]),
+        ];
+
+        attachment = new Attachment('list', elements, 'compact');
+
+        quickReplies = [new QuickReply('Back', 'MobileOrderMenu'), new QuickReply('Home', 'Home')];
+
+        break;
+
+      case 'FoodOneItemOne':
+        attachment = 'Confirm order for Plain Burger?';
+
+        quickReplies = [new QuickReply('Yes', 'FoodOneItemOneConfirm'), new QuickReply('No', 'FoodOneMenu')];
+
+        break;
+
+      case 'FoodOneItemOneConfirm':
+        attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
+
+        quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
+
+        break;
+
+      case 'FoodOneItemTwo':
+        attachment = 'Confirm order for Cheese Burger?';
+
+        quickReplies = [new QuickReply('Yes', 'FoodOneItemTwoConfirm'), new QuickReply('No', 'FoodOneMenu')];
+
+        break;
+
+      case 'FoodOneItemTwoConfirm':
+        attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
+
+        quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
+
+        break;
+
+      case 'FoodOneItemThree':
+        attachment = 'Confirm order for Super Burger?';
+
+        quickReplies = [new QuickReply('Yes', 'FoodOneItemThreeConfirm'), new QuickReply('No', 'FoodOneMenu')];
+
+        break;
+
+      case 'FoodOneItemThreeConfirm':
+        attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
+
+        quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
+
+        break;
+
       case 'MobileOrderStatus':
 
         attachment = 'Under construction';
