@@ -150,11 +150,11 @@ module.exports = (function responseHandler() {
 
       case 'MobileOrderMenu':
         elements = [
-          new Element('Food 1', 'Burgers', 'https://via.placeholder.com/1910x10000', [new Button('Menu', 'postback', 'FoodOneMenu')]),
-          new Element('Food 2', 'Pizza', 'https://via.placeholder.com/1910x10000', [new Button('Menu', 'postback', 'FoodTwoMenu')]),
-          new Element('Food 3', 'Snacks', 'https://via.placeholder.com/1910x10000', [new Button('Menu', 'postback', 'FoodThreeMenu')]),
-          new Element('Beverage 1', 'Coffee', 'https://via.placeholder.com/1910x10000', [new Button('Menu', 'postback', 'BeverageOneMenu')]),
-          new Element('Beverage 2', 'Juice', 'https://via.placeholder.com/1910x10000', [new Button('Menu', 'postback', 'BeverageTwoMenu')]),
+          new Element('Food 1', 'Burgers', 'https://via.placeholder.com/1910x1000', [new Button('Menu', 'postback', 'FoodOneMenu')]),
+          new Element('Food 2', 'Pizza', 'https://via.placeholder.com/1910x1000', [new Button('Menu', 'postback', 'FoodTwoMenu')]),
+          new Element('Food 3', 'Snacks', 'https://via.placeholder.com/1910x1000', [new Button('Menu', 'postback', 'FoodThreeMenu')]),
+          new Element('Beverage 1', 'Coffee', 'https://via.placeholder.com/1910x1000', [new Button('Menu', 'postback', 'BeverageOneMenu')]),
+          new Element('Beverage 2', 'Juice', 'https://via.placeholder.com/1910x1000', [new Button('Menu', 'postback', 'BeverageTwoMenu')]),
         ];
 
         attachment = new Attachment('generic', elements);
@@ -165,9 +165,9 @@ module.exports = (function responseHandler() {
 
       case 'FoodOneMenu':
         elements = [
-          new Element('Plain Burger', '100% organic', [new Button('Order', 'postback', 'FoodOneItemOne')]),
-          new Element('Cheese Burger', 'Smoked gouda', [new Button('Order', 'postback', 'FoodOneItemTwo')]),
-          new Element('Super Burger', 'Voted #1', [new Button('Order', 'postback', 'FoodOneItemTwo')]),
+          new Element('Plain Burger', '100% organic', null, [new Button('Order', 'postback', 'FoodOneItemOne')]),
+          new Element('Cheese Burger', 'Smoked gouda', null, [new Button('Order', 'postback', 'FoodOneItemTwo')]),
+          new Element('Super Burger', 'Voted #1', null, [new Button('Order', 'postback', 'FoodOneItemTwo')]),
         ];
 
         attachment = new Attachment('list', elements, 'compact');
