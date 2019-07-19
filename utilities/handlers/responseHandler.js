@@ -17,9 +17,9 @@ module.exports = (function responseHandler() {
     switch (payload) {
       case 'Home':
         buttons = [
-          new Button('Agenda', 'postback', 'Agenda'),
+          new Button('Agenda', 'postback', 'AgendaCarousel'),
           new Button('Experience', 'postback', 'Experience'),
-          new Button('General Information', 'postback', 'GeneralInformation')
+          new Button('Feedback', 'web_url', 'https://surveymonkey.com')
         ];
 
         elements = [
@@ -30,16 +30,18 @@ module.exports = (function responseHandler() {
 
         break;
 
-      case 'Agenda':
+      case 'AgendaCarousel':
         elements = [
-          new Element('Agenda Item 1', '9:00 am - 10:00 am', 'https://via.placeholder.com/1910x1000'),
-          new Element('Agenda Item 2', '10:00 am - 11:00 am', 'https://via.placeholder.com/1910x1000'),
-          new Element('Agenda Item 3', '11:00 am - 12:00 pm', 'https://via.placeholder.com/1910x1000'),
-          new Element('Lunch', '12:00 pm - 1:00 pm', 'https://via.placeholder.com/1910x1000'),
-          new Element('Agenda Item 5', '1:00 pm - 2:00 pm', 'https://via.placeholder.com/1910x1000'),
-          new Element('Agenda Item 6', '2:00 pm - 3:00 pm', 'https://via.placeholder.com/1910x1000'),
-          new Element('Agenda Item 7', '3:00 pm - 4:00 pm', 'https://via.placeholder.com/1910x1000'),
-          new Element('Agenda Item 8', '4:00 pm - 5:00 pm', 'https://via.placeholder.com/1910x1000')
+          new Element('Agenda Item 1', '9:00 am - 10:00 am', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
+          new Element('Agenda Item 2', '10:00 am - 11:00 am', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
+          new Element('Agenda Item 3', '11:00 am - 12:00 pm', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
+          new Element('Agenda Item 4', '12:00 pm - 1:00 pm', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
+          new Element('Agenda Item 5', '1:00 pm - 2:00 pm', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
+          new Element('Agenda Item 6', '2:00 pm - 3:00 pm', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
+          new Element('Agenda Item 7', '3:00 pm - 4:00 pm', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
+          new Element('Agenda Item 8', '4:00 pm - 5:00 pm', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
+          new Element('Agenda Item 9', '5:00 pm - 6:00 pm', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
+          new Element('Agenda Item 10', '4:00 pm - 5:00 pm', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')])
         ];
 
         attachment = new Attachment('generic', elements);
@@ -50,7 +52,9 @@ module.exports = (function responseHandler() {
 
       case 'Experience':
         buttons = [
-          new Button('Booths', 'postback', 'Booths')
+          new Button('Map', 'web_url', 'https://rekarchitect.com/wp-content/uploads/2018/07/Harrison-ranch.jpg'),
+          new Button('Booth', 'postback', 'Booth'),
+          new Button('Mobile Order', 'postback', 'MobileOrder')
         ];
 
         elements = [
@@ -63,133 +67,107 @@ module.exports = (function responseHandler() {
 
         break;
 
-      case 'Booths':
+      case 'Booth':
+        buttons = [
+          new Button('Start', 'postback', 'BoothCarousel'),
+          new Button('Check Current Status', 'postback', 'BoothStatus')
+        ];
+
+        attachment = new Attachment('button', buttons, 'Text on how to participate in booths and scavenger hunt.\n\nWill also lay out the rules in obtaining a gift.');
+
+        quickReplies = [new QuickReply('Back', 'Experience'), new QuickReply('Home', 'Home')];
+
+        break;
+
+      case 'BoothCarousel':
         elements = [
-          new Element('Booth 1', 'Booth 1 details', 'https://via.placeholder.com/1910x1000'),
-          new Element('Booth 2', 'Booth 2 details', 'https://via.placeholder.com/1910x1000'),
-          new Element('Booth 3', 'Booth 3 details', 'https://via.placeholder.com/1910x1000'),
-          new Element('Booth 4', 'Booth 4 details', 'https://via.placeholder.com/1910x1000'),
-          new Element('Booth 5', 'Booth 5 details', 'https://via.placeholder.com/1910x1000'),
-          new Element('Booth 6', 'Booth 6 details', 'https://via.placeholder.com/1910x1000'),
-          new Element('Booth 7', 'Booth 7 details', 'https://via.placeholder.com/1910x1000'),
-          new Element('Booth 8', 'Booth 8 details', 'https://via.placeholder.com/1910x1000')
+          new Element('Booth 1', 'Participate and earn SWAG', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
+          new Element('Booth 2', 'Participate and earn SWAG', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
+          new Element('Booth 3', 'Participate and earn SWAG', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
+          new Element('Booth 4', 'Participate and earn SWAG', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
+          new Element('Booth 5', 'Participate and earn SWAG', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
         ];
 
         attachment = new Attachment('generic', elements);
 
-        quickReplies = [new QuickReply('Back', 'Experience'), new QuickReply('Home', 'Home')];
+        quickReplies = [new QuickReply('Back', 'Booth'), new QuickReply('Home', 'Home')];
+
+        break;
+
+      case 'BoothStatus':
+        attachment = 'Under construction';
+
+        quickReplies = [new QuickReply('Back', 'Booth'), new QuickReply('Home', 'Home')];
 
         break;
 
       case 'BoothOneComplete':
         attachment = 'You completed Booth 1 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
 
-        quickReplies = [new QuickReply('Booths', 'Booths'), new QuickReply('Home', 'Home')];
+        quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
         break;
 
       case 'BoothTwoComplete':
         attachment = 'You completed Booth 2 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
 
-        quickReplies = [new QuickReply('Booths', 'Booths'), new QuickReply('Home', 'Home')];
+        quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
         break;
 
       case 'BoothThreeComplete':
         attachment = 'You completed Booth 3 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
 
-        quickReplies = [new QuickReply('Booths', 'Booths'), new QuickReply('Home', 'Home')];
+        quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
         break;
 
       case 'BoothFourComplete':
         attachment = 'You completed Booth 4 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
 
-        quickReplies = [new QuickReply('Booths', 'Booths'), new QuickReply('Home', 'Home')];
+        quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
         break;
 
       case 'BoothFiveComplete':
         attachment = 'You completed Booth 5 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
 
-        quickReplies = [new QuickReply('Booths', 'Booths'), new QuickReply('Home', 'Home')];
+        quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
         break;
 
-      case 'BoothSixComplete':
-        attachment = 'You completed Booth 6 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
-
-        quickReplies = [new QuickReply('Booths', 'Booths'), new QuickReply('Home', 'Home')];
-
-        break;
-
-      case 'BoothSevenComplete':
-        attachment = 'You completed Booth 7 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
-
-        quickReplies = [new QuickReply('Booths', 'Booths'), new QuickReply('Home', 'Home')];
-
-        break;
-
-      case 'BoothEightComplete':
-        attachment = 'You completed Booth 8 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
-
-        quickReplies = [new QuickReply('Booths', 'Booths'), new QuickReply('Home', 'Home')];
-
-        break;
-
-      case 'GeneralInformation':
+      case 'MobileOrder':
         buttons = [
-          new Button('Venue', 'postback', 'Venue'),
-          new Button('Transport', 'postback', 'Transport'),
-          new Button('Contact', 'postback', 'Contact')
+          new Button('Menu & Order', 'postback', 'MobileOrderMenu'),
+          new Button('Order Status Check', 'postback', 'MobileOrderStatus')
         ];
 
+        attachment = new Attachment('button', buttons, 'Text explanation of the mobile ordering system.\n\nShould be detailed.');
+
+        quickReplies = [new QuickReply('Back', 'Experience'), new QuickReply('Home', 'Home')];
+
+        break;
+
+      case 'MobileOrderMenu':
         elements = [
-          new Element('General Information', 'Find out more about this event', 'https://via.placeholder.com/1910x1000', buttons)
+          new Element('Food 1', 'Burgers', 'https://via.placeholder.com/1910x10000', [new Button('Menu', 'postback', 'FoodOneMenu')]),
+          new Element('Food 2', 'Pizza', 'https://via.placeholder.com/1910x10000', [new Button('Menu', 'postback', 'FoodTwoMenu')]),
+          new Element('Food 3', 'Snacks', 'https://via.placeholder.com/1910x10000', [new Button('Menu', 'postback', 'FoodThreeMenu')]),
+          new Element('Beverage 1', 'Coffee', 'https://via.placeholder.com/1910x10000', [new Button('Menu', 'postback', 'BeverageOneMenu')]),
+          new Element('Beverage 2', 'Juice', 'https://via.placeholder.com/1910x10000', [new Button('Menu', 'postback', 'BeverageTwoMenu')]),
         ];
 
         attachment = new Attachment('generic', elements);
 
-        quickReplies = [new QuickReply('Back', 'Home')];
+        quickReplies = [new QuickReply('Back', 'MobileOrder'), new QuickReply('Home', 'Home')];
 
         break;
 
-      case 'Venue':
-        buttons = [new Button('Website', 'web_url', 'https://www.ddp.or.kr/main')];
+      case 'MobileOrderStatus':
 
-        attachment = new Attachment('button', buttons, 'This demo event will be held at Dongdaemun Design Plaza (DDP).\n\nYou can find more about the venue on its website!')
+        attachment = 'Under construction';
 
-        quickReplies = [
-          new QuickReply('Back', 'GeneralInformation'),
-          new QuickReply('Home', 'Home')
-        ]
-
-        break;
-
-      case 'Transport':
-        buttons = [
-          new Button('Metro', 'web_url', 'https://english.visitkorea.or.kr/enu/TRP/TP_ENG_6.jsp'),
-          new Button('Bus', 'web_url', 'https://english.visitkorea.or.kr/enu/TRP/TP_ENG_5_1.jsp')
-        ];
-
-        attachment = new Attachment('button', buttons, 'You can get around Seoul via metro, bus, or a taxi.\n\nFind metro and bus routes near you to conveniently commute to the venue!')
-
-        quickReplies = [
-          new QuickReply('Back', 'GeneralInformation'),
-          new QuickReply('Home', 'Home')
-        ]
-
-        break;
-
-      case 'Contact':
-        attachment = "You can find information kiosks at the venue during the event, or contact us via email.\n\nPlease forward all inquiries to xxxx@xxxx.xxx";
-
-        quickReplies = [
-          new QuickReply('Back', 'GeneralInformation'),
-          new QuickReply('Home', 'Home')
-        ]
-
-        break;
+        quickReplies = [new QuickReply('Back', 'MobileOrder'), new QuickReply('Home', 'Home')];
 
       default:
         attachment = 'I don\'t understand that input :('
