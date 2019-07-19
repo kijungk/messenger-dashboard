@@ -169,6 +169,8 @@ module.exports = (function responseHandler() {
 
         quickReplies = [new QuickReply('Back', 'MobileOrder'), new QuickReply('Home', 'Home')];
 
+        break;
+
       default:
         attachment = 'I don\'t understand that input :('
 
