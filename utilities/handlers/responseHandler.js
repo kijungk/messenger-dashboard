@@ -362,8 +362,8 @@ module.exports = (function responseHandler() {
       case 'Home':
         buttons = [
           new Button('Agenda', 'postback', 'Agenda'),
-          new Button('General Information', 'postback', 'GeneralInformation'),
-          new Button('Survey', 'postback', 'Experience')
+          new Button('Map', 'web_url', 'https://rekarchitect.com/wp-content/uploads/2018/07/Harrison-ranch.jpg'),
+          new Button('Feedback', 'web_url', 'https://surveymonkey.com')
         ];
 
         elements = [
@@ -379,70 +379,18 @@ module.exports = (function responseHandler() {
           new Element('OxC Item 1', '9:00 am - 10:00 am', 'https://via.placeholder.com/1910x1000'),
           new Element('OxC Item 2', '10:00 am - 11:00 am', 'https://via.placeholder.com/1910x1000'),
           new Element('OxC Item 3', '11:00 am - 12:00 pm', 'https://via.placeholder.com/1910x1000'),
-          new Element('Lunch', '12:00 pm - 1:00 pm', 'https://via.placeholder.com/1910x1000'),
+          new Element('OxC Item 4', '12:00 pm - 1:00 pm', 'https://via.placeholder.com/1910x1000'),
           new Element('OxC Item 5', '1:00 pm - 2:00 pm', 'https://via.placeholder.com/1910x1000'),
           new Element('OxC Item 6', '2:00 pm - 3:00 pm', 'https://via.placeholder.com/1910x1000'),
           new Element('OxC Item 7', '3:00 pm - 4:00 pm', 'https://via.placeholder.com/1910x1000'),
-          new Element('OxC Item 8', '4:00 pm - 5:00 pm', 'https://via.placeholder.com/1910x1000')
+          new Element('OxC Item 8', '4:00 pm - 5:00 pm', 'https://via.placeholder.com/1910x1000'),
+          new Element('OxC Item 9', '4:00 pm - 5:00 pm', 'https://via.placeholder.com/1910x1000'),
+          new Element('OxC Item 10', '4:00 pm - 5:00 pm', 'https://via.placeholder.com/1910x1000')
         ];
 
         attachment = new Attachment('generic', elements);
 
         quickReplies = [new QuickReply('Back', 'Home')];
-
-        break;
-
-      case 'GeneralInformation':
-        buttons = [
-          new Button('Venue', 'postback', 'Venue'),
-          new Button('Transport', 'postback', 'Transport'),
-          new Button('Contact', 'postback', 'Contact')
-        ];
-
-        elements = [
-          new Element('General Information', 'Find out more about this event', 'https://via.placeholder.com/1910x1000', buttons)
-        ];
-
-        attachment = new Attachment('generic', elements);
-
-        quickReplies = [new QuickReply('Back', 'Home')];
-
-        break;
-
-      case 'Venue':
-        buttons = [new Button('Website', 'web_url', 'https://www.shilla.net/seoul/index.do')];
-
-        attachment = new Attachment('button', buttons, 'This demo event will be held at Seoul Shilla Hotel.\n\nYou can find more about the venue on its website!')
-
-        quickReplies = [
-          new QuickReply('Back', 'GeneralInformation'),
-          new QuickReply('Home', 'Home')
-        ]
-
-        break;
-
-      case 'Transport':
-        buttons = [
-          new Button('Metro', 'web_url', 'https://english.visitkorea.or.kr/enu/TRP/TP_ENG_6.jsp'),
-          new Button('Bus', 'web_url', 'https://english.visitkorea.or.kr/enu/TRP/TP_ENG_5_1.jsp')
-        ];
-
-        attachment = new Attachment('button', buttons, 'You can get around Seoul via metro, bus, or a taxi.\n\nFind metro and bus routes near you to conveniently commute to the venue!')
-
-        quickReplies = [
-          new QuickReply('Back', 'GeneralInformation'),
-          new QuickReply('Home', 'Home')
-        ]
-
-        break;
-
-      case 'Contact':
-        attachment = "You can find information kiosks at the venue during the event, or contact us via email.\n\nPlease forward all inquiries to xxxx@xxxx.xxx";
-
-        quickReplies = [
-          new QuickReply('Back', 'GeneralInformation'),
-          new QuickReply('Home', 'Home')
-        ]
 
         break;
 
