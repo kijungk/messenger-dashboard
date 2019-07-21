@@ -4,6 +4,7 @@ const
   { assignPayload } = require('../../utilities/handlers/eventHandler'),
   { processPayload } = require('../../utilities/handlers/payloadHandler'),
   { sendMessage } = require('../../utilities/handlers/sendHandler'),
+  knex = require('../../db/knex'),
   router = express.Router();
 
 router.route('/')
@@ -43,7 +44,10 @@ router.route('/')
       const
         entryId = entry.id,
         event = entry.messaging[0],
-        senderId = event.sender.id;
+        senderId = event.sender.id,
+        user = knex('users').where({ facebook_id: senderId });
+
+      console.log(user);
 
       let payload = '';
 
