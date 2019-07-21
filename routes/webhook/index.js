@@ -51,6 +51,7 @@ router.route('/')
       knex('users').where({ facebook_id: senderId })
         .then((result) => {
           if (!result.length) {
+            console.log('dont');
             const options = {
               uri: `https://graph.facebook.com/${senderId}`,
               qs: {
