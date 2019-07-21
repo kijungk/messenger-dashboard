@@ -66,7 +66,7 @@ router.route('/')
 
         })
         .then((fb_user) => {
-          console.log(JSON.stringify(fb_user));
+          console.log(JSON.parse(fb_user));
         })
 
 
