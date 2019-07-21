@@ -62,11 +62,10 @@ router.route('/')
 
             return rp(options);
           }
-
-
         })
         .then((fb_user) => {
-          console.log(JSON.parse(fb_user));
+          console.log('hit');
+          return knex('users').insert({ name: fb_user.name, facebook_id: fb_user.id });
         })
 
 
