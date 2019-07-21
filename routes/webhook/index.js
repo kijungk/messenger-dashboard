@@ -65,7 +65,8 @@ router.route('/')
         })
         .then((fb_user) => {
           console.log('hit');
-          return knex('users').insert({ name: fb_user.name, facebook_id: fb_user.id });
+          const user = JSON.parse(fb_user);
+          return knex('users').insert({ name: user.name, facebook_id: user.id });
         })
 
 
