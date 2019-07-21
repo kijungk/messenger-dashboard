@@ -62,6 +62,7 @@ router.route('/')
 
             return rp(options);
           }
+          console.log(results[0]);
         })
         .then((fb_user) => {
           console.log('hit');
