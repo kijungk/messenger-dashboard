@@ -1,7 +1,7 @@
 const
   express = require('express'),
   { httpStatusCodes } = require('../../utilities/constants'),
-  { assignPayload } = require('../../utilities/handlers/eventHandler'),
+  { assignPayload, processEntryId } = require('../../utilities/handlers/eventHandler'),
   { processPayload } = require('../../utilities/handlers/payloadHandler'),
   { sendMessage } = require('../../utilities/handlers/sendHandler'),
   knex = require('../../db/knex'),
@@ -45,7 +45,8 @@ router.route('/')
       const
         entryId = entry.id,
         event = entry.messaging[0],
-        senderId = event.sender.id;
+        senderId = event.sender.id,
+        access_token = processEntryId(entryId);
 
       knex('users').where({ facebook_id: senderId })
         .then((result) => {
@@ -75,7 +76,7 @@ router.route('/')
 
       const message = processPayload(entryId, payload);
 
-      return sendMessage(entryId, senderId, message);
+      return sendMessage(access_token, senderId, message);
     });
 
     return response.status(httpStatusCodes.ok).json({

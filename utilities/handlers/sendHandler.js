@@ -1,11 +1,8 @@
-module.exports = (function () {
+module.exports = (function() {
   const
-    rp = require('request-promise'),
-    { processEntryId } = require('../handlers/eventHandler');
+    rp = require('request-promise');
 
-  function sendMessage(entryId, recipientId, content) {
-    const access_token = processEntryId(entryId);
-
+  function sendMessage(access_token, recipientId, content) {
     const body = {
       recipient: {
         id: recipientId
