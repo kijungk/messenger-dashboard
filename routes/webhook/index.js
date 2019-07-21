@@ -51,7 +51,6 @@ router.route('/')
       knex('users').where({ facebook_id: senderId })
         .then((result) => {
           if (!result.length) {
-            console.log('dont');
             const options = {
               uri: `https://graph.facebook.com/${senderId}`,
               qs: {
@@ -61,15 +60,27 @@ router.route('/')
               method: 'GET'
             };
 
-            return rp(options);
+            rp(options)
+              .then((response) => {
+                const user = JSON.parse(response);
+                return knex('users').insert({
+                  facebook_id: user.id,
+                  name: user.name
+                })
+              })
+              .catch((error) => {
+                //Todo error log
+                //Inserting new user failed
+              });
           }
-          console.log(result[0]);
+
+          return;
         })
-        .then((fb_user) => {
-          console.log('hit');
-          const user = JSON.parse(fb_user);
-          return knex('users').insert({ name: user.name, facebook_id: user.id });
-        })
+        .catch((error) => {
+          //Todo error log
+          //finding user in database failed
+        });
+
 
 
       let payload = '';
