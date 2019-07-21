@@ -5,6 +5,7 @@ const
   { processPayload } = require('../../utilities/handlers/payloadHandler'),
   { sendMessage } = require('../../utilities/handlers/sendHandler'),
   knex = require('../../db/knex'),
+  rp = require('request-promise'),
   router = express.Router();
 
 router.route('/')
@@ -45,12 +46,26 @@ router.route('/')
         entryId = entry.id,
         event = entry.messaging[0],
         senderId = event.sender.id;
-      console.log(event.sender);
+
       knex('users').where({ facebook_id: senderId })
         .then((result) => {
           if (!result.length) {
-            knex.insert('')
+            const options = {
+              uri: `https://graph.facebook.com/${senderId}`,
+              qs: {
+                fields: 'name',
+                access_token
+              },
+              method: 'GET'
+            };
+
+            return rp(options);
           }
+
+
+        })
+        .then((fb_user) => {
+          console.log(fb_user);
         })
 
 
