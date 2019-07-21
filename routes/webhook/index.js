@@ -44,10 +44,14 @@ router.route('/')
       const
         entryId = entry.id,
         event = entry.messaging[0],
-        senderId = event.sender.id,
-        user = knex('users').where({ facebook_id: senderId });
+        senderId = event.sender.id;
 
-      console.log(user);
+      knex('users').where({ facebook_id: senderId })
+        .then((result) => {
+          console.log(result);
+
+        })
+
 
       let payload = '';
 
