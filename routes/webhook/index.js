@@ -45,11 +45,12 @@ router.route('/')
         entryId = entry.id,
         event = entry.messaging[0],
         senderId = event.sender.id;
-
+      console.log(event.sender);
       knex('users').where({ facebook_id: senderId })
         .then((result) => {
-          console.log(result);
-
+          if (!result.length) {
+            knex.insert('')
+          }
         })
 
 
