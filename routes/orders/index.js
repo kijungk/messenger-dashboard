@@ -20,7 +20,7 @@ router.route('/')
     });
 
     function keepAlive() {
-      response.write({});
+      response.write('\n\n');
       setTimeout(keepAlive, 20000);
     }
 
