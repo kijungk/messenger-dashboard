@@ -19,8 +19,7 @@ router.route('/')
     })
 
     function keepAlive() {
-      console.log('keeping it alive...');
-      response.write({});
+      response.write({ timestamp: Date.now() });
       setTimeout(keepAlive, 20000);
     }
 
