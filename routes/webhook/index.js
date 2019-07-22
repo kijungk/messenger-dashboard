@@ -80,7 +80,7 @@ router.route('/')
               });
           }
 
-          console.log(result.id);
+          console.log(result);
           return result.id;
         })
         .catch((error) => {
