@@ -9,6 +9,7 @@ module.exports = (function() {
       },
       message: content
     };
+    console.log('hit');
 
     const options = {
       uri: 'https://graph.facebook.com/v3.3/me/messages',
