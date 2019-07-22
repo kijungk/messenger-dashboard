@@ -13,7 +13,9 @@ router.route('/')
     })
 
     response.app.on('order', (data) => {
+
       data.stream_id = ++id;
+      console.log(data);
       response.write(data);
     })
 
