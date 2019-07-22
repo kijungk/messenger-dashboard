@@ -96,29 +96,13 @@ module.exports = (function responseHandler() {
         break;
 
       case 'BoothStatus':
-        const getStatus = knex('booths_users')
-          .count('booths_users.id')
-          .join('booths', 'booths_users.booth_id', '=', 'booths.id')
-          .join('events', function() {
-            this.on('events.id', '=', 'booths.id').andOn('events.id', '=', 1);
-          })
-          .where({
-            user_id: userId
-          })
-          .then((result) => {
-            const count = result[0].count;
-
-            attachment = `You have completed ${count} scavenger hunt${count > 1 ? 's' : ''}`
-          })
-          .catch((error) => {
-            //error while getting status;
-          });
-
         getStatus()
-          .then((result) => {
+          .then((count) => {
+            attachment = `You have completed ${count} scavenger hunt`;
             quickReplies = [new QuickReply('Back', 'Booth'), new QuickReply('Home', 'Home')];
             break;
           });
+        break;
 
       case 'BoothOneComplete':
         knex('booths_users').where({ booth_id: 1, user_id: userId })
@@ -519,7 +503,24 @@ module.exports = (function responseHandler() {
 
     return message;
   }
-
+  function getStatus() {
+    return knex('booths_users')
+      .count('booths_users.id')
+      .join('booths', 'booths_users.booth_id', '=', 'booths.id')
+      .join('events', function() {
+        this.on('events.id', '=', 'booths.id').andOn('events.id', '=', 1);
+      })
+      .where({
+        user_id: userId
+      })
+      .then((result) => {
+        const count = result[0].count;
+        return count;
+      })
+      .catch((error) => {
+        //error while getting status;
+      });
+  }
   return {
     processFMS2019Response: processFMS2019Response,
     processOXC2019Response: processOXC2019Response
