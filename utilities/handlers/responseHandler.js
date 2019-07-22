@@ -96,13 +96,12 @@ module.exports = (function responseHandler() {
         break;
 
       case 'BoothStatus':
-        getStatus()
+        return getStatus()
           .then((count) => {
             attachment = `You have completed ${count} scavenger hunt`;
             quickReplies = [new QuickReply('Back', 'Booth'), new QuickReply('Home', 'Home')];
             break;
           });
-        break;
 
       case 'BoothOneComplete':
         knex('booths_users').where({ booth_id: 1, user_id: userId })
