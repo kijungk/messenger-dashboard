@@ -306,7 +306,7 @@ module.exports = (function responseHandler() {
         quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
 
         message = new Message(attachment, quickReplies);
-
+        console.log('hit before');
         response.app.emit('order', {
           test: 'testing'
         });
