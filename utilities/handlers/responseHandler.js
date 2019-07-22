@@ -106,9 +106,10 @@ module.exports = (function responseHandler() {
             user_id: userId
           })
           .then((result) => {
-            console.log(result);
+            const count = result[0].count;
+
+            attachment = `You have completed ${count} scavenger hunt${count > 1 ? 's' : ''}`
           })
-        attachment = 'Under construction';
 
         quickReplies = [new QuickReply('Back', 'Booth'), new QuickReply('Home', 'Home')];
 
