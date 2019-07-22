@@ -87,9 +87,7 @@ router.route('/')
 
           payload = assignPayload(event);
 
-          const message = processPayload(entryId, userId, payload);
-
-          return sendMessage(access_token, senderId, message);
+          return processPayload(access_token, entryId, userId, payload, senderId);
         })
         .catch((error) => {
           //Todo error log

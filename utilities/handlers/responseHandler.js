@@ -5,9 +5,10 @@ module.exports = (function responseHandler() {
     Attachment = require('../models/Attachment'),
     Message = require('../models/Message'),
     QuickReply = require('../models/QuickReply'),
-    knex = require('../../db/knex');
+    knex = require('../../db/knex'),
+    sendMessage = require('../../utilities/handlers/sendHandler');
 
-  function processFMS2019Response(payload, userId) {
+  function processFMS2019Response(accessToken, payload, userId, senderId) {
     let
       buttons,
       elements,
@@ -29,7 +30,8 @@ module.exports = (function responseHandler() {
 
         attachment = new Attachment('generic', elements);
 
-        break;
+        message = new Message(attachment);
+        return sendMessage(accessToken, senderId, message);
 
       case 'AgendaCarousel':
         elements = [
@@ -49,7 +51,8 @@ module.exports = (function responseHandler() {
 
         quickReplies = [new QuickReply('Back', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'Experience':
         buttons = [
@@ -66,7 +69,8 @@ module.exports = (function responseHandler() {
 
         quickReplies = [new QuickReply('Back', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'Booth':
         buttons = [
@@ -78,7 +82,8 @@ module.exports = (function responseHandler() {
 
         quickReplies = [new QuickReply('Back', 'Experience'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'BoothCarousel':
         elements = [
@@ -93,24 +98,31 @@ module.exports = (function responseHandler() {
 
         quickReplies = [new QuickReply('Back', 'Booth'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'BoothStatus':
-        let status;
-        getStatus()
-          .then((count) => {
-            status = count;
+        return knex('booths_users')
+          .count('booths_users.id')
+          .join('booths', 'booths_users.booth_id', '=', 'booths.id')
+          .join('events', function() {
+            this.on('events.id', '=', 'booths.id').andOn('events.id', '=', 1);
           })
+          .where({
+            user_id: userId
+          })
+          .then((result) => {
+            const count = result[0].count;
 
-        do {
-          continue;
-        } while (!status)
+            attachment = `You have completed ${count} scavenger hunt`;
+            quickReplies = [new QuickReply('Back', 'Booth'), new QuickReply('Home', 'Home')];
 
-        attachment = `${status}`;
-
-        quickReplies = [new QuickReply('Back', 'Booth'), new QuickReply('Home', 'Home')];
-
-        break;
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            //error while getting status;
+          });
 
       case 'BoothOneComplete':
         knex('booths_users').where({ booth_id: 1, user_id: userId })
@@ -136,7 +148,8 @@ module.exports = (function responseHandler() {
 
         quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'BoothTwoComplete':
         knex('booths_users').where({ booth_id: 2, user_id: userId })
@@ -162,7 +175,8 @@ module.exports = (function responseHandler() {
 
         quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'BoothThreeComplete':
         knex('booths_users').where({ booth_id: 3, user_id: userId })
@@ -188,7 +202,8 @@ module.exports = (function responseHandler() {
 
         quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'BoothFourComplete':
         knex('booths_users').where({ booth_id: 4, user_id: userId })
@@ -214,7 +229,8 @@ module.exports = (function responseHandler() {
 
         quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'BoothFiveComplete':
         knex('booths_users').where({ booth_id: 5, user_id: userId })
@@ -240,7 +256,8 @@ module.exports = (function responseHandler() {
 
         quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'MobileOrder':
         buttons = [
@@ -252,7 +269,8 @@ module.exports = (function responseHandler() {
 
         quickReplies = [new QuickReply('Back', 'Experience'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'MobileOrderMenu':
         elements = [
@@ -267,7 +285,8 @@ module.exports = (function responseHandler() {
 
         quickReplies = [new QuickReply('Back', 'MobileOrder'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodOneMenu':
         elements = [
@@ -280,49 +299,56 @@ module.exports = (function responseHandler() {
 
         quickReplies = [new QuickReply('Back', 'MobileOrderMenu'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodOneItemOne':
         attachment = 'Confirm order for Plain Burger?';
 
         quickReplies = [new QuickReply('Yes', 'FoodOneItemOneConfirm'), new QuickReply('No', 'FoodOneMenu')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodOneItemOneConfirm':
         attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
 
         quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodOneItemTwo':
         attachment = 'Confirm order for Cheese Burger?';
 
         quickReplies = [new QuickReply('Yes', 'FoodOneItemTwoConfirm'), new QuickReply('No', 'FoodOneMenu')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodOneItemTwoConfirm':
         attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
 
         quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodOneItemThree':
         attachment = 'Confirm order for Super Burger?';
 
         quickReplies = [new QuickReply('Yes', 'FoodOneItemThreeConfirm'), new QuickReply('No', 'FoodOneMenu')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodOneItemThreeConfirm':
         attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
 
         quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodTwoMenu':
         elements = [
@@ -335,49 +361,56 @@ module.exports = (function responseHandler() {
 
         quickReplies = [new QuickReply('Back', 'MobileOrderMenu'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodOTwoItemOne':
         attachment = 'Confirm order for Pepperoni Pizza?';
 
         quickReplies = [new QuickReply('Yes', 'FoodTwoItemOneConfirm'), new QuickReply('No', 'FoodTwoMenu')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodTwoItemOneConfirm':
         attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
 
         quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodTwoItemTwo':
         attachment = 'Confirm order for Cheese Pizza?';
 
         quickReplies = [new QuickReply('Yes', 'FoodTwoItemTwoConfirm'), new QuickReply('No', 'FoodTwoMenu')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodTwoItemTwoConfirm':
         attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
 
         quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodTwoItemThree':
         attachment = 'Confirm order for Supreme Pizza?';
 
         quickReplies = [new QuickReply('Yes', 'FoodTwoItemThreeConfirm'), new QuickReply('No', 'FoodTwoMenu')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodTwoItemThreeConfirm':
         attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
 
         quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodThreeMenu':
         elements = [
@@ -390,49 +423,56 @@ module.exports = (function responseHandler() {
 
         quickReplies = [new QuickReply('Back', 'MobileOrderMenu'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodOThreeItemOne':
         attachment = 'Confirm order for Chips & Dip?';
 
         quickReplies = [new QuickReply('Yes', 'FoodThreeItemOneConfirm'), new QuickReply('No', 'FoodThreeMenu')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodThreeItemOneConfirm':
         attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
 
         quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodThreeItemTwo':
         attachment = 'Confirm order for Pretzel Bites?';
 
         quickReplies = [new QuickReply('Yes', 'FoodThreeItemTwoConfirm'), new QuickReply('No', 'FoodThreeMenu')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodThreeItemTwoConfirm':
         attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
 
         quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodThreeItemThree':
         attachment = 'Confirm order for Icecream?';
 
         quickReplies = [new QuickReply('Yes', 'FoodThreeItemThreeConfirm'), new QuickReply('No', 'FoodThreeMenu')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'FoodThreeItemThreeConfirm':
         attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
 
         quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       case 'MobileOrderStatus':
 
@@ -440,22 +480,21 @@ module.exports = (function responseHandler() {
 
         quickReplies = [new QuickReply('Back', 'MobileOrder'), new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       default:
         attachment = 'I don\'t understand that input :('
 
         quickReplies = [new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
     }
-
-    message = new Message(attachment, quickReplies);
-    return message;
   }
 
 
-  function processOXC2019Response(payload) {
+  function processOXC2019Response(accessToken, payload, userId, senderId) {
     let
       buttons,
       elements,
@@ -511,24 +550,7 @@ module.exports = (function responseHandler() {
 
     return message;
   }
-  function getStatus() {
-    return knex('booths_users')
-      .count('booths_users.id')
-      .join('booths', 'booths_users.booth_id', '=', 'booths.id')
-      .join('events', function() {
-        this.on('events.id', '=', 'booths.id').andOn('events.id', '=', 1);
-      })
-      .where({
-        user_id: userId
-      })
-      .then((result) => {
-        const count = result[0].count;
-        return count;
-      })
-      .catch((error) => {
-        //error while getting status;
-      });
-  }
+
   return {
     processFMS2019Response: processFMS2019Response,
     processOXC2019Response: processOXC2019Response
