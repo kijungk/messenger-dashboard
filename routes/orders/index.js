@@ -16,6 +16,14 @@ router.route('/')
       data.stream_id = ++id;
       response.write(data);
     })
+
+    function keepAlive() {
+      // SSE comment for keep alive. Chrome times out after two minutes.
+      res.write(':\n\n');
+      setTimeout(keepAlive, 60000);
+    }
+
+    setTimeout(keepAlive, 60000);
   })
 
 module.exports = router;
