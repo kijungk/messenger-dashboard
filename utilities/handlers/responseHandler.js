@@ -111,7 +111,7 @@ module.exports = (function responseHandler() {
               console.log('dont be in here');
               return;
             }
-
+            console.log(userId);
             knex('booths_users').insert({
               user_id: userId,
               booth_id: 1
