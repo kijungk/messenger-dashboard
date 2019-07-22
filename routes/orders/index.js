@@ -17,3 +17,5 @@ router.route('/')
       response.write(data);
     })
   })
+
+module.exports = router;
