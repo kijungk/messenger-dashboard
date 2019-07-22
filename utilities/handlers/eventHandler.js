@@ -1,5 +1,4 @@
 module.exports = (function() {
-  //const responseBuilder = require('../builders/responseBuilder');
   const
     { entryIds } = require('../constants/index');
 
@@ -29,8 +28,8 @@ module.exports = (function() {
       case entryIds.FMS2019:
         return process.env.FMS2019;
 
-      case entryIds.OXC2019:
-        return process.env.OXC2019;
+      case entryIds.CXO2019:
+        return process.env.CXO2019;
 
       default:
         //throw error. entry from unauthorized source page

@@ -484,7 +484,7 @@ module.exports = (function responseHandler() {
   }
 
 
-  function processOXC2019Response(accessToken, payload, userId, senderId) {
+  function processCXO2019Response(accessToken, payload, userId, senderId) {
     let
       buttons,
       elements,
@@ -506,43 +506,45 @@ module.exports = (function responseHandler() {
 
         attachment = new Attachment('generic', elements);
 
-        break;
+        message = new Message(attachment);
+
+        return sendMessage(accessToken, senderId, message);
 
       case 'Agenda':
         elements = [
-          new Element('OxC Item 1', '9:00 am - 10:00 am', 'https://via.placeholder.com/1910x1000'),
-          new Element('OxC Item 2', '10:00 am - 11:00 am', 'https://via.placeholder.com/1910x1000'),
-          new Element('OxC Item 3', '11:00 am - 12:00 pm', 'https://via.placeholder.com/1910x1000'),
-          new Element('OxC Item 4', '12:00 pm - 1:00 pm', 'https://via.placeholder.com/1910x1000'),
-          new Element('OxC Item 5', '1:00 pm - 2:00 pm', 'https://via.placeholder.com/1910x1000'),
-          new Element('OxC Item 6', '2:00 pm - 3:00 pm', 'https://via.placeholder.com/1910x1000'),
-          new Element('OxC Item 7', '3:00 pm - 4:00 pm', 'https://via.placeholder.com/1910x1000'),
-          new Element('OxC Item 8', '4:00 pm - 5:00 pm', 'https://via.placeholder.com/1910x1000'),
-          new Element('OxC Item 9', '4:00 pm - 5:00 pm', 'https://via.placeholder.com/1910x1000'),
-          new Element('OxC Item 10', '4:00 pm - 5:00 pm', 'https://via.placeholder.com/1910x1000')
+          new Element('CxO Item 1', '9:00 am - 10:00 am', 'https://via.placeholder.com/1910x1000'),
+          new Element('CxO Item 2', '10:00 am - 11:00 am', 'https://via.placeholder.com/1910x1000'),
+          new Element('CxO Item 3', '11:00 am - 12:00 pm', 'https://via.placeholder.com/1910x1000'),
+          new Element('CxO Item 4', '12:00 pm - 1:00 pm', 'https://via.placeholder.com/1910x1000'),
+          new Element('CxO Item 5', '1:00 pm - 2:00 pm', 'https://via.placeholder.com/1910x1000'),
+          new Element('CxO Item 6', '2:00 pm - 3:00 pm', 'https://via.placeholder.com/1910x1000'),
+          new Element('CxO Item 7', '3:00 pm - 4:00 pm', 'https://via.placeholder.com/1910x1000'),
+          new Element('CxO Item 8', '4:00 pm - 5:00 pm', 'https://via.placeholder.com/1910x1000'),
+          new Element('CxO Item 9', '4:00 pm - 5:00 pm', 'https://via.placeholder.com/1910x1000'),
+          new Element('CxO Item 10', '4:00 pm - 5:00 pm', 'https://via.placeholder.com/1910x1000')
         ];
 
         attachment = new Attachment('generic', elements);
 
         quickReplies = [new QuickReply('Back', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+
+        return sendMessage(accessToken, senderId, message);
 
       default:
         attachment = 'I don\'t understand that input :('
 
         quickReplies = [new QuickReply('Home', 'Home')];
 
-        break;
+        message = new Message(attachment, quickReplies);
+
+        return sendMessage(accessToken, senderId, message);
     }
-
-    message = new Message(attachment, quickReplies);
-
-    return message;
   }
 
   return {
     processFMS2019Response: processFMS2019Response,
-    processOXC2019Response: processOXC2019Response
+    processCXO2019Response: processCXO2019Response
   }
 })();
