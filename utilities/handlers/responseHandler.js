@@ -96,6 +96,15 @@ module.exports = (function responseHandler() {
         break;
 
       case 'BoothStatus':
+        knex('booths_users')
+          .count('id')
+          .join('events', 'booths_users.event_id', '=', 'events.id')
+          .where({
+            user_id: userId
+          })
+          .then((result) => {
+            console.log(result);
+          })
         attachment = 'Under construction';
 
         quickReplies = [new QuickReply('Back', 'Booth'), new QuickReply('Home', 'Home')];
@@ -105,9 +114,7 @@ module.exports = (function responseHandler() {
       case 'BoothOneComplete':
         knex('booths_users').where({ booth_id: 1, user_id: userId })
           .then((result) => {
-            console.log(result.length);
             if (result.length) {
-              console.log('dont be in here');
               return;
             }
 
@@ -117,7 +124,6 @@ module.exports = (function responseHandler() {
             })
           })
           .then((result) => {
-            console.log(result);
             return;
           })
           .catch((error) => {
@@ -132,6 +138,25 @@ module.exports = (function responseHandler() {
         break;
 
       case 'BoothTwoComplete':
+        knex('booths_users').where({ booth_id: 2, user_id: userId })
+          .then((result) => {
+            if (result.length) {
+              return;
+            }
+
+            return knex('booths_users').insert({
+              user_id: userId,
+              booth_id: 2
+            })
+          })
+          .then((result) => {
+            return;
+          })
+          .catch((error) => {
+            //error while completing booth 1 for user
+            return;
+          });
+
         attachment = 'You completed Booth 2 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
 
         quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
@@ -139,6 +164,25 @@ module.exports = (function responseHandler() {
         break;
 
       case 'BoothThreeComplete':
+        knex('booths_users').where({ booth_id: 3, user_id: userId })
+          .then((result) => {
+            if (result.length) {
+              return;
+            }
+
+            return knex('booths_users').insert({
+              user_id: userId,
+              booth_id: 3
+            })
+          })
+          .then((result) => {
+            return;
+          })
+          .catch((error) => {
+            //error while completing booth 1 for user
+            return;
+          });
+
         attachment = 'You completed Booth 3 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
 
         quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
@@ -146,6 +190,25 @@ module.exports = (function responseHandler() {
         break;
 
       case 'BoothFourComplete':
+        knex('booths_users').where({ booth_id: 4, user_id: userId })
+          .then((result) => {
+            if (result.length) {
+              return;
+            }
+
+            return knex('booths_users').insert({
+              user_id: userId,
+              booth_id: 4
+            })
+          })
+          .then((result) => {
+            return;
+          })
+          .catch((error) => {
+            //error while completing booth 1 for user
+            return;
+          });
+
         attachment = 'You completed Booth 4 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
 
         quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
@@ -153,6 +216,25 @@ module.exports = (function responseHandler() {
         break;
 
       case 'BoothFiveComplete':
+        knex('booths_users').where({ booth_id: 5, user_id: userId })
+          .then((result) => {
+            if (result.length) {
+              return;
+            }
+
+            return knex('booths_users').insert({
+              user_id: userId,
+              booth_id: 5
+            })
+          })
+          .then((result) => {
+            return;
+          })
+          .catch((error) => {
+            //error while completing booth 1 for user
+            return;
+          });
+
         attachment = 'You completed Booth 5 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
 
         quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
