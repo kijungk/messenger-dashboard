@@ -80,15 +80,15 @@ router.route('/')
               });
           }
 
-          console.log(userId);
 
-          return;
+          return result.id;
         })
         .catch((error) => {
           //Todo error log
           //finding user in database failed
         });
 
+      console.log(userId);
       let payload = '';
 
       payload = assignPayload(event);
