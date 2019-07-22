@@ -125,7 +125,7 @@ module.exports = (function responseHandler() {
           });
 
       case 'BoothOneComplete':
-        knex('booths_users').where({ booth_id: 1, user_id: userId })
+        return knex('booths_users').where({ booth_id: 1, user_id: userId })
           .then((result) => {
             if (result.length) {
               return;
@@ -137,22 +137,20 @@ module.exports = (function responseHandler() {
             })
           })
           .then((result) => {
-            return;
+            attachment = 'You completed Booth 1 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
+
+            quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
           })
           .catch((error) => {
             //error while completing booth 1 for user
             return;
           });
 
-        attachment = 'You completed Booth 1 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
-
-        quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
-
       case 'BoothTwoComplete':
-        knex('booths_users').where({ booth_id: 2, user_id: userId })
+        return knex('booths_users').where({ booth_id: 2, user_id: userId })
           .then((result) => {
             if (result.length) {
               return;
@@ -164,19 +162,17 @@ module.exports = (function responseHandler() {
             })
           })
           .then((result) => {
-            return;
+            attachment = 'You completed Booth 2 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
+
+            quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
           })
           .catch((error) => {
             //error while completing booth 1 for user
             return;
           });
-
-        attachment = 'You completed Booth 2 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
-
-        quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
 
       case 'BoothThreeComplete':
         knex('booths_users').where({ booth_id: 3, user_id: userId })
@@ -191,19 +187,17 @@ module.exports = (function responseHandler() {
             })
           })
           .then((result) => {
-            return;
+            attachment = 'You completed Booth 3 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
+
+            quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
           })
           .catch((error) => {
             //error while completing booth 1 for user
             return;
           });
-
-        attachment = 'You completed Booth 3 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
-
-        quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
 
       case 'BoothFourComplete':
         knex('booths_users').where({ booth_id: 4, user_id: userId })
@@ -218,19 +212,17 @@ module.exports = (function responseHandler() {
             })
           })
           .then((result) => {
-            return;
+            attachment = 'You completed Booth 4 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
+
+            quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
           })
           .catch((error) => {
             //error while completing booth 1 for user
             return;
           });
-
-        attachment = 'You completed Booth 4 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
-
-        quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
 
       case 'BoothFiveComplete':
         knex('booths_users').where({ booth_id: 5, user_id: userId })
@@ -245,19 +237,17 @@ module.exports = (function responseHandler() {
             })
           })
           .then((result) => {
-            return;
+            attachment = 'You completed Booth 5 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
+
+            quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
           })
           .catch((error) => {
             //error while completing booth 1 for user
             return;
           });
-
-        attachment = 'You completed Booth 5 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
-
-        quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
 
       case 'MobileOrder':
         buttons = [
