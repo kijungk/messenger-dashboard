@@ -1,4 +1,4 @@
-module.exports = (function () {
+module.exports = (function() {
   //const responseBuilder = require('../builders/responseBuilder');
   const
     { entryIds } = require('../constants/index');
@@ -16,6 +16,10 @@ module.exports = (function () {
         return event.message.text;
 
       case !!event.postback:
+        if (event.postback.referral) {
+          return event.postback.referral.ref;
+        }
+
         return event.postback.payload;
     }
   }
