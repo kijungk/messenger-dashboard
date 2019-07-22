@@ -18,6 +18,7 @@ module.exports = (function responseHandler() {
 
     switch (payload) {
       case 'Home':
+        console.log('HOME HIT');
         buttons = [
           new Button('Agenda', 'postback', 'AgendaCarousel'),
           new Button('Experience', 'postback', 'Experience'),
