@@ -48,7 +48,7 @@ router.route('/')
         senderId = event.sender.id,
         access_token = processEntryId(entryId);
 
-      knex('users').where({ facebook_id: senderId })
+      const userId = knex('users').where({ facebook_id: senderId })
         .then((result) => {
           if (!result.length) {
             const options = {
@@ -63,10 +63,12 @@ router.route('/')
             rp(options)
               .then((response) => {
                 const user = JSON.parse(response);
-                return knex('users').insert({
-                  facebook_id: user.id,
-                  name: user.name
-                })
+                return knex('users')
+                  .returning('id')
+                  .insert({
+                    facebook_id: user.id,
+                    name: user.name
+                  })
               })
               .catch((error) => {
                 //Todo error log
@@ -74,14 +76,14 @@ router.route('/')
               });
           }
 
+          console.log(userId);
+
           return;
         })
         .catch((error) => {
           //Todo error log
           //finding user in database failed
         });
-
-
 
       let payload = '';
 
