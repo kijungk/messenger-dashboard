@@ -96,7 +96,7 @@ module.exports = (function responseHandler() {
         break;
 
       case 'BoothStatus':
-        knex('booths_users')
+        const getStatus = knex('booths_users')
           .count('booths_users.id')
           .join('booths', 'booths_users.booth_id', '=', 'booths.id')
           .join('events', function() {
@@ -106,15 +106,19 @@ module.exports = (function responseHandler() {
             user_id: userId
           })
           .then((result) => {
-            console.log(result);
             const count = result[0].count;
 
             attachment = `You have completed ${count} scavenger hunt${count > 1 ? 's' : ''}`
-            quickReplies = [new QuickReply('Back', 'Booth'), new QuickReply('Home', 'Home')];
-
-            message = new Message(attachment, quickReplies);
-            return message;
           })
+          .catch((error) => {
+            //error while getting status;
+          });
+
+        getStatus()
+          .then((result) => {
+            quickReplies = [new QuickReply('Back', 'Booth'), new QuickReply('Home', 'Home')];
+            break;
+          });
 
       case 'BoothOneComplete':
         knex('booths_users').where({ booth_id: 1, user_id: userId })
