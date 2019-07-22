@@ -18,7 +18,7 @@ router.route('/')
     })
 
     function keepAlive() {
-      // SSE comment for keep alive. Chrome times out after two minutes.
+      console.log('keeping it alive...');
       response.write(':\n\n');
       setTimeout(keepAlive, 60000);
     }
