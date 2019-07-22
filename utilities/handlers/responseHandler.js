@@ -111,6 +111,7 @@ module.exports = (function responseHandler() {
             user_id: userId
           })
           .then((result) => {
+            console.log(result);
             const count = result.length;
 
             attachment = `You have completed ${count} scavenger hunt`;
