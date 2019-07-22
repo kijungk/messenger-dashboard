@@ -14,9 +14,8 @@ router.route('/')
     })
 
     appEventEmitter.on('order', (data) => {
-      console.log(data);
       data.stream_id = ++id;
-      response.write(data);
+      response.write(JSON.stringify(data));
     });
 
     function keepAlive() {
