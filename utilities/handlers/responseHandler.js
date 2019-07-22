@@ -363,7 +363,7 @@ module.exports = (function responseHandler() {
     }
 
     message = new Message(attachment, quickReplies);
-
+    console.log(message);
     return message;
   }
 
