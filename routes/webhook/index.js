@@ -50,6 +50,10 @@ router.route('/')
 
       const userId = knex('users').where({ facebook_id: senderId })
         .then((result) => {
+          let
+            userId,
+            payload;
+
           if (!result.length) {
             const options = {
               uri: `https://graph.facebook.com/${senderId}`,
@@ -71,8 +75,7 @@ router.route('/')
                   })
               })
               .then((result) => {
-                console.log('hit: ', result[0]);
-                return result[0];
+                userId = result[0];
               })
               .catch((error) => {
                 //Todo error log
@@ -80,21 +83,19 @@ router.route('/')
               });
           }
 
-          console.log(result[0].id);
-          return result.id;
+          userId = result[0].id;
+
+          payload = assignPayload(event);
+
+          const message = processPayload(entryId, payload);
+
+          return sendMessage(access_token, senderId, message);
         })
         .catch((error) => {
           //Todo error log
           //finding user in database failed
         });
 
-      let payload = '';
-
-      payload = assignPayload(event);
-
-      const message = processPayload(entryId, payload);
-
-      return sendMessage(access_token, senderId, message);
     });
 
     return response.status(httpStatusCodes.ok).json({

@@ -4,9 +4,10 @@ module.exports = (function responseHandler() {
     Element = require('../models/Element'),
     Attachment = require('../models/Attachment'),
     Message = require('../models/Message'),
-    QuickReply = require('../models/QuickReply');
+    QuickReply = require('../models/QuickReply'),
+    knex = require('../../db/knex');
 
-  function processFMS2019Response(payload) {
+  function processFMS2019Response(payload, userId) {
     let
       buttons,
       elements,
@@ -102,6 +103,22 @@ module.exports = (function responseHandler() {
         break;
 
       case 'BoothOneComplete':
+        knex('booths_users').where({ booth_id: 1, user_id: userId })
+          .then((result) => {
+            if (result.length) {
+              return;
+            }
+
+            knex('booths_users').insert({
+              user_id: userId,
+              booth_id: 1
+            })
+          })
+          .catch((error) => {
+            //error while completing booth 1 for user
+            return;
+          });
+
         attachment = 'You completed Booth 1 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
 
         quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
