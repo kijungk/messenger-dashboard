@@ -103,6 +103,7 @@ module.exports = (function responseHandler() {
         break;
 
       case 'BoothOneComplete':
+        console.log('hit');
         knex('booths_users').where({ booth_id: 1, user_id: userId })
           .then((result) => {
             if (result.length) {
@@ -118,7 +119,7 @@ module.exports = (function responseHandler() {
             //error while completing booth 1 for user
             return;
           });
-
+        console.log('hit outside');
         attachment = 'You completed Booth 1 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
 
         quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
