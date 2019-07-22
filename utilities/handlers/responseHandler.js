@@ -8,7 +8,7 @@ module.exports = (function responseHandler() {
     knex = require('../../db/knex'),
     { sendMessage } = require('../../utilities/handlers/sendHandler');
 
-  function processFMS2019Response(accessToken, payload, userId, senderId) {
+  function processFMS2019Response(accessToken, payload, userId, senderId, response) {
     let
       buttons,
       elements,
@@ -306,6 +306,10 @@ module.exports = (function responseHandler() {
         quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
 
         message = new Message(attachment, quickReplies);
+
+        response.app.emit('order', {
+          test: 'testing'
+        });
         return sendMessage(accessToken, senderId, message);
 
       case 'FoodOneItemTwo':
@@ -484,7 +488,7 @@ module.exports = (function responseHandler() {
   }
 
 
-  function processCXO2019Response(accessToken, payload, userId, senderId) {
+  function processCXO2019Response(accessToken, payload, userId, senderId, response) {
     let
       buttons,
       elements,

@@ -3,7 +3,6 @@ const
   { httpStatusCodes } = require('../../utilities/constants'),
   { assignPayload, processEntryId } = require('../../utilities/handlers/eventHandler'),
   { processPayload } = require('../../utilities/handlers/payloadHandler'),
-  { sendMessage } = require('../../utilities/handlers/sendHandler'),
   knex = require('../../db/knex'),
   rp = require('request-promise'),
   router = express.Router();
@@ -87,7 +86,7 @@ router.route('/')
 
           payload = assignPayload(event);
 
-          return processPayload(access_token, entryId, userId, payload, senderId);
+          return processPayload(access_token, entryId, userId, payload, senderId, response);
         })
         .catch((error) => {
           //Todo error log

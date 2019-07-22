@@ -3,13 +3,13 @@ module.exports = (function payloadHandler() {
     { entryIds } = require('../constants/index'),
     { processFMS2019Response, processCXO2019Response } = require('./responseHandler');
 
-  function processPayload(accessToken, entryId, userId, payload, senderId) {
+  function processPayload(accessToken, entryId, userId, payload, senderId, response) {
     switch (entryId) {
       case entryIds.FMS2019:
-        return processFMS2019Response(accessToken, payload, userId, senderId);
+        return processFMS2019Response(accessToken, payload, userId, senderId, response);
 
       case entryIds.CXO2019:
-        return processCXO2019Response(accessToken, payload, userId, senderId);
+        return processCXO2019Response(accessToken, payload, userId, senderId, response);
     }
   }
 
