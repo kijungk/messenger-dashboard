@@ -48,7 +48,7 @@ router.route('/')
         senderId = event.sender.id,
         access_token = processEntryId(entryId);
 
-      const userId = knex('users').where({ facebook_id: senderId })
+      knex('users').where({ facebook_id: senderId })
         .then((result) => {
           let
             userId,
