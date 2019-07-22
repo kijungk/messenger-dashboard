@@ -3,14 +3,12 @@ module.exports = (function() {
     rp = require('request-promise');
 
   function sendMessage(access_token, recipientId, content) {
-    console.log('send hit');
     const body = {
       recipient: {
         id: recipientId
       },
       message: content
     };
-    console.log('hit');
 
     const options = {
       uri: 'https://graph.facebook.com/v3.3/me/messages',
