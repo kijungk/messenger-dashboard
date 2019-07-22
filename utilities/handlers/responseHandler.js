@@ -97,7 +97,7 @@ module.exports = (function responseHandler() {
 
       case 'BoothStatus':
         knex('booths_users')
-          .count('id')
+          .count('booths_users.id')
           .join('booths', 'booths_users.booth_id', '=', 'booths.id')
           .join('events', function() {
             this.on('events.id', '=', 'booths.id').andOn('events.id', '=', 1);
