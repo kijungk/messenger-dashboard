@@ -175,7 +175,7 @@ module.exports = (function responseHandler() {
           });
 
       case 'BoothThreeComplete':
-        knex('booths_users').where({ booth_id: 3, user_id: userId })
+        return knex('booths_users').where({ booth_id: 3, user_id: userId })
           .then((result) => {
             if (result.length) {
               return;
@@ -200,7 +200,7 @@ module.exports = (function responseHandler() {
           });
 
       case 'BoothFourComplete':
-        knex('booths_users').where({ booth_id: 4, user_id: userId })
+        return knex('booths_users').where({ booth_id: 4, user_id: userId })
           .then((result) => {
             if (result.length) {
               return;
@@ -225,7 +225,7 @@ module.exports = (function responseHandler() {
           });
 
       case 'BoothFiveComplete':
-        knex('booths_users').where({ booth_id: 5, user_id: userId })
+        return knex('booths_users').where({ booth_id: 5, user_id: userId })
           .then((result) => {
             if (result.length) {
               return;
