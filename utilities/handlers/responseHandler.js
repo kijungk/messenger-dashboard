@@ -103,26 +103,28 @@ module.exports = (function responseHandler() {
         break;
 
       case 'BoothOneComplete':
-        console.log('hit');
         knex('booths_users').where({ booth_id: 1, user_id: userId })
           .then((result) => {
             console.log(result.length);
             if (result.length) {
               console.log('dont be in here');
               return;
-            } else {
-              console.log(userId);
-              knex('booths_users').insert({
-                user_id: userId,
-                booth_id: 1
-              })
             }
+
+            return knex('booths_users').insert({
+              user_id: userId,
+              booth_id: 1
+            })
+          })
+          .then((result) => {
+            console.log(result);
+            return;
           })
           .catch((error) => {
             //error while completing booth 1 for user
             return;
           });
-        console.log('hit outside');
+
         attachment = 'You completed Booth 1 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
 
         quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
