@@ -71,7 +71,7 @@ router.route('/')
                   })
               })
               .then((result) => {
-                console.log(result[0]);
+                console.log('hit: ', result[0]);
                 return result[0];
               })
               .catch((error) => {
@@ -80,7 +80,7 @@ router.route('/')
               });
           }
 
-          console.log(result);
+          console.log(result[0].id);
           return result.id;
         })
         .catch((error) => {
