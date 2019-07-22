@@ -20,10 +20,10 @@ router.route('/')
     function keepAlive() {
       console.log('keeping it alive...');
       response.write(':\n\n');
-      setTimeout(keepAlive, 60000);
+      setTimeout(keepAlive, 20000);
     }
 
-    setTimeout(keepAlive, 60000);
+    setTimeout(keepAlive, 20000);
   })
 
 module.exports = router;
