@@ -88,7 +88,6 @@ router.route('/')
           //finding user in database failed
         });
 
-      console.log(userId);
       let payload = '';
 
       payload = assignPayload(event);
