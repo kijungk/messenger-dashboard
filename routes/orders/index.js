@@ -1,6 +1,7 @@
 const
   express = require('express'),
-  router = express.Router();
+  router = express.Router(),
+  appEventEmitter = require('../../utilities/eventEmitters');
 
 router.route('/')
   .get((request, response) => {
@@ -12,14 +13,14 @@ router.route('/')
       'content-type': 'application/json'
     })
 
-    response.app.on('order', (data) => {
-      data.stream_id = ++id;
+    appEventEmitter.on('order', (data) => {
       console.log(data);
+      data.stream_id = ++id;
       response.write(data);
-    })
+    });
 
     function keepAlive() {
-      response.write({ timestamp: Date.now() });
+      response.write({});
       setTimeout(keepAlive, 20000);
     }
 

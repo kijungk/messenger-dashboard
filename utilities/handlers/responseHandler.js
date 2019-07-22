@@ -6,7 +6,8 @@ module.exports = (function responseHandler() {
     Message = require('../models/Message'),
     QuickReply = require('../models/QuickReply'),
     knex = require('../../db/knex'),
-    { sendMessage } = require('../../utilities/handlers/sendHandler');
+    { sendMessage } = require('../../utilities/handlers/sendHandler'),
+    appEventEmitter = require('../eventEmitters');
 
   function processFMS2019Response(accessToken, payload, userId, senderId, response) {
     let
@@ -306,10 +307,11 @@ module.exports = (function responseHandler() {
         quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
 
         message = new Message(attachment, quickReplies);
-        console.log('hit before');
-        response.app.emit('order', {
+
+        appEventEmitter.emit('order', {
           test: 'testing'
         });
+
         return sendMessage(accessToken, senderId, message);
 
       case 'FoodOneItemTwo':
