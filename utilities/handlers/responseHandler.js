@@ -96,7 +96,12 @@ module.exports = (function responseHandler() {
         break;
 
       case 'BoothStatus':
-        const status = getStatus();
+        let status;
+        getStatus()
+          .then((count) => {
+            status = count;
+          })
+
         do {
           continue;
         } while (!status)
