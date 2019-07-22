@@ -87,7 +87,7 @@ router.route('/')
 
           payload = assignPayload(event);
 
-          const message = processPayload(entryId, payload);
+          const message = processPayload(entryId, userId, payload);
 
           return sendMessage(access_token, senderId, message);
         })
