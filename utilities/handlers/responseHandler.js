@@ -110,12 +110,13 @@ module.exports = (function responseHandler() {
             if (result.length) {
               console.log('dont be in here');
               return;
+            } else {
+              console.log(userId);
+              knex('booths_users').insert({
+                user_id: userId,
+                booth_id: 1
+              })
             }
-            console.log(userId);
-            knex('booths_users').insert({
-              user_id: userId,
-              booth_id: 1
-            })
           })
           .catch((error) => {
             //error while completing booth 1 for user
