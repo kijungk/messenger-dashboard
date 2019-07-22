@@ -70,6 +70,9 @@ router.route('/')
                     name: user.name
                   })
               })
+              .then((result) => {
+                return result[0];
+              })
               .catch((error) => {
                 //Todo error log
                 //Inserting new user failed
