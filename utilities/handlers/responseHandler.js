@@ -98,7 +98,10 @@ module.exports = (function responseHandler() {
       case 'BoothStatus':
         knex('booths_users')
           .count('id')
-          .join('events', 'booths_users.event_id', '=', 'events.id')
+          .join('booths', 'booths_users.booth_id', '=', 'booths.id')
+          .join('events', function() {
+            this.on('events.id', '=', 'booths.id').andOn('events.id', '=', 1);
+          })
           .where({
             user_id: userId
           })
