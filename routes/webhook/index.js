@@ -42,6 +42,7 @@ router.route('/')
       });
     }
     body.entry.forEach((entry) => {
+      console.log('entry');
       const
         entryId = entry.id,
         event = entry.messaging[0],
