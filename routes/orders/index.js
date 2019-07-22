@@ -13,7 +13,6 @@ router.route('/')
     })
 
     response.app.on('order', (data) => {
-
       data.stream_id = ++id;
       console.log(data);
       response.write(data);
@@ -21,7 +20,7 @@ router.route('/')
 
     function keepAlive() {
       console.log('keeping it alive...');
-      response.write(':\n\n');
+      response.write({});
       setTimeout(keepAlive, 20000);
     }
 
