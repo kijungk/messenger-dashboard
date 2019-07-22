@@ -6,7 +6,7 @@ module.exports = (function responseHandler() {
     Message = require('../models/Message'),
     QuickReply = require('../models/QuickReply'),
     knex = require('../../db/knex'),
-    sendMessage = require('../../utilities/handlers/sendHandler');
+    { sendMessage } = require('../../utilities/handlers/sendHandler');
 
   function processFMS2019Response(accessToken, payload, userId, senderId) {
     let
@@ -18,7 +18,6 @@ module.exports = (function responseHandler() {
 
     switch (payload) {
       case 'Home':
-        console.log('HOME HIT');
         buttons = [
           new Button('Agenda', 'postback', 'AgendaCarousel'),
           new Button('Experience', 'postback', 'Experience'),
@@ -32,7 +31,6 @@ module.exports = (function responseHandler() {
         attachment = new Attachment('generic', elements);
 
         message = new Message(attachment);
-        console.log('before send messsage');
         return sendMessage(accessToken, senderId, message);
 
       case 'AgendaCarousel':
