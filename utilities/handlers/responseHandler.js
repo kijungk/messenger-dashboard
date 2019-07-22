@@ -103,7 +103,6 @@ module.exports = (function responseHandler() {
 
       case 'BoothStatus':
         return knex('booths_users')
-          .count('booths_users.id')
           .join('booths', 'booths_users.booth_id', '=', 'booths.id')
           .join('events', function() {
             this.on('events.id', '=', 'booths.id').andOn('events.id', '=', 1);
@@ -112,7 +111,7 @@ module.exports = (function responseHandler() {
             user_id: userId
           })
           .then((result) => {
-            const count = result[0].count;
+            const count = result.length;
 
             attachment = `You have completed ${count} scavenger hunt`;
             quickReplies = [new QuickReply('Back', 'Booth'), new QuickReply('Home', 'Home')];
