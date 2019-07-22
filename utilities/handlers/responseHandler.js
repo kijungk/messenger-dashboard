@@ -106,6 +106,7 @@ module.exports = (function responseHandler() {
         console.log('hit');
         knex('booths_users').where({ booth_id: 1, user_id: userId })
           .then((result) => {
+            console.log(result);
             if (result.length) {
               return;
             }
