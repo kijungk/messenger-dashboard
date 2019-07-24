@@ -15,9 +15,9 @@ router.route('/')
           icons
           ON icons.id = events.icon_id
       `)
-      .then((results) => {
-        console.log(results);
-        return response.status(200).json({ results });
+      .then((query) => {
+        const rows = query.rows;
+        return response.status(200).json({ rows });
       })
       .catch((error) => {
         console.log(error);
