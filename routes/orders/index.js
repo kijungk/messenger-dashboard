@@ -11,7 +11,7 @@ router.route('/')
       'connection': 'keep-alive',
       'cache-control': 'no-cache',
       'content-type': 'application/json'
-    })
+    });
 
     appEventEmitter.on('order', (data) => {
       data.stream_id = ++id;

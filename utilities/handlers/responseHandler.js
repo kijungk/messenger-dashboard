@@ -26,7 +26,7 @@ module.exports = (function responseHandler() {
         ];
 
         elements = [
-          new Element('Welcome to the demo application', 'Feel free to browse around!', 'https://via.placeholder.com/1910x1000', buttons)
+          new Element('FMS Seoul 2019', 'FMS Seoul 2019에 오신 여러분 환영합니다! 다음 메뉴에서 원하는 항목을 선택해주세요.', 'https://via.placeholder.com/1910x1000', buttons)
         ];
 
         attachment = new Attachment('generic', elements);
@@ -115,7 +115,14 @@ module.exports = (function responseHandler() {
           .then((result) => {
             const count = result[0].count;
 
-            attachment = `You have completed ${count} scavenger hunt`;
+            attachment = `You have completed ${count} scavenger hunt!\n\n`;
+
+            if (count < 2) {
+              attachment += 'You must complete 2 scavenger hunts to receive SWAG~';
+            }
+
+            attachment += 'You can redeem your SWAG!';
+
             quickReplies = [new QuickReply('Back', 'Booth'), new QuickReply('Home', 'Home')];
 
             message = new Message(attachment, quickReplies);
