@@ -13,6 +13,7 @@ router.route('/')
         return response.status(200).json({ results });
       })
       .catch((error) => {
+        console.log(error);
         // error while fetching all events
       });
   })
