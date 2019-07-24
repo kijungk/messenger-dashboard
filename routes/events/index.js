@@ -5,7 +5,7 @@ const
 
 router.route('/')
   .get((request, response) => {
-    return knex('events')
+    knex('events')
       .join('icons', 'icons.id', '=', 'events.icon_id')
       .select('events.description, icons.url')
       .then((results) => {
