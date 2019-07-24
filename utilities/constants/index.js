@@ -8,7 +8,7 @@ module.exports = (function constants() {
 
   const entryIds = {
     FMS2019: '2248986022080033',
-    CXO2019: '583562918839570'
+    CXO2019: '636910476828386'
   };
 
   return {
