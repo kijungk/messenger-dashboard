@@ -17,6 +17,7 @@ router.route('/')
       `)
       .then((query) => {
         const rows = query.rows;
+        console.log('hit');
         return response.status(200).json({ rows });
       })
       .catch((error) => {
