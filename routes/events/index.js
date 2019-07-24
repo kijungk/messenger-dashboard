@@ -5,7 +5,9 @@ const
 
 router.route('/')
   .get((request, response) => {
-    return knex.select().from('events')
+    return knex('events')
+      .select('events.description, icons.url')
+      .join('icons', 'icons.id', '=', 'events.icon_id')
       .then((results) => {
         console.log(results);
         return response.status(200).json({ results });
