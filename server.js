@@ -9,8 +9,8 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-const forceSSL = function () {
-  return function (req, res, next) {
+const forceSSL = function() {
+  return function(req, res, next) {
     if (req.headers['x-forwarded-proto'] !== 'https') {
       return res.redirect(
         ['https://', req.get('Host'), req.url].join('')
@@ -22,16 +22,16 @@ const forceSSL = function () {
 
 app.use(forceSSL());
 
-// app.use(express.static(__dirname + '/dist/facebook-frontend'));
+app.use(express.static(__dirname + '/dist/messenger-dashboard-frontend'));
 
 app.use('/api', routes);
 
-// app.get('*', (request, response) => {
-//   response.sendFile(__dirname + '/dist/facebook-frontend/index.html', (err) => {
-//     if (err) {
-//       response.status(500).json(err);
-//     }
-//   })
-// })
+app.get('*', (request, response) => {
+  response.sendFile(__dirname + '/dist/facebook-frontend/index.html', (err) => {
+    if (err) {
+      response.status(500).json(err);
+    }
+  })
+})
 
 module.exports = app;
