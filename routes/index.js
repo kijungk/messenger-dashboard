@@ -3,10 +3,12 @@ const
   router = express.Router();
 
 const
-  webhook = require('./webhook'),
-  orders = require('./orders');
+  events = require('./events'),
+  orders = require('./orders'),
+  webhook = require('./webhook');
 
-router.use('/webhook', webhook);
+router.use('/events', events);
 router.use('/orders', orders);
+router.use('/webhook', webhook);
 
 module.exports = router;
