@@ -498,6 +498,7 @@ module.exports = (function responseHandler() {
 
 
   function processCXO2019Response(accessToken, payload, userId, senderId, response) {
+    console.log('hit');
     let
       buttons,
       elements,
