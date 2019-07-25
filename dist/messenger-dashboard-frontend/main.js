@@ -415,7 +415,7 @@ var EventsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"home\" class=\"page\">\n  <div class=\"oswald\">\n    Welcome!\n  </div>\n  <div class=\"roboto\">\n    Please select an event to manage. If no events are available, you may require permissions to access them.\n  </div>\n  <div class=\"row-container\">\n    <div class=\"event\" *ngFor=\"let event of events | async\">\n      <img src={{event.icon_url}} alt={{event.description}} class=\"event-icon\">\n      <div class=\"event-description\">\n        {{ event.description }}\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div id=\"home\" class=\"page\">\n  <div class=\"oswald\">\n    Welcome!\n  </div>\n  <div class=\"roboto\">\n    Please select an event to manage. If no events are available, you may require permissions to access them.\n  </div>\n  <div class=\"row-container\">\n    <div class=\"event\" *ngFor=\"let event of events | async\">\n      <img src={{event.url}} alt={{event.description}} class=\"event-icon\">\n      <div class=\"event-description\">\n        {{ event.description }}\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -452,7 +452,6 @@ var HomeComponent = /** @class */ (function () {
     }
     HomeComponent.prototype.ngOnInit = function () {
         this.events = this.getEvents();
-        console.log(this.events);
     };
     HomeComponent.prototype.getEvents = function () {
         return this.eventsService.getEvents();
