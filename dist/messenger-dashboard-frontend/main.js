@@ -84,7 +84,7 @@ module.exports = "<div id=\"app\">\n  <app-header></app-header>\n  <router-outle
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "#app {\n  display: flex;\n  flex-direction: column;\n  width: 100vw;\n  height: 100vh; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvQzpcXFVzZXJzXFxLaSBKdW5nIEtpbVxcRGVza3RvcFxcUHJvamVjdHNcXG1lc3Nlbmdlci1kYXNoYm9hcmQtZnJvbnRlbmQvc3JjXFxhcHBcXGFwcC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGFBQWE7RUFDYixzQkFBc0I7RUFFdEIsWUFBWTtFQUNaLGFBQWEsRUFBQSIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIiNhcHAge1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuXHJcbiAgd2lkdGg6IDEwMHZ3O1xyXG4gIGhlaWdodDogMTAwdmg7XHJcbn0iXX0= */"
+module.exports = "#app {\n  width: 100vw;\n  display: flex;\n  flex-direction: column; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvQzpcXFVzZXJzXFxLaSBKdW5nIEtpbVxcRGVza3RvcFxcUHJvamVjdHNcXG1lc3Nlbmdlci1kYXNoYm9hcmQtZnJvbnRlbmQvc3JjXFxhcHBcXGFwcC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLFlBQVk7RUFFWixhQUFhO0VBQ2Isc0JBQXNCLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9hcHAuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIjYXBwIHtcclxuICB3aWR0aDogMTAwdnc7XHJcblxyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxufSJdfQ== */"
 
 /***/ }),
 
@@ -140,9 +140,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_home_home_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pages/home/home.component */ "./src/app/pages/home/home.component.ts");
 /* harmony import */ var _pages_not_found_not_found_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/not-found/not-found.component */ "./src/app/pages/not-found/not-found.component.ts");
 /* harmony import */ var _pages_events_events_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/events/events.component */ "./src/app/pages/events/events.component.ts");
-/* harmony import */ var _components_login_login_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/login/login.component */ "./src/app/components/login/login.component.ts");
-/* harmony import */ var _components_navigation_navigation_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/navigation/navigation.component */ "./src/app/components/navigation/navigation.component.ts");
-
+/* harmony import */ var _components_navigation_navigation_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/navigation/navigation.component */ "./src/app/components/navigation/navigation.component.ts");
 
 
 
@@ -165,8 +163,7 @@ var AppModule = /** @class */ (function () {
                 _pages_home_home_component__WEBPACK_IMPORTED_MODULE_7__["HomeComponent"],
                 _pages_not_found_not_found_component__WEBPACK_IMPORTED_MODULE_8__["NotFoundComponent"],
                 _pages_events_events_component__WEBPACK_IMPORTED_MODULE_9__["EventsComponent"],
-                _components_login_login_component__WEBPACK_IMPORTED_MODULE_10__["LoginComponent"],
-                _components_navigation_navigation_component__WEBPACK_IMPORTED_MODULE_11__["NavigationComponent"]
+                _components_navigation_navigation_component__WEBPACK_IMPORTED_MODULE_10__["NavigationComponent"]
             ],
             imports: [
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_4__["AppRoutingModule"],
@@ -191,7 +188,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"header\">\n  <div class=\"row-container\" id=header-container>\n    <div class=\"row-container\">\n      <i class=\"fab fa-facebook-square header-icon\"></i>\n      <div class=\"oswald\">\n        Messenger Dashboard\n      </div>\n    </div>\n    <app-login></app-login>\n  </div>\n</div>"
+module.exports = "<div id=\"header\">\n  <div id=\"header-container\">\n    <i class=\"fab fa-facebook-square header-icon\"></i>\n    <div class=\"oswald\">\n      Messenger Dashboard\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -202,7 +199,7 @@ module.exports = "<div id=\"header\">\n  <div class=\"row-container\" id=header-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "#header {\n  width: 100%;\n  height: 48px;\n  background-color: #363F4A; }\n  #header #header-container {\n    height: 100%;\n    width: 100%;\n    justify-content: space-between; }\n  #header .row-container {\n    align-items: center;\n    font-size: 24px;\n    color: aliceblue; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9oZWFkZXIvQzpcXFVzZXJzXFxLaSBKdW5nIEtpbVxcRGVza3RvcFxcUHJvamVjdHNcXG1lc3Nlbmdlci1kYXNoYm9hcmQtZnJvbnRlbmQvc3JjXFxhcHBcXGNvbXBvbmVudHNcXGhlYWRlclxcaGVhZGVyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsV0FBVztFQUNYLFlBQVk7RUFDWix5QkFBeUIsRUFBQTtFQUgzQjtJQU1JLFlBQVk7SUFDWixXQUFXO0lBRVgsOEJBQThCLEVBQUE7RUFUbEM7SUFhSSxtQkFBbUI7SUFFbkIsZUFBZTtJQUNmLGdCQUFnQixFQUFBIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9oZWFkZXIvaGVhZGVyLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiI2hlYWRlciB7XHJcbiAgd2lkdGg6IDEwMCU7XHJcbiAgaGVpZ2h0OiA0OHB4O1xyXG4gIGJhY2tncm91bmQtY29sb3I6ICMzNjNGNEE7XHJcblxyXG4gICNoZWFkZXItY29udGFpbmVyIHtcclxuICAgIGhlaWdodDogMTAwJTtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG5cclxuICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjtcclxuICB9XHJcblxyXG4gIC5yb3ctY29udGFpbmVyIHtcclxuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcblxyXG4gICAgZm9udC1zaXplOiAyNHB4O1xyXG4gICAgY29sb3I6IGFsaWNlYmx1ZTtcclxuICB9XHJcbn0iXX0= */"
+module.exports = "#header {\n  height: 40px;\n  width: 100%;\n  background-color: #222233; }\n  #header #header-container {\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    height: 100%;\n    color: #AACCFF;\n    font-size: 24px;\n    margin-left: 8px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9oZWFkZXIvQzpcXFVzZXJzXFxLaSBKdW5nIEtpbVxcRGVza3RvcFxcUHJvamVjdHNcXG1lc3Nlbmdlci1kYXNoYm9hcmQtZnJvbnRlbmQvc3JjXFxhcHBcXGNvbXBvbmVudHNcXGhlYWRlclxcaGVhZGVyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsWUFBWTtFQUNaLFdBQVc7RUFFWCx5QkFBeUIsRUFBQTtFQUozQjtJQU9JLGFBQWE7SUFDYixtQkFBbUI7SUFDbkIsbUJBQW1CO0lBRW5CLFlBQVk7SUFFWixjQUFjO0lBQ2QsZUFBZTtJQUVmLGdCQUFnQixFQUFBIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9oZWFkZXIvaGVhZGVyLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiI2hlYWRlciB7XHJcbiAgaGVpZ2h0OiA0MHB4O1xyXG4gIHdpZHRoOiAxMDAlO1xyXG5cclxuICBiYWNrZ3JvdW5kLWNvbG9yOiAjMjIyMjMzO1xyXG5cclxuICAjaGVhZGVyLWNvbnRhaW5lciB7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgZmxleC1kaXJlY3Rpb246IHJvdztcclxuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcblxyXG4gICAgaGVpZ2h0OiAxMDAlO1xyXG5cclxuICAgIGNvbG9yOiAjQUFDQ0ZGO1xyXG4gICAgZm9udC1zaXplOiAyNHB4O1xyXG5cclxuICAgIG1hcmdpbi1sZWZ0OiA4cHg7XHJcbiAgfVxyXG59Il19 */"
 
 /***/ }),
 
@@ -234,62 +231,6 @@ var HeaderComponent = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
     ], HeaderComponent);
     return HeaderComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/components/login/login.component.html":
-/*!*******************************************************!*\
-  !*** ./src/app/components/login/login.component.html ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<div id=\"login\">\n  <div id=\"login-display\" class=\"oswald\">\n    <div *ngIf=\"true\">Please login</div>\n    <div *ngIf=\"false\">Welcome!</div>\n  </div>\n\n  <div *ngIf=\"false\" class=\"modal-overlay\">\n    <div id=\"login-modal\">\n      <form class=\"column-container\">\n        <input type=\"text\" placeholder=\"Id\">\n        <input type=\"password\" placeholder=\"Password\">\n      </form>\n      <button>Login</button>\n    </div>\n  </div>\n</div>"
-
-/***/ }),
-
-/***/ "./src/app/components/login/login.component.scss":
-/*!*******************************************************!*\
-  !*** ./src/app/components/login/login.component.scss ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvbG9naW4vbG9naW4uY29tcG9uZW50LnNjc3MifQ== */"
-
-/***/ }),
-
-/***/ "./src/app/components/login/login.component.ts":
-/*!*****************************************************!*\
-  !*** ./src/app/components/login/login.component.ts ***!
-  \*****************************************************/
-/*! exports provided: LoginComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginComponent", function() { return LoginComponent; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-
-
-var LoginComponent = /** @class */ (function () {
-    function LoginComponent() {
-    }
-    LoginComponent.prototype.ngOnInit = function () {
-    };
-    LoginComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'app-login',
-            template: __webpack_require__(/*! ./login.component.html */ "./src/app/components/login/login.component.html"),
-            styles: [__webpack_require__(/*! ./login.component.scss */ "./src/app/components/login/login.component.scss")]
-        }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
-    ], LoginComponent);
-    return LoginComponent;
 }());
 
 
@@ -415,7 +356,7 @@ var EventsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"home\" class=\"page\">\n  <div class=\"oswald\">\n    Welcome!\n  </div>\n  <div class=\"roboto\">\n    Please select an event to manage. If no events are available, you may require permissions to access them.\n  </div>\n  <div class=\"row-container\">\n    <div class=\"event column-container\" *ngFor=\"let event of events | async\">\n      <img src={{event.url}} alt={{event.description}} class=\"event-icon\">\n      <div class=\"event-description\">\n        {{ event.description }}\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"home\">\n      <div class=\"oswald\">\n        Welcome!\n      </div>\n      <div class=\"roboto\">\n        Please select an event. If no events are available, contact administrator for access.\n      </div>\n      <div id=\"events-container\">\n        <div class=\"event event\" *ngFor=\"let event of events | async\">\n          <img src={{event.url}} alt={{event.description}} class=\"event-icon\">\n          <div class=\"event-description\">\n            {{ event.description }}\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -426,7 +367,7 @@ module.exports = "<div id=\"home\" class=\"page\">\n  <div class=\"oswald\">\n  
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "#home {\n  color: #363F4A; }\n  #home .oswald {\n    font-size: 30px; }\n  #home .row-container .column-container {\n    align-items: center;\n    justify-content: center; }\n  #home .row-container .event {\n    width: 100px;\n    height: 200px; }\n  #home .row-container .event .event-icon {\n      width: 100%;\n      height: auto; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFnZXMvaG9tZS9DOlxcVXNlcnNcXEtpIEp1bmcgS2ltXFxEZXNrdG9wXFxQcm9qZWN0c1xcbWVzc2VuZ2VyLWRhc2hib2FyZC1mcm9udGVuZC9zcmNcXGFwcFxccGFnZXNcXGhvbWVcXGhvbWUuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxjQUFjLEVBQUE7RUFEaEI7SUFJSSxlQUFlLEVBQUE7RUFKbkI7SUFTTSxtQkFBbUI7SUFDbkIsdUJBQXVCLEVBQUE7RUFWN0I7SUFjTSxZQUFZO0lBQ1osYUFBYSxFQUFBO0VBZm5CO01Ba0JRLFdBQVc7TUFDWCxZQUFZLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9wYWdlcy9ob21lL2hvbWUuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIjaG9tZSB7XHJcbiAgY29sb3I6ICMzNjNGNEE7XHJcblxyXG4gIC5vc3dhbGQge1xyXG4gICAgZm9udC1zaXplOiAzMHB4O1xyXG4gIH1cclxuXHJcbiAgLnJvdy1jb250YWluZXIge1xyXG4gICAgLmNvbHVtbi1jb250YWluZXIge1xyXG4gICAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG4gICAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcclxuICAgIH1cclxuXHJcbiAgICAuZXZlbnQge1xyXG4gICAgICB3aWR0aDogMTAwcHg7XHJcbiAgICAgIGhlaWdodDogMjAwcHg7XHJcblxyXG4gICAgICAuZXZlbnQtaWNvbiB7XHJcbiAgICAgICAgd2lkdGg6IDEwMCU7XHJcbiAgICAgICAgaGVpZ2h0OiBhdXRvO1xyXG4gICAgICB9XHJcbiAgICB9XHJcbiAgfVxyXG59Il19 */"
+module.exports = "#home {\n  display: flex;\n  flex-direction: column; }\n  #home .oswald {\n    font-size: 24px;\n    font-weight: bold; }\n  #home #events-container {\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-items: space-between;\n    flex-wrap: wrap; }\n  #home #events-container .event {\n      height: 120px;\n      width: 100px; }\n  #home #events-container .event .event-icon {\n        height: auto;\n        width: 100%; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFnZXMvaG9tZS9DOlxcVXNlcnNcXEtpIEp1bmcgS2ltXFxEZXNrdG9wXFxQcm9qZWN0c1xcbWVzc2VuZ2VyLWRhc2hib2FyZC1mcm9udGVuZC9zcmNcXGFwcFxccGFnZXNcXGhvbWVcXGhvbWUuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxhQUFhO0VBQ2Isc0JBQXNCLEVBQUE7RUFGeEI7SUFLSSxlQUFlO0lBQ2YsaUJBQWlCLEVBQUE7RUFOckI7SUFVSSxhQUFhO0lBQ2IsbUJBQW1CO0lBQ25CLHVCQUF1QjtJQUN2QiwwQkFBMEI7SUFDMUIsZUFBZSxFQUFBO0VBZG5CO01BaUJNLGFBQWE7TUFDYixZQUFZLEVBQUE7RUFsQmxCO1FBcUJRLFlBQVk7UUFDWixXQUFXLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9wYWdlcy9ob21lL2hvbWUuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIjaG9tZSB7XHJcbiAgZGlzcGxheTogZmxleDtcclxuICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xyXG5cclxuICAub3N3YWxkIHtcclxuICAgIGZvbnQtc2l6ZTogMjRweDtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG4gIH1cclxuXHJcbiAgI2V2ZW50cy1jb250YWluZXIge1xyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XHJcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcclxuICAgIGFsaWduLWl0ZW1zOiBzcGFjZS1iZXR3ZWVuO1xyXG4gICAgZmxleC13cmFwOiB3cmFwO1xyXG5cclxuICAgIC5ldmVudCB7XHJcbiAgICAgIGhlaWdodDogMTIwcHg7XHJcbiAgICAgIHdpZHRoOiAxMDBweDtcclxuXHJcbiAgICAgIC5ldmVudC1pY29uIHtcclxuICAgICAgICBoZWlnaHQ6IGF1dG87XHJcbiAgICAgICAgd2lkdGg6IDEwMCU7XHJcbiAgICAgIH1cclxuICAgIH1cclxuICB9XHJcbn0iXX0= */"
 
 /***/ }),
 
