@@ -40,7 +40,9 @@ router.route('/:id')
       JOIN
         icons
         ON icons.id = events.icon_id
-    `)
+      WHERE
+        events.id = ?
+    `, [id])
       .then((result) => {
         const { rows } = result;
         const row = rows[0];
