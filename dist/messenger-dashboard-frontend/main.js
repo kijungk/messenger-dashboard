@@ -300,7 +300,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"events\">\n      <div *ngIf=\"event | async as event\">\n        {{event.description}}\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"events\">\n      <div *ngIf=\"event | async as event\" id=\"event\">\n        <img src={{event.url}} alt={{event.description}} id=\"event-image\">\n        <div id=\"title-container\">\n          <div class=\"oswald\">\n            {{event.description}}\n          </div>\n          <div class=\"roboto\">\n            Dashboard\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -311,7 +311,7 @@ module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <d
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3BhZ2VzL2V2ZW50cy9ldmVudHMuY29tcG9uZW50LnNjc3MifQ== */"
+module.exports = "#events {\n  display: flex;\n  flex-direction: column; }\n  #events #event {\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-items: center; }\n  #events #event #event-image {\n      height: 100px;\n      width: 100px;\n      border-radius: 50%; }\n  #events #event #title-container {\n      display: flex;\n      flex-direction: column; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFnZXMvZXZlbnRzL0M6XFxVc2Vyc1xcS2kgSnVuZyBLaW1cXERlc2t0b3BcXFByb2plY3RzXFxtZXNzZW5nZXItZGFzaGJvYXJkLWZyb250ZW5kL3NyY1xcYXBwXFxwYWdlc1xcZXZlbnRzXFxldmVudHMuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxhQUFhO0VBQ2Isc0JBQXNCLEVBQUE7RUFGeEI7SUFLSSxhQUFhO0lBQ2IsbUJBQW1CO0lBQ25CLHVCQUF1QjtJQUN2QixtQkFBbUIsRUFBQTtFQVJ2QjtNQVdNLGFBQWE7TUFDYixZQUFZO01BRVosa0JBQWtCLEVBQUE7RUFkeEI7TUFrQk0sYUFBYTtNQUNiLHNCQUFzQixFQUFBIiwiZmlsZSI6InNyYy9hcHAvcGFnZXMvZXZlbnRzL2V2ZW50cy5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIiNldmVudHMge1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuXHJcbiAgI2V2ZW50IHtcclxuICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICBmbGV4LWRpcmVjdGlvbjogcm93O1xyXG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG5cclxuICAgICNldmVudC1pbWFnZSB7XHJcbiAgICAgIGhlaWdodDogMTAwcHg7XHJcbiAgICAgIHdpZHRoOiAxMDBweDtcclxuXHJcbiAgICAgIGJvcmRlci1yYWRpdXM6IDUwJTtcclxuICAgIH1cclxuXHJcbiAgICAjdGl0bGUtY29udGFpbmVyIHtcclxuICAgICAgZGlzcGxheTogZmxleDtcclxuICAgICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICAgIH1cclxuICB9XHJcbn0iXX0= */"
 
 /***/ }),
 
