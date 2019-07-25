@@ -17,7 +17,7 @@ router.route('/')
       `)
       .then((query) => {
         const rows = query.rows;
-        return response.status(200).json({ rows });
+        return response.status(200).send(rows);
       })
       .catch((error) => {
         console.log(error);
