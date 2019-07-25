@@ -356,7 +356,7 @@ var EventsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"home\">\n      <div class=\"oswald\">\n        Welcome!\n      </div>\n      <div class=\"roboto\">\n        Please select an event. If no events are available, contact administrator for access.\n      </div>\n      <div id=\"events-container\">\n        <div class=\"event event\" *ngFor=\"let event of events | async\">\n          <img src={{event.url}} alt={{event.description}} class=\"event-icon\">\n          <div class=\"event-description\">\n            {{ event.description }}\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"home\">\n      <div class=\"oswald\">\n        Welcome!\n      </div>\n      <div class=\"roboto\">\n        Please select an event. If no events are available, contact administrator for access.\n      </div>\n      <div id=\"events-container\">\n        <div class=\"event event\" *ngFor=\"let event of events | async\" (click)=\"navigateTo(event.id)\">\n          <img src={{event.url}} alt={{event.description}} class=\"event-icon\">\n          <div class=\"roboto\">\n            {{ event.description }}\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -367,7 +367,7 @@ module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <d
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "#home {\n  display: flex;\n  flex-direction: column; }\n  #home .oswald {\n    font-size: 24px;\n    font-weight: bold; }\n  #home #events-container {\n    display: flex;\n    flex-direction: row;\n    flex-wrap: wrap; }\n  #home #events-container .event {\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      height: 120px;\n      width: 100px; }\n  #home #events-container .event .event-icon {\n        height: auto;\n        width: 100%; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFnZXMvaG9tZS9DOlxcVXNlcnNcXEtpIEp1bmcgS2ltXFxEZXNrdG9wXFxQcm9qZWN0c1xcbWVzc2VuZ2VyLWRhc2hib2FyZC1mcm9udGVuZC9zcmNcXGFwcFxccGFnZXNcXGhvbWVcXGhvbWUuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxhQUFhO0VBQ2Isc0JBQXNCLEVBQUE7RUFGeEI7SUFLSSxlQUFlO0lBQ2YsaUJBQWlCLEVBQUE7RUFOckI7SUFVSSxhQUFhO0lBQ2IsbUJBQW1CO0lBQ25CLGVBQWUsRUFBQTtFQVpuQjtNQWVNLGFBQWE7TUFDYixzQkFBc0I7TUFDdEIsbUJBQW1CO01BRW5CLGFBQWE7TUFDYixZQUFZLEVBQUE7RUFwQmxCO1FBdUJRLFlBQVk7UUFDWixXQUFXLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9wYWdlcy9ob21lL2hvbWUuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIjaG9tZSB7XHJcbiAgZGlzcGxheTogZmxleDtcclxuICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xyXG5cclxuICAub3N3YWxkIHtcclxuICAgIGZvbnQtc2l6ZTogMjRweDtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG4gIH1cclxuXHJcbiAgI2V2ZW50cy1jb250YWluZXIge1xyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XHJcbiAgICBmbGV4LXdyYXA6IHdyYXA7XHJcblxyXG4gICAgLmV2ZW50IHtcclxuICAgICAgZGlzcGxheTogZmxleDtcclxuICAgICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuXHJcbiAgICAgIGhlaWdodDogMTIwcHg7XHJcbiAgICAgIHdpZHRoOiAxMDBweDtcclxuXHJcbiAgICAgIC5ldmVudC1pY29uIHtcclxuICAgICAgICBoZWlnaHQ6IGF1dG87XHJcbiAgICAgICAgd2lkdGg6IDEwMCU7XHJcbiAgICAgIH1cclxuICAgIH1cclxuICB9XHJcbn0iXX0= */"
+module.exports = "#home {\n  display: flex;\n  flex-direction: column; }\n  #home .oswald {\n    font-size: 24px;\n    font-weight: bold; }\n  #home #events-container {\n    display: flex;\n    flex-direction: row;\n    flex-wrap: wrap; }\n  #home #events-container .event {\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      height: 120px;\n      width: 100px;\n      margin: 8px; }\n  #home #events-container .event .event-icon {\n        height: auto;\n        width: 100%; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFnZXMvaG9tZS9DOlxcVXNlcnNcXEtpIEp1bmcgS2ltXFxEZXNrdG9wXFxQcm9qZWN0c1xcbWVzc2VuZ2VyLWRhc2hib2FyZC1mcm9udGVuZC9zcmNcXGFwcFxccGFnZXNcXGhvbWVcXGhvbWUuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxhQUFhO0VBQ2Isc0JBQXNCLEVBQUE7RUFGeEI7SUFLSSxlQUFlO0lBQ2YsaUJBQWlCLEVBQUE7RUFOckI7SUFVSSxhQUFhO0lBQ2IsbUJBQW1CO0lBQ25CLGVBQWUsRUFBQTtFQVpuQjtNQWVNLGFBQWE7TUFDYixzQkFBc0I7TUFDdEIsbUJBQW1CO01BRW5CLGFBQWE7TUFDYixZQUFZO01BRVosV0FBVyxFQUFBO0VBdEJqQjtRQXlCUSxZQUFZO1FBQ1osV0FBVyxFQUFBIiwiZmlsZSI6InNyYy9hcHAvcGFnZXMvaG9tZS9ob21lLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiI2hvbWUge1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuXHJcbiAgLm9zd2FsZCB7XHJcbiAgICBmb250LXNpemU6IDI0cHg7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDtcclxuICB9XHJcblxyXG4gICNldmVudHMtY29udGFpbmVyIHtcclxuICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICBmbGV4LWRpcmVjdGlvbjogcm93O1xyXG4gICAgZmxleC13cmFwOiB3cmFwO1xyXG5cclxuICAgIC5ldmVudCB7XHJcbiAgICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XHJcbiAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcblxyXG4gICAgICBoZWlnaHQ6IDEyMHB4O1xyXG4gICAgICB3aWR0aDogMTAwcHg7XHJcblxyXG4gICAgICBtYXJnaW46IDhweDtcclxuXHJcbiAgICAgIC5ldmVudC1pY29uIHtcclxuICAgICAgICBoZWlnaHQ6IGF1dG87XHJcbiAgICAgICAgd2lkdGg6IDEwMCU7XHJcbiAgICAgIH1cclxuICAgIH1cclxuICB9XHJcbn0iXX0= */"
 
 /***/ }),
 
@@ -384,12 +384,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services_events_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/events.service */ "./src/app/services/events.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
 
 
 
 var HomeComponent = /** @class */ (function () {
-    function HomeComponent(eventsService) {
+    function HomeComponent(eventsService, router) {
         this.eventsService = eventsService;
+        this.router = router;
     }
     HomeComponent.prototype.ngOnInit = function () {
         this.events = this.getEvents();
@@ -397,13 +400,18 @@ var HomeComponent = /** @class */ (function () {
     HomeComponent.prototype.getEvents = function () {
         return this.eventsService.getEvents();
     };
+    HomeComponent.prototype.navigateTo = function (eventId) {
+        console.log(eventId);
+        return this.router.navigateByUrl('/events/' + eventId);
+    };
     HomeComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-home',
             template: __webpack_require__(/*! ./home.component.html */ "./src/app/pages/home/home.component.html"),
             styles: [__webpack_require__(/*! ./home.component.scss */ "./src/app/pages/home/home.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_events_service__WEBPACK_IMPORTED_MODULE_2__["EventsService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_events_service__WEBPACK_IMPORTED_MODULE_2__["EventsService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
     ], HomeComponent);
     return HomeComponent;
 }());

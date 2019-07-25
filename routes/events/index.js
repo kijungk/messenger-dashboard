@@ -7,6 +7,7 @@ router.route('/')
   .get((request, response) => {
     return knex.raw(`
         SELECT
+          events.id,
           events.description,
           icons.url
         FROM
