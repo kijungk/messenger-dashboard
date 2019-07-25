@@ -199,7 +199,7 @@ module.exports = "<div id=\"footer\">\n  <div id=\"footer-container\" class=\"os
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "#footer {\n  height: 20px;\n  width: 100%;\n  background-color: #222233; }\n  #footer #footer-container {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    color: aliceblue; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9mb290ZXIvQzpcXFVzZXJzXFxLaSBKdW5nIEtpbVxcRGVza3RvcFxcUHJvamVjdHNcXG1lc3Nlbmdlci1kYXNoYm9hcmQtZnJvbnRlbmQvc3JjXFxhcHBcXGNvbXBvbmVudHNcXGZvb3RlclxcZm9vdGVyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsWUFBWTtFQUNaLFdBQVc7RUFFWCx5QkFBeUIsRUFBQTtFQUozQjtJQU9JLGFBQWE7SUFDYixtQkFBbUI7SUFDbkIsdUJBQXVCO0lBQ3ZCLGdCQUFnQixFQUFBIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9mb290ZXIvZm9vdGVyLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiI2Zvb3RlciB7XHJcbiAgaGVpZ2h0OiAyMHB4O1xyXG4gIHdpZHRoOiAxMDAlO1xyXG5cclxuICBiYWNrZ3JvdW5kLWNvbG9yOiAjMjIyMjMzO1xyXG5cclxuICAjZm9vdGVyLWNvbnRhaW5lciB7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xyXG4gICAgY29sb3I6IGFsaWNlYmx1ZTtcclxuICB9XHJcbn0iXX0= */"
+module.exports = "#footer {\n  height: 24px;\n  width: 100%;\n  background-color: #222233; }\n  #footer #footer-container {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    color: aliceblue; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9mb290ZXIvQzpcXFVzZXJzXFxLaSBKdW5nIEtpbVxcRGVza3RvcFxcUHJvamVjdHNcXG1lc3Nlbmdlci1kYXNoYm9hcmQtZnJvbnRlbmQvc3JjXFxhcHBcXGNvbXBvbmVudHNcXGZvb3RlclxcZm9vdGVyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsWUFBWTtFQUNaLFdBQVc7RUFFWCx5QkFBeUIsRUFBQTtFQUozQjtJQU9JLGFBQWE7SUFDYixtQkFBbUI7SUFDbkIsdUJBQXVCO0lBQ3ZCLGdCQUFnQixFQUFBIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9mb290ZXIvZm9vdGVyLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiI2Zvb3RlciB7XHJcbiAgaGVpZ2h0OiAyNHB4O1xyXG4gIHdpZHRoOiAxMDAlO1xyXG5cclxuICBiYWNrZ3JvdW5kLWNvbG9yOiAjMjIyMjMzO1xyXG5cclxuICAjZm9vdGVyLWNvbnRhaW5lciB7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xyXG4gICAgY29sb3I6IGFsaWNlYmx1ZTtcclxuICB9XHJcbn0iXX0= */"
 
 /***/ }),
 
@@ -300,7 +300,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"events\">\n      EVENTS WORK\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"events\">\n      <div>\n        {{event.description | async}}\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -327,12 +327,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EventsComponent", function() { return EventsComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_services_events_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/events.service */ "./src/app/services/events.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
+
 
 
 var EventsComponent = /** @class */ (function () {
-    function EventsComponent() {
+    function EventsComponent(eventsService, route) {
+        this.eventsService = eventsService;
+        this.route = route;
     }
     EventsComponent.prototype.ngOnInit = function () {
+        this.id = this.route.snapshot.params.id;
+        this.event = this.getEvent(this.id);
+    };
+    EventsComponent.prototype.getEvent = function (id) {
+        return this.eventsService.getEvent(id);
     };
     EventsComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -340,7 +351,8 @@ var EventsComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./events.component.html */ "./src/app/pages/events/events.component.html"),
             styles: [__webpack_require__(/*! ./events.component.scss */ "./src/app/pages/events/events.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_events_service__WEBPACK_IMPORTED_MODULE_2__["EventsService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
     ], EventsComponent);
     return EventsComponent;
 }());
@@ -498,6 +510,9 @@ var EventsService = /** @class */ (function () {
     }
     EventsService.prototype.getEvents = function () {
         return this.http.get(this.eventsUrl);
+    };
+    EventsService.prototype.getEvent = function (id) {
+        return this.http.get(this.eventsUrl + ("/" + id));
     };
     EventsService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
