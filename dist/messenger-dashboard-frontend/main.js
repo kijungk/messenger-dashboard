@@ -451,7 +451,7 @@ var HomeComponent = /** @class */ (function () {
         this.eventsService = eventsService;
     }
     HomeComponent.prototype.ngOnInit = function () {
-        this.events = this.getEvents();
+        this.events = this.getEvents()['rows'];
     };
     HomeComponent.prototype.getEvents = function () {
         return this.eventsService.getEvents();
