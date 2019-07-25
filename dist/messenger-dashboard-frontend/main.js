@@ -341,6 +341,7 @@ var EventsComponent = /** @class */ (function () {
     EventsComponent.prototype.ngOnInit = function () {
         this.id = this.route.snapshot.params.id;
         this.event = this.getEvent(this.id);
+        console.log(this.event);
     };
     EventsComponent.prototype.getEvent = function (id) {
         return this.eventsService.getEvent(id);
