@@ -415,7 +415,7 @@ var EventsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"home\" class=\"page\">\n  <div class=\"oswald\">\n    Welcome!\n  </div>\n  <div class=\"roboto\">\n    Please select an event to manage. If no events are available, you may require permissions to access them.\n  </div>\n  <div class=\"row-container\">\n    <div class=\"event\" *ngFor=\"let event of events | async\">\n      <img src={{event.url}} alt={{event.description}} class=\"event-icon\">\n      <div class=\"event-description\">\n        {{ event.description }}\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div id=\"home\" class=\"page\">\n  <div class=\"oswald\">\n    Welcome!\n  </div>\n  <div class=\"roboto\">\n    Please select an event to manage. If no events are available, you may require permissions to access them.\n  </div>\n  <div class=\"row-container\">\n    <div class=\"event column-container\" *ngFor=\"let event of events | async\">\n      <img src={{event.url}} alt={{event.description}} class=\"event-icon\">\n      <div class=\"event-description\">\n        {{ event.description }}\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -426,7 +426,7 @@ module.exports = "<div id=\"home\" class=\"page\">\n  <div class=\"oswald\">\n  
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "#home {\n  color: #363F4A; }\n  #home .oswald {\n    font-size: 30px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFnZXMvaG9tZS9DOlxcVXNlcnNcXEtpIEp1bmcgS2ltXFxEZXNrdG9wXFxQcm9qZWN0c1xcbWVzc2VuZ2VyLWRhc2hib2FyZC1mcm9udGVuZC9zcmNcXGFwcFxccGFnZXNcXGhvbWVcXGhvbWUuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxjQUFjLEVBQUE7RUFEaEI7SUFJSSxlQUFlLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9wYWdlcy9ob21lL2hvbWUuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIjaG9tZSB7XHJcbiAgY29sb3I6ICMzNjNGNEE7XHJcblxyXG4gIC5vc3dhbGQge1xyXG4gICAgZm9udC1zaXplOiAzMHB4O1xyXG4gIH1cclxufSJdfQ== */"
+module.exports = "#home {\n  color: #363F4A; }\n  #home .oswald {\n    font-size: 30px; }\n  #home .row-container .column-container {\n    align-items: center;\n    justify-content: center; }\n  #home .row-container .event {\n    width: 100px;\n    height: 200px; }\n  #home .row-container .event .event-icon {\n      width: 100%;\n      height: auto; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFnZXMvaG9tZS9DOlxcVXNlcnNcXEtpIEp1bmcgS2ltXFxEZXNrdG9wXFxQcm9qZWN0c1xcbWVzc2VuZ2VyLWRhc2hib2FyZC1mcm9udGVuZC9zcmNcXGFwcFxccGFnZXNcXGhvbWVcXGhvbWUuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxjQUFjLEVBQUE7RUFEaEI7SUFJSSxlQUFlLEVBQUE7RUFKbkI7SUFTTSxtQkFBbUI7SUFDbkIsdUJBQXVCLEVBQUE7RUFWN0I7SUFjTSxZQUFZO0lBQ1osYUFBYSxFQUFBO0VBZm5CO01Ba0JRLFdBQVc7TUFDWCxZQUFZLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9wYWdlcy9ob21lL2hvbWUuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIjaG9tZSB7XHJcbiAgY29sb3I6ICMzNjNGNEE7XHJcblxyXG4gIC5vc3dhbGQge1xyXG4gICAgZm9udC1zaXplOiAzMHB4O1xyXG4gIH1cclxuXHJcbiAgLnJvdy1jb250YWluZXIge1xyXG4gICAgLmNvbHVtbi1jb250YWluZXIge1xyXG4gICAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG4gICAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcclxuICAgIH1cclxuXHJcbiAgICAuZXZlbnQge1xyXG4gICAgICB3aWR0aDogMTAwcHg7XHJcbiAgICAgIGhlaWdodDogMjAwcHg7XHJcblxyXG4gICAgICAuZXZlbnQtaWNvbiB7XHJcbiAgICAgICAgd2lkdGg6IDEwMCU7XHJcbiAgICAgICAgaGVpZ2h0OiBhdXRvO1xyXG4gICAgICB9XHJcbiAgICB9XHJcbiAgfVxyXG59Il19 */"
 
 /***/ }),
 
