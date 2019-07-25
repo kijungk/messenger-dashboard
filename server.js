@@ -27,7 +27,7 @@ app.use(express.static(__dirname + '/dist/messenger-dashboard-frontend'));
 app.use('/api', routes);
 
 app.get('*', (request, response) => {
-  response.sendFile(__dirname + '/dist/facebook-frontend/index.html', (err) => {
+  response.sendFile(__dirname + '/dist/messenger-dashboard-frontend/index.html', (err) => {
     if (err) {
       response.status(500).json(err);
     }
