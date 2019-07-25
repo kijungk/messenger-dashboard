@@ -300,7 +300,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"events\">\n      <div>\n        {{event.description | async}}\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"events\">\n      <div *ngIf=\"event | async\">\n        {{event.description}}\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
