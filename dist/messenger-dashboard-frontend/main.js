@@ -47,7 +47,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var routes = [
     { path: '', component: _pages_home_home_component__WEBPACK_IMPORTED_MODULE_3__["HomeComponent"] },
-    { path: 'events', component: _pages_events_events_component__WEBPACK_IMPORTED_MODULE_4__["EventsComponent"] },
+    { path: 'events/:id', component: _pages_events_events_component__WEBPACK_IMPORTED_MODULE_4__["EventsComponent"] },
     { path: '**', component: _pages_not_found_not_found_component__WEBPACK_IMPORTED_MODULE_5__["NotFoundComponent"] }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -401,7 +401,6 @@ var HomeComponent = /** @class */ (function () {
         return this.eventsService.getEvents();
     };
     HomeComponent.prototype.navigateTo = function (eventId) {
-        console.log(eventId);
         return this.router.navigateByUrl('/events/' + eventId);
     };
     HomeComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
