@@ -47,7 +47,8 @@ router.route('/')
         senderId = event.sender.id,
         access_token = processEntryId(entryId);
 
-      knex('users').where({ facebook_id: senderId })
+      knex('users')
+        .where({ facebook_id: senderId })
         .then((result) => {
           let
             userId,
@@ -75,6 +76,10 @@ router.route('/')
               })
               .then((result) => {
                 userId = result[0];
+
+                payload = assignPayload(event);
+
+                return processPayload(access_token, entryId, userId, payload, senderId, response);
               })
               .catch((error) => {
                 //Todo error log
