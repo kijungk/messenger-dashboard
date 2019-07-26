@@ -6,7 +6,7 @@ exports.up = function(knex) {
     table.integer('event_id');
     table.foreign('event_id').references('id').inTable('events');
     table.integer('coupon_type_id');
-    table.integer('coupon_type_id').references('id').inTable('coupon_types');
+    table.foreign('coupon_type_id').references('id').inTable('coupon_types');
     table.timestamps(true, true);
   });
 };
