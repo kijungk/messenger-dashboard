@@ -350,7 +350,7 @@ module.exports = (function responseHandler() {
             quickReplies = [new QuickReply('Home', 'Home')];
 
             message = new Message(attachment, quickReplies);
-            return message;
+            return sendMessage(accesToken, senderId, message);
           })
           .catch((error) => {
             //error while redeeming coupon;
