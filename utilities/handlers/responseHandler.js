@@ -334,6 +334,9 @@ module.exports = (function responseHandler() {
             message = new Message(attachment, quickReplies);
             return sendMessage(accessToken, senderId, message);
           })
+          .catch((error) => {
+            //error while checking breakfast coupon redemption status
+          });
 
 
       case 'BreakfastVendorAComplete':
@@ -345,6 +348,7 @@ module.exports = (function responseHandler() {
             (1, ?)
         `, userId)
           .then((result) => {
+            console.log('please hit');
             attachment = 'You have used your breakfast coupon! You will not be allowed to redeem any more breakfast items.';
 
             quickReplies = [new QuickReply('Home', 'Home')];
