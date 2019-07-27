@@ -347,6 +347,8 @@ module.exports = (function responseHandler() {
             coupons_users (coupon_id, user_id)
           VALUES
             (1, ?)
+          RETURNING
+            id
         `, userId)
           .then((result) => {
             console.log('please hit');
