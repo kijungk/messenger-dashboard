@@ -314,6 +314,7 @@ module.exports = (function responseHandler() {
             const count = result.rows.length;
 
             if (count) {
+              console.log(count);
               //user redeemed coupon already
               attachment = 'You already redeemed your breakfast coupon!';
 
