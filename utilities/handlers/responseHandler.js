@@ -300,7 +300,6 @@ module.exports = (function responseHandler() {
 
       case 'BreakfastVendorAConfirmation':
         //check coupon count in coupons_users; if > 0, send different message.
-        console.log(userId);
         return knex.raw(`
           SELECT
             *
@@ -313,13 +312,11 @@ module.exports = (function responseHandler() {
         `, [userId])
           .then((result) => {
             const count = result.rows.length;
-            console.log(count);
             if (count) {
-              console.log(count);
               //user redeemed coupon already
               attachment = 'You already redeemed your breakfast coupon!';
 
-              quickReplies = [new QuickReply('Back', 'BreakfastMenu'), new QuickReply('Home', 'Home')];
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
               message = new Message(attachment, quickReplies);
               return sendMessage(accessToken, senderId, message);
