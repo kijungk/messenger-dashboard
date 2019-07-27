@@ -312,7 +312,7 @@ module.exports = (function responseHandler() {
         `, userId)
           .then((result) => {
             const count = result.rows.length;
-
+            console.log(count);
             if (count) {
               console.log(count);
               //user redeemed coupon already
