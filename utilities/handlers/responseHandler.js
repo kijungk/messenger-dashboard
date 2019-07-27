@@ -310,7 +310,7 @@ module.exports = (function responseHandler() {
             user_id = ?
           AND
             coupon_id = 1
-        `, userId)
+        `, [userId])
           .then((result) => {
             const count = result.rows.length;
             console.log(count);
@@ -348,7 +348,7 @@ module.exports = (function responseHandler() {
             coupons_users (coupon_id, user_id)
           VALUES
             (2, ?)
-        `, userId)
+        `, [userId])
           .then((result) => {
             attachment = 'You have used your breakfast coupon! You will not be allowed to redeem any more breakfast items.';
 
