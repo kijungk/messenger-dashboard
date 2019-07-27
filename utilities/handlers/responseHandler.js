@@ -312,10 +312,8 @@ module.exports = (function responseHandler() {
         `, userId)
           .then((result) => {
             const count = result.rows.length;
-            console.log(count);
 
             if (count) {
-              console.log('hit');
               //user redeemed coupon already
               attachment = 'You already redeemed your breakfast coupon!';
 
@@ -334,7 +332,7 @@ module.exports = (function responseHandler() {
             quickReplies = [new QuickReply('Staff Confirm', 'BreakfastVendorAComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
 
             message = new Message(attachment, quickReplies);
-            return message;
+            return sendMessage(accessToken, senderId, message);
           })
 
 
