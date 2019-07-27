@@ -346,7 +346,7 @@ module.exports = (function responseHandler() {
           INSERT INTO
             coupons_users (coupon_id, user_id)
           VALUES
-            (1, ?)
+            (2, ?)
           RETURNING
             id
         `, userId)
