@@ -259,7 +259,7 @@ module.exports = (function responseHandler() {
 
       case 'MobileOrder':
         buttons = [
-          new Button('Menu & Order', 'postback', 'MobileOrderMenu'),
+          new Button('Menu & Order', 'postback', 'MobileOrderMenus'),
           new Button('Order Status Check', 'postback', 'MobileOrderStatus')
         ];
 
@@ -270,13 +270,11 @@ module.exports = (function responseHandler() {
         message = new Message(attachment, quickReplies);
         return sendMessage(accessToken, senderId, message);
 
-      case 'MobileOrderMenu':
+      case 'MobileOrderMenus':
         elements = [
-          new Element('Food 1', 'Burgers', 'https://via.placeholder.com/1910x1000', [new Button('Menu', 'postback', 'FoodOneMenu')]),
-          new Element('Food 2', 'Pizza', 'https://via.placeholder.com/1910x1000', [new Button('Menu', 'postback', 'FoodTwoMenu')]),
-          new Element('Food 3', 'Snacks', 'https://via.placeholder.com/1910x1000', [new Button('Menu', 'postback', 'FoodThreeMenu')]),
-          new Element('Beverage 1', 'Coffee', 'https://via.placeholder.com/1910x1000', [new Button('Menu', 'postback', 'BeverageOneMenu')]),
-          new Element('Beverage 2', 'Juice', 'https://via.placeholder.com/1910x1000', [new Button('Menu', 'postback', 'BeverageTwoMenu')]),
+          new Element('Breakfast Menu', '9:00 am ~ 11:00 am', 'https://via.placeholder.com/1910x1000', [new Button('Menu', 'postback', 'BreakfastMenu')]),
+          new Element('Lunch Menu', '12:00 pm ~ 1:30 pm', 'https://via.placeholder.com/1910x1000', [new Button('Menu', 'postback', 'LunchMenu')]),
+          new Element('Beverage and Dessert', '12:00 pm ~ 5:00 pm', 'https://via.placeholder.com/1910x1000', [new Button('Menu', 'postback', 'BeverageAndDessertMenu')])
         ];
 
         attachment = new Attachment('generic', elements);
@@ -286,196 +284,83 @@ module.exports = (function responseHandler() {
         message = new Message(attachment, quickReplies);
         return sendMessage(accessToken, senderId, message);
 
-      case 'FoodOneMenu':
+      case 'BreakfastMenu':
         elements = [
-          new Element('Plain Burger', '100% organic', null, [new Button('Order', 'postback', 'FoodOneItemOne')]),
-          new Element('Cheese Burger', 'Smoked gouda', null, [new Button('Order', 'postback', 'FoodOneItemTwo')]),
-          new Element('Super Burger', 'Voted #1', null, [new Button('Order', 'postback', 'FoodOneItemTwo')]),
+          new Element('Vendor A', 'Breakfast Option 1', 'https://via.placeholder.com/1910x1000', [new Button('Order', 'postback', 'BreakfastVendorAConfirmation')]),
+          new Element('Vendor B', 'Breakfast Option 2', 'https://via.placeholder.com/1910x1000', [new Button('Order', 'postback', 'BreakfastVendorBConfirmation')]),
+          new Element('Vendor C', 'Breakfast Option 3', 'https://via.placeholder.com/1910x1000', [new Button('Order', 'postback', 'BreakfastVendorCConfirmation')])
         ];
 
-        attachment = new Attachment('list', elements, 'compact');
+        attachment = new Attachment('generic', elements);
 
-        quickReplies = [new QuickReply('Back', 'MobileOrderMenu'), new QuickReply('Home', 'Home')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
-
-      case 'FoodOneItemOne':
-        attachment = 'Confirm order for Plain Burger?';
-
-        quickReplies = [new QuickReply('Yes', 'FoodOneItemOneConfirm'), new QuickReply('No', 'FoodOneMenu')];
+        quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
         message = new Message(attachment, quickReplies);
         return sendMessage(accessToken, senderId, message);
 
-      case 'FoodOneItemOneConfirm':
-        attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
+      case 'BreakfastVendorAConfirmation':
+        //check coupon count in coupons_users; if > 0, send different message.
+        return knex.raw(`
+          SELECT
+            *
+          FROM
+            coupons_users
+          WHERE
+            user_id = ?
+          AND
+            coupon_id = 1
+        `, userId)
+          .then((result) => {
+            const count = result.rows.length;
 
-        quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
+            if (count) {
+              //user redeemed coupon already
+              attachment = 'You already redeemed your breakfast coupon!';
 
-        message = new Message(attachment, quickReplies);
+              quickReplies = [new QuickReply('Back', 'BreakfastMenu'), new QuickReply('Home', 'Home')];
 
-        appEventEmitter.emit('order', {
-          test: 'testing'
-        });
+              message = new Message(attachment, quickReplies);
+              return sendMessage(accessToken, senderId, message);
+            }
 
-        return sendMessage(accessToken, senderId, message);
+            elements = [
+              new Element('Order Completed - Redeem at Vendor A Booth', 'The confirmation button below is for staff', 'https://via.placeholder.com/1910x1000')
+            ];
 
-      case 'FoodOneItemTwo':
-        attachment = 'Confirm order for Cheese Burger?';
+            attachment = new Attachment('generic', elements);
 
-        quickReplies = [new QuickReply('Yes', 'FoodOneItemTwoConfirm'), new QuickReply('No', 'FoodOneMenu')];
+            quickReplies = [new QuickReply('Staff Confirm', 'BreakfastVendorAComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
 
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
+            message = new Message(attachment, quickReplies);
+            return message;
+          })
 
-      case 'FoodOneItemTwoConfirm':
-        attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
 
-        quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
+      case 'BreakfastVendorAComplete':
+        //insert into coupons (userId/couponId);
+        return knex.raw(`
+          INSERT INTO
+            coupons_users (coupon_id, user_id)
+          VALUES
+            (1, ?)
+        `, userId)
+          .then((result) => {
+            attachment = 'You have used your breakfast coupon! You will not be allowed to redeem any more breakfast items.';
 
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
+            quickReplies = [new QuickReply('Home', 'Home')];
 
-      case 'FoodOneItemThree':
-        attachment = 'Confirm order for Super Burger?';
+            message = new Message(attachment, quickReplies);
+            return message;
+          })
+          .catch((error) => {
+            //error while redeeming coupon;
+          });
 
-        quickReplies = [new QuickReply('Yes', 'FoodOneItemThreeConfirm'), new QuickReply('No', 'FoodOneMenu')];
 
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
 
-      case 'FoodOneItemThreeConfirm':
-        attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
 
-        quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
 
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
 
-      case 'FoodTwoMenu':
-        elements = [
-          new Element('Pepperoni Pizza', 'Aged pepperoni', null, [new Button('Order', 'postback', 'FoodTwoItemOne')]),
-          new Element('Cheese Pizza', 'Melted Mozzarella', null, [new Button('Order', 'postback', 'FoodTwoItemTwo')]),
-          new Element('Supreme Pizza', 'Loaded 100%', null, [new Button('Order', 'postback', 'FoodTwoItemTwo')]),
-        ];
-
-        attachment = new Attachment('list', elements, 'compact');
-
-        quickReplies = [new QuickReply('Back', 'MobileOrderMenu'), new QuickReply('Home', 'Home')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
-
-      case 'FoodOTwoItemOne':
-        attachment = 'Confirm order for Pepperoni Pizza?';
-
-        quickReplies = [new QuickReply('Yes', 'FoodTwoItemOneConfirm'), new QuickReply('No', 'FoodTwoMenu')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
-
-      case 'FoodTwoItemOneConfirm':
-        attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
-
-        quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
-
-      case 'FoodTwoItemTwo':
-        attachment = 'Confirm order for Cheese Pizza?';
-
-        quickReplies = [new QuickReply('Yes', 'FoodTwoItemTwoConfirm'), new QuickReply('No', 'FoodTwoMenu')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
-
-      case 'FoodTwoItemTwoConfirm':
-        attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
-
-        quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
-
-      case 'FoodTwoItemThree':
-        attachment = 'Confirm order for Supreme Pizza?';
-
-        quickReplies = [new QuickReply('Yes', 'FoodTwoItemThreeConfirm'), new QuickReply('No', 'FoodTwoMenu')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
-
-      case 'FoodTwoItemThreeConfirm':
-        attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
-
-        quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
-
-      case 'FoodThreeMenu':
-        elements = [
-          new Element('Chips & Dip', 'Homemade', null, [new Button('Order', 'postback', 'FoodThreeItemOne')]),
-          new Element('Pretzel Bites', 'Buttery & fluffy', null, [new Button('Order', 'postback', 'FoodThreeItemTwo')]),
-          new Element('Icecream', 'Velvety smooth', null, [new Button('Order', 'postback', 'FoodThreeItemTwo')]),
-        ];
-
-        attachment = new Attachment('list', elements, 'compact');
-
-        quickReplies = [new QuickReply('Back', 'MobileOrderMenu'), new QuickReply('Home', 'Home')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
-
-      case 'FoodOThreeItemOne':
-        attachment = 'Confirm order for Chips & Dip?';
-
-        quickReplies = [new QuickReply('Yes', 'FoodThreeItemOneConfirm'), new QuickReply('No', 'FoodThreeMenu')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
-
-      case 'FoodThreeItemOneConfirm':
-        attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
-
-        quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
-
-      case 'FoodThreeItemTwo':
-        attachment = 'Confirm order for Pretzel Bites?';
-
-        quickReplies = [new QuickReply('Yes', 'FoodThreeItemTwoConfirm'), new QuickReply('No', 'FoodThreeMenu')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
-
-      case 'FoodThreeItemTwoConfirm':
-        attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
-
-        quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
-
-      case 'FoodThreeItemThree':
-        attachment = 'Confirm order for Icecream?';
-
-        quickReplies = [new QuickReply('Yes', 'FoodThreeItemThreeConfirm'), new QuickReply('No', 'FoodThreeMenu')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
-
-      case 'FoodThreeItemThreeConfirm':
-        attachment = 'Thank you for your order.\n\nYou can check the status of your order in the Mobile Order menu.\n\nWhen the dish is prepared, you\'ll receive a Push Notification from this page';
-
-        quickReplies = [new QuickReply('Mobile Order', 'MobileOrder'), new QuickReply('Home', 'Home')];
-
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
 
       case 'MobileOrderStatus':
 
