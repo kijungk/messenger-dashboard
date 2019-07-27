@@ -361,6 +361,7 @@ module.exports = (function responseHandler() {
           })
           .catch((error) => {
             //error while redeeming coupon;
+            console.log(error);
           });
 
 
