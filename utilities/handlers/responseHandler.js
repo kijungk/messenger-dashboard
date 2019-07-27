@@ -341,6 +341,7 @@ module.exports = (function responseHandler() {
 
       case 'BreakfastVendorAComplete':
         //insert into coupons (userId/couponId);
+        console.log('outer hit');
         return knex.raw(`
           INSERT INTO
             coupons_users (coupon_id, user_id)
