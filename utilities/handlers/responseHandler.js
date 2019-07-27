@@ -309,7 +309,7 @@ module.exports = (function responseHandler() {
           WHERE
             user_id = ?
           AND
-            coupon_id = 1
+            coupon_id = 2
         `, [userId])
           .then((result) => {
             const count = result.rows.length;
