@@ -341,23 +341,19 @@ module.exports = (function responseHandler() {
 
       case 'BreakfastVendorAComplete':
         //insert into coupons (userId/couponId);
-        console.log('outer hit');
         return knex.raw(`
           INSERT INTO
             coupons_users (coupon_id, user_id)
           VALUES
             (2, ?)
-          RETURNING
-            id
         `, userId)
           .then((result) => {
-            console.log('please hit');
             attachment = 'You have used your breakfast coupon! You will not be allowed to redeem any more breakfast items.';
 
             quickReplies = [new QuickReply('Home', 'Home')];
 
             message = new Message(attachment, quickReplies);
-            return sendMessage(accesToken, senderId, message);
+            return sendMessage(accessToken, senderId, message);
           })
           .catch((error) => {
             //error while redeeming coupon;
