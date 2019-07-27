@@ -300,6 +300,7 @@ module.exports = (function responseHandler() {
 
       case 'BreakfastVendorAConfirmation':
         //check coupon count in coupons_users; if > 0, send different message.
+        console.log(userId);
         return knex.raw(`
           SELECT
             *
