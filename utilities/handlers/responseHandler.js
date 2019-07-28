@@ -302,10 +302,8 @@ module.exports = (function responseHandler() {
         //check coupon count in coupons_users; if > 0, send different message.
         return getRedeemedCoupons(knex, 'Breakfast', 'FMS 2019', userId)
           .then((result) => {
-            console.log(result);
             const count = result.rows.length;
             if (count) {
-              console.log(count, 'HIT');
               //user redeemed coupon already
               attachment = 'You already redeemed your breakfast coupon!';
 
@@ -334,13 +332,9 @@ module.exports = (function responseHandler() {
 
       case 'BreakfastVendorAComplete':
         //insert into coupons (userId/couponId);
-        return knex.raw(`
-          INSERT INTO
-            coupons_users (coupon_id, user_id)
-          VALUES
-            (2, ?)
-        `, [userId])
+        return redeemCoupon(knex, 'Breakfast', 'FMS 2019', userId)
           .then((result) => {
+            console.log('hit');
             attachment = 'You have used your breakfast coupon! You will not be allowed to redeem any more breakfast items.';
 
             quickReplies = [new QuickReply('Home', 'Home')];
@@ -436,6 +430,30 @@ module.exports = (function responseHandler() {
 
         return sendMessage(accessToken, senderId, message);
     }
+  }
+
+  function redeemCoupon(knex, couponTypeDescription, eventDescription, userId) {
+    return knex.raw(`
+      INSERT INTO
+        coupons_users
+      SELECT
+        c.id,
+        :userId
+      FROM
+        coupons c
+      JOIN
+        coupon_types ct
+        ON ct.id = c.coupon_type_id
+        AND ct.description = :couponTypeDescription
+      JOIN
+        events e
+        ON e.id = c.event_id
+        AND e.description = :eventDescription
+    `, {
+        couponTypeDescription,
+        eventDescription,
+        userId
+      });
   }
 
   function getRedeemedCoupons(knex, couponTypeDescription, eventDescription, userId) {
