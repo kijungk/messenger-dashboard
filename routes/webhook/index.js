@@ -79,7 +79,7 @@ router.route('/')
 
                 payload = assignPayload(event);
 
-                return processPayload(access_token, entryId, userId, payload, senderId, response);
+                return processPayload(access_token, entryId, userId, payload, senderId);
               })
               .catch((error) => {
                 //Todo error log
@@ -91,7 +91,7 @@ router.route('/')
 
           payload = assignPayload(event);
 
-          return processPayload(access_token, entryId, userId, payload, senderId, response);
+          return processPayload(access_token, entryId, userId, payload, senderId);
         })
         .catch((error) => {
           //Todo error log

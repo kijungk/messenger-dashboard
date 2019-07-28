@@ -300,19 +300,11 @@ module.exports = (function responseHandler() {
 
       case 'BreakfastVendorAConfirmation':
         //check coupon count in coupons_users; if > 0, send different message.
-        return knex.raw(`
-          SELECT
-            *
-          FROM
-            coupons_users
-          WHERE
-            user_id = ?
-          AND
-            coupon_id = 2
-        `, [userId])
+        return getRedeemedCoupons(knex, 'Breakfast', 'FMS 2019', userId)
           .then((result) => {
             const count = result.rows.length;
             if (count) {
+              console.log(count, 'HIT');
               //user redeemed coupon already
               attachment = 'You already redeemed your breakfast coupon!';
 
@@ -442,6 +434,32 @@ module.exports = (function responseHandler() {
 
         return sendMessage(accessToken, senderId, message);
     }
+  }
+
+  function getRedeemedCoupons(knex, couponTypeDescription, eventDescription, userId) {
+    return knex.raw(`
+      SELECT
+        *
+      FROM
+        coupons_users cu
+      JOIN
+        coupons c
+        ON c.id = coupons_users.id
+      JOIN
+        coupon_types ct
+        ON ct.id = c.coupon_type_id
+        AND ct.description = :couponTypeDescription
+      JOIN
+        events e
+        ON e.id = c.event_id
+        AND e.description = :eventDescription
+      WHERE
+        user_id = :userId
+    `, {
+        couponTypeDescription,
+        eventDescription,
+        userId
+      });
   }
 
   return {
