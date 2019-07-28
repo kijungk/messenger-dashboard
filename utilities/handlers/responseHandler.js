@@ -329,7 +329,6 @@ module.exports = (function responseHandler() {
             //error while checking breakfast coupon redemption status
           });
 
-
       case 'BreakfastVendorAComplete':
         //insert into coupons (userId/couponId);
         return redeemCoupon(knex, 'Breakfast', 'FMS 2019', userId)
@@ -435,7 +434,7 @@ module.exports = (function responseHandler() {
   function redeemCoupon(knex, couponTypeDescription, eventDescription, userId) {
     return knex.raw(`
       INSERT INTO
-        coupons_users
+        coupons_users (coupon_id, user_id)
       SELECT
         c.id,
         :userId
