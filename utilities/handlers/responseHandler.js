@@ -445,7 +445,7 @@ module.exports = (function responseHandler() {
         coupons_users cu
       JOIN
         coupons c
-        ON c.id = coupons_users.id
+        ON c.id = cu.id
       JOIN
         coupon_types ct
         ON ct.id = c.coupon_type_id
@@ -455,7 +455,7 @@ module.exports = (function responseHandler() {
         ON e.id = c.event_id
         AND e.description = :eventDescription
       WHERE
-        user_id = :userId
+        cu.user_id = :userId
     `, {
         couponTypeDescription,
         eventDescription,
