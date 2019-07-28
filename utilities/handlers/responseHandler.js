@@ -302,6 +302,7 @@ module.exports = (function responseHandler() {
         //check coupon count in coupons_users; if > 0, send different message.
         return getRedeemedCoupons(knex, 'Breakfast', 'FMS 2019', userId)
           .then((result) => {
+            console.log(result);
             const count = result.rows.length;
             if (count) {
               console.log(count, 'HIT');
