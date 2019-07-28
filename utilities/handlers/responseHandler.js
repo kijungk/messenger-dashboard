@@ -446,7 +446,7 @@ module.exports = (function responseHandler() {
         coupons_users cu
       JOIN
         coupons c
-        ON c.id = cu.id
+        ON c.id = cu.coupon_id
       JOIN
         coupon_types ct
         ON ct.id = c.coupon_type_id
