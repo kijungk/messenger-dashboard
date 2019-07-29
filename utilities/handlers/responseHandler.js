@@ -285,6 +285,10 @@ module.exports = (function responseHandler() {
         return sendMessage(accessToken, senderId, message);
 
       case 'BreakfastMenu':
+        let buttonTitle;
+
+        //check if count > 0; buttonTitle = Completed, Order
+
         elements = [
           new Element('Vendor A', 'Breakfast Option 1', 'https://via.placeholder.com/1910x1000', [new Button('Order', 'postback', 'BreakfastVendorAConfirmation')]),
           new Element('Vendor B', 'Breakfast Option 2', 'https://via.placeholder.com/1910x1000', [new Button('Order', 'postback', 'BreakfastVendorBConfirmation')]),
@@ -331,7 +335,10 @@ module.exports = (function responseHandler() {
 
       case 'BreakfastVendorAComplete':
         //insert into coupons (userId/couponId);
-        return redeemCoupon(knex, 'Breakfast', 'FMS 2019', userId)
+        return decreaseInventory(knex, 'Vendor A', 'FMS 2019', 'Breakfast Option 1')
+          .then(() => {
+            return redeemCoupon(knex, 'Breakfast', 'FMS 2019', userId)
+          })
           .then((result) => {
             attachment = 'You have used your breakfast coupon! You will not be allowed to redeem any more breakfast items.';
 
@@ -428,6 +435,27 @@ module.exports = (function responseHandler() {
 
         return sendMessage(accessToken, senderId, message);
     }
+  }
+
+  function decreaseInventory(knex, vendorDescription, eventDescription, productDescription) {
+    return knex.raw(`
+      UPDATE
+        p
+      SET
+        p.inventory = p.inventory - 1
+      FROM
+        products AS p
+      JOIN
+        vendors v
+        ON v.id = p.vendor_id
+        AND v.description = :vendorDescription
+      JOIN
+        events e
+        ON e.id = v.event_id
+        AND e.description = :eventDescription
+      WHERE
+        p.description = :productDescription
+    `);
   }
 
   function redeemCoupon(knex, couponTypeDescription, eventDescription, userId) {
