@@ -442,7 +442,7 @@ module.exports = (function responseHandler() {
       UPDATE
         p
       SET
-        p.inventory = p.inventory - 1
+        inventory = inventory - 1
       FROM
         products AS p
       JOIN
