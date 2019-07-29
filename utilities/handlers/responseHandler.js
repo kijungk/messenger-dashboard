@@ -459,7 +459,6 @@ module.exports = (function responseHandler() {
   }
 
   function checkInventory(knex, couponTypeDescription, eventDescription) {
-    console.log('hit');
     return knex.raw(`
       SELECT
         v.description AS vendor_description,
@@ -480,7 +479,7 @@ module.exports = (function responseHandler() {
       JOIN
         coupon_types ct
         ON ct.id = c.coupon_type_id
-        AND ct.description = ':couponTypeDescription'
+        AND ct.description = :couponTypeDescription
     `, {
         couponTypeDescription,
         eventDescription
