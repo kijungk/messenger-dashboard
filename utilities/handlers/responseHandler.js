@@ -285,28 +285,53 @@ module.exports = (function responseHandler() {
         return sendMessage(accessToken, senderId, message);
 
       case 'BreakfastMenu':
-        let buttonTitle;
+        let
+          vendorAButtonTitle = 'Order',
+          vendorBButtonTitle = 'Order',
+          vendorCButtonTitle = 'Order';
+        const
+          couponTypeDescription = 'Breakfast',
+          eventDescription = 'FMS 2019';
 
-        //check if count > 0; buttonTitle = Completed, Order
+        return getRedeemedCoupons(knex, couponTypeDescription, eventDescription, userId)
+          .then((result) => {
+            const count = result.rows.length;
 
-        elements = [
-          new Element('Vendor A', 'Breakfast Option 1', 'https://via.placeholder.com/1910x1000', [new Button('Order', 'postback', 'BreakfastVendorAConfirmation')]),
-          new Element('Vendor B', 'Breakfast Option 2', 'https://via.placeholder.com/1910x1000', [new Button('Order', 'postback', 'BreakfastVendorBConfirmation')]),
-          new Element('Vendor C', 'Breakfast Option 3', 'https://via.placeholder.com/1910x1000', [new Button('Order', 'postback', 'BreakfastVendorCConfirmation')])
-        ];
+            if (count) {
+              vendorAButtonTitle = 'Coupon Redeemed';
+              vendorBButtonTitle = 'Coupon Redeemed';
+              vendorCButtonTitle = 'Coupon Redeemed';
+            }
 
-        attachment = new Attachment('generic', elements);
+            return checkInventory(knex, couponTypeDescription, eventDescription)
+          })
+          .then((result) => {
+            const { rows } = result;
 
-        quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            const elements = [];
 
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
+            rows.forEach((row) => {
+              elements.push(new Element(row.vendor_description, row.product_description, 'https://via.placeholder.com/1910x1000', [new Button(row.inventory ? 'Order' : 'Out of Stock', 'postback', 'Breakfast' + row.vendor_description.replace(/ /g, '') + 'Confirmation')]));
+            });
+
+            quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+
+            attachment = new Attachment('generic', elements);
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking for coupon redemption and inventory;
+          });
 
       case 'BreakfastVendorAConfirmation':
         //check coupon count in coupons_users; if > 0, send different message.
         return getRedeemedCoupons(knex, 'Breakfast', 'FMS 2019', userId)
           .then((result) => {
             const count = result.rows.length;
+
             if (count) {
               //user redeemed coupon already
               attachment = 'You already redeemed your breakfast coupon!';
@@ -435,6 +460,34 @@ module.exports = (function responseHandler() {
 
         return sendMessage(accessToken, senderId, message);
     }
+  }
+
+  function checkInventory(knex, couponTypeDescription, eventDescription) {
+    return knex.raw(`
+      SELECT
+        v.description AS vendor_description,
+        p.description AS product_description,
+        p.inventory
+      FROM
+        products p
+      JOIN
+        vendors v
+        ON v.id = p.vendor_id
+      JOIN
+        events e
+        ON e.id = v.event_id
+        AND e.description = :eventDescription
+      JOIN
+        coupons c
+        ON c.id = p.coupon_id
+      JOIN
+        coupon_types ct
+        ON ct.id = c.coupon_type_id
+        AND ct.description = ':couponTypeDescription'
+    `, {
+        couponTypeDescription,
+        eventDescription
+      });
   }
 
   function decreaseInventory(knex, vendorDescription, eventDescription, productDescription) {
