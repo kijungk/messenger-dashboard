@@ -446,7 +446,7 @@ module.exports = (function responseHandler() {
       WHERE
         id = (
           SELECT
-            id
+            p.id
           FROM
             products p
           JOIN
