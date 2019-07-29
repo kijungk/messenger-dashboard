@@ -333,7 +333,6 @@ module.exports = (function responseHandler() {
         //insert into coupons (userId/couponId);
         return redeemCoupon(knex, 'Breakfast', 'FMS 2019', userId)
           .then((result) => {
-            console.log('hit');
             attachment = 'You have used your breakfast coupon! You will not be allowed to redeem any more breakfast items.';
 
             quickReplies = [new QuickReply('Home', 'Home')];
