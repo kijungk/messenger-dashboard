@@ -444,8 +444,7 @@ module.exports = (function responseHandler() {
       SET
         inventory = inventory - 1
       WHERE
-        description = :productDescription
-      AND id = (
+        id = (
           SELECT
             id
           FROM
@@ -458,6 +457,8 @@ module.exports = (function responseHandler() {
             events e
             ON e.id = v.event_id
             AND e.description = :eventDescription
+          WHERE
+            p.description = :productDescription
         )
     `, {
         eventDescription,
