@@ -286,9 +286,7 @@ module.exports = (function responseHandler() {
 
       case 'BreakfastMenu':
         let
-          vendorAButtonTitle = 'Order',
-          vendorBButtonTitle = 'Order',
-          vendorCButtonTitle = 'Order';
+          couponRedeemed = false;
         const
           couponTypeDescription = 'Breakfast',
           eventDescription = 'FMS 2019';
@@ -298,9 +296,7 @@ module.exports = (function responseHandler() {
             const count = result.rows.length;
 
             if (count) {
-              vendorAButtonTitle = 'Coupon Redeemed';
-              vendorBButtonTitle = 'Coupon Redeemed';
-              vendorCButtonTitle = 'Coupon Redeemed';
+              couponRedeemed = true;
             }
 
             return checkInventory(knex, couponTypeDescription, eventDescription)
@@ -311,7 +307,7 @@ module.exports = (function responseHandler() {
             const elements = [];
 
             rows.forEach((row) => {
-              elements.push(new Element(row.vendor_description, row.product_description, 'https://via.placeholder.com/1910x1000', [new Button(row.inventory ? 'Order' : 'Out of Stock', 'postback', 'Breakfast' + row.vendor_description.replace(/ /g, '') + 'Confirmation')]));
+              elements.push(new Element(row.vendor_description, row.product_description, 'https://via.placeholder.com/1910x1000', [new Button(couponRedeemed ? 'Coupon Redeemed' : row.inventory ? 'Order' : 'Out of Stock', 'postback', 'Breakfast' + row.vendor_description.replace(/ /g, '') + 'Confirmation')]));
             });
 
             quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
