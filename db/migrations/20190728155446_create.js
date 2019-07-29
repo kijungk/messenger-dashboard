@@ -5,7 +5,7 @@ exports.up = function(knex) {
     table.string('description', 256).notNullable().unique();
     table.integer('event_id');
     table.foreign('event_id').references('id').inTable('events');
-    table.timestamps();
+    table.timestamps(true, true);
   });
 };
 
