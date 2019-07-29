@@ -444,7 +444,7 @@ module.exports = (function responseHandler() {
       SET
         p.inventory = p.inventory - 1
       FROM
-        products AS p
+        products p
       JOIN
         vendors v
         ON v.id = p.vendor_id
