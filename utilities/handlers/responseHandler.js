@@ -459,6 +459,7 @@ module.exports = (function responseHandler() {
   }
 
   function checkInventory(knex, couponTypeDescription, eventDescription) {
+    console.log('hit');
     return knex.raw(`
       SELECT
         v.description AS vendor_description,
