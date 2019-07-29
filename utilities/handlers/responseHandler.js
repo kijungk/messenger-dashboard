@@ -440,21 +440,25 @@ module.exports = (function responseHandler() {
   function decreaseInventory(knex, vendorDescription, eventDescription, productDescription) {
     return knex.raw(`
       UPDATE
-        p
+        products
       SET
         inventory = inventory - 1
-      FROM
-        products AS p
-      JOIN
-        vendors AS v
-        ON v.id = p.vendor_id
-        AND v.description = :vendorDescription
-      JOIN
-        events AS e
-        ON e.id = v.event_id
-        AND e.description = :eventDescription
       WHERE
-        p.description = :productDescription
+        description = :productDescription
+      AND id = (
+          SELECT
+            id
+          FROM
+            products p
+          JOIN
+            vendors v
+            ON v.id = p.vendor_id
+            AND v.description = :vendorDescription
+          JOIN
+            events e
+            ON e.id = v.event_id
+            AND e.description = :eventDescription
+        )
     `, {
         eventDescription,
         vendorDescription,
