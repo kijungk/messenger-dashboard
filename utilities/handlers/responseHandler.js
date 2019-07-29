@@ -444,13 +444,13 @@ module.exports = (function responseHandler() {
       SET
         p.inventory = p.inventory - 1
       FROM
-        products p
+        products AS p
       JOIN
-        vendors v
+        vendors AS v
         ON v.id = p.vendor_id
         AND v.description = :vendorDescription
       JOIN
-        events e
+        events AS e
         ON e.id = v.event_id
         AND e.description = :eventDescription
       WHERE
