@@ -455,7 +455,11 @@ module.exports = (function responseHandler() {
         AND e.description = :eventDescription
       WHERE
         p.description = :productDescription
-    `);
+    `, {
+        eventDescription,
+        vendorDescription,
+        productDescription
+      });
   }
 
   function redeemCoupon(knex, couponTypeDescription, eventDescription, userId) {
