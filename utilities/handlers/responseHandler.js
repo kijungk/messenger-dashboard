@@ -405,10 +405,173 @@ module.exports = (function responseHandler() {
           }).catch((error) => {
             //error while checking inventory
           });
-      //insert into coupons (userId/couponId);
 
 
+      case 'BreakfastVendorBConfirmation':
+        return getRedeemedCoupons(knex, 'Breakfast', 'FMS 2019', userId)
+          .then((result) => {
+            const count = result.rows.length;
 
+            if (count) {
+              attachment = 'You already redeemed your breakfast coupon!';
+
+              quickReplies = [new QuickReply('Back', 'BreakfastMenu'), new QuickReply('Home', 'Home')];
+
+              message = new Message(attachment, quickReplies);
+
+              return sendMessage(accessToken, senderId, message);
+            } else {
+              checkProductInventory(knex, 'FMS 2019', 'Breakfast Option B')
+                .then((result) => {
+                  const { inventory } = result.rows[0];
+
+                  if (!inventory) {
+                    attachment = 'Product is out of stock!';
+
+                    quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+
+                    message = new Message(attachment, quickReplies);
+                  } else {
+
+                    elements = [
+                      new Element('Order Completed - Redeem at Vendor B Booth', 'The confirmation button below is for staff', 'https://via.placeholder.com/1910x1000')
+                    ];
+
+                    attachment = new Attachment('generic', elements);
+
+                    quickReplies = [new QuickReply('Staff Confirm', 'BreakfastVendorBComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
+
+                    message = new Message(attachment, quickReplies);
+                  }
+                  return sendMessage(accessToken, senderId, message);
+                })
+                .catch((error) => {
+                  console.log(error);
+                  //error while checking product inventory;
+                });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking breakfast coupon redemption status
+          });
+
+      case 'BreakfastVendorBComplete':
+        return checkProductInventory(knex, 'FMS 2019', 'Breakfast Option B')
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (!inventory) {
+              attachment = 'Product is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+
+              message = new Message(attachment, quickReplies);
+              return sendMessage(accessToken, senderId, message);
+            } else {
+              decreaseInventory(knex, 'Vendor B', 'FMS 2019', 'Breakfast Option B')
+                .then(() => {
+                  return redeemCoupon(knex, 'Breakfast', 'FMS 2019', userId)
+                })
+                .then((result) => {
+                  attachment = 'You have used your breakfast coupon! You will not be allowed to redeem any more breakfast items.';
+
+                  quickReplies = [new QuickReply('Home', 'Home')];
+
+                  message = new Message(attachment, quickReplies);
+                  return sendMessage(accessToken, senderId, message);
+                })
+                .catch((error) => {
+                  //error while redeeming coupon;
+                  console.log(error);
+                });
+            }
+          }).catch((error) => {
+            //error while checking inventory
+          });
+
+      case 'BreakfastVendorCConfirmation':
+        return getRedeemedCoupons(knex, 'Breakfast', 'FMS 2019', userId)
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              attachment = 'You already redeemed your breakfast coupon!';
+
+              quickReplies = [new QuickReply('Back', 'BreakfastMenu'), new QuickReply('Home', 'Home')];
+
+              message = new Message(attachment, quickReplies);
+
+              return sendMessage(accessToken, senderId, message);
+            } else {
+              checkProductInventory(knex, 'FMS 2019', 'Breakfast Option C')
+                .then((result) => {
+                  const { inventory } = result.rows[0];
+
+                  if (!inventory) {
+                    attachment = 'Product is out of stock!';
+
+                    quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+
+                    message = new Message(attachment, quickReplies);
+                  } else {
+
+                    elements = [
+                      new Element('Order Completed - Redeem at Vendor C Booth', 'The confirmation button below is for staff', 'https://via.placeholder.com/1910x1000')
+                    ];
+
+                    attachment = new Attachment('generic', elements);
+
+                    quickReplies = [new QuickReply('Staff Confirm', 'BreakfastVendorCComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
+
+                    message = new Message(attachment, quickReplies);
+                  }
+                  return sendMessage(accessToken, senderId, message);
+                })
+                .catch((error) => {
+                  console.log(error);
+                  //error while checking product inventory;
+                });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking breakfast coupon redemption status
+          });
+
+      case 'BreakfastVendorCComplete':
+        return checkProductInventory(knex, 'FMS 2019', 'Breakfast Option C')
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (!inventory) {
+              attachment = 'Product is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+
+              message = new Message(attachment, quickReplies);
+              return sendMessage(accessToken, senderId, message);
+            } else {
+              decreaseInventory(knex, 'Vendor C', 'FMS 2019', 'Breakfast Option C')
+                .then(() => {
+                  return redeemCoupon(knex, 'Breakfast', 'FMS 2019', userId)
+                })
+                .then((result) => {
+                  attachment = 'You have used your breakfast coupon! You will not be allowed to redeem any more breakfast items.';
+
+                  quickReplies = [new QuickReply('Home', 'Home')];
+
+                  message = new Message(attachment, quickReplies);
+                  return sendMessage(accessToken, senderId, message);
+                })
+                .catch((error) => {
+                  //error while redeeming coupon;
+                  console.log(error);
+                });
+            }
+          }).catch((error) => {
+            //error while checking inventory
+          });
 
 
 
