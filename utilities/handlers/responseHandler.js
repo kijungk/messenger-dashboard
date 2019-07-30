@@ -299,7 +299,7 @@ module.exports = (function responseHandler() {
               couponRedeemed = true;
             }
 
-            return checkInventory(knex, couponTypeDescription, eventDescription)
+            return checkCouponTypeInventory(knex, couponTypeDescription, eventDescription)
           })
           .then((result) => {
             const { rows } = result;
@@ -308,7 +308,6 @@ module.exports = (function responseHandler() {
 
             rows.forEach((row) => {
               const payload = 'Breakfast' + row.vendor_description.replace(/ /g, '') + 'Confirmation';
-              console.log(payload);
               elements.push(new Element(row.vendor_description, row.product_description, 'https://via.placeholder.com/1910x1000', [new Button(couponRedeemed ? 'Coupon Redeemed' : row.inventory ? 'Order' : 'Out of Stock', 'postback', payload)]));
             });
 
@@ -325,31 +324,48 @@ module.exports = (function responseHandler() {
           });
 
       case 'BreakfastVendorAConfirmation':
-        //check coupon count in coupons_users; if > 0, send different message.
         return getRedeemedCoupons(knex, 'Breakfast', 'FMS 2019', userId)
           .then((result) => {
             const count = result.rows.length;
 
             if (count) {
-              //user redeemed coupon already
               attachment = 'You already redeemed your breakfast coupon!';
 
-              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+              quickReplies = [new QuickReply('Back', 'BreakfastMenu'), new QuickReply('Home', 'Home')];
 
               message = new Message(attachment, quickReplies);
+
               return sendMessage(accessToken, senderId, message);
+            } else {
+              checkProductInventory(knex, 'FMS 2019', 'Breakfast Option A')
+                .then((result) => {
+                  const inventory = result.rows[0];
+
+                  if (!inventory) {
+                    attachment = 'Product is out of stock!';
+
+                    quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+
+                    message = new Message(attachment, quickReplies);
+                  } else {
+
+                    elements = [
+                      new Element('Order Completed - Redeem at Vendor A Booth', 'The confirmation button below is for staff', 'https://via.placeholder.com/1910x1000')
+                    ];
+
+                    attachment = new Attachment('generic', elements);
+
+                    quickReplies = [new QuickReply('Staff Confirm', 'BreakfastVendorAComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
+
+                    message = new Message(attachment, quickReplies);
+                  }
+                  return sendMessage(accessToken, senderId, message);
+                })
+                .catch((error) => {
+                  console.log(error);
+                  //error while checking product inventory;
+                });
             }
-
-            elements = [
-              new Element('Order Completed - Redeem at Vendor A Booth', 'The confirmation button below is for staff', 'https://via.placeholder.com/1910x1000')
-            ];
-
-            attachment = new Attachment('generic', elements);
-
-            quickReplies = [new QuickReply('Staff Confirm', 'BreakfastVendorAComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
-
-            message = new Message(attachment, quickReplies);
-            return sendMessage(accessToken, senderId, message);
           })
           .catch((error) => {
             console.log(error);
@@ -460,7 +476,28 @@ module.exports = (function responseHandler() {
     }
   }
 
-  function checkInventory(knex, couponTypeDescription, eventDescription) {
+  function checkProductInventory(knex, eventDescription, productDescription) {
+    return knex.raw(`
+      SELECT
+        p.inventory
+      FROM
+        products p
+      JOIN
+       vendors v
+       ON v.id = p.vendor_id
+      JOIN
+        events e
+        ON e.id = v.event_id
+        AND e.description = :eventDescription
+      WHERE
+        p.description = :productDescription
+    `, {
+        eventDescription,
+        productDescription
+      });
+  }
+
+  function checkCouponTypeInventory(knex, couponTypeDescription, eventDescription) {
     return knex.raw(`
       SELECT
         v.description AS vendor_description,
