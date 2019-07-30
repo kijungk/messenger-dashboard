@@ -339,8 +339,8 @@ module.exports = (function responseHandler() {
             } else {
               checkProductInventory(knex, 'FMS 2019', 'Breakfast Option A')
                 .then((result) => {
-                  const inventory = result.rows[0];
-                  console.log(inventory);
+                  const { inventory } = result.rows[0];
+
                   if (!inventory) {
                     attachment = 'Product is out of stock!';
 
