@@ -373,23 +373,39 @@ module.exports = (function responseHandler() {
           });
 
       case 'BreakfastVendorAComplete':
-        //insert into coupons (userId/couponId);
-        return decreaseInventory(knex, 'Vendor A', 'FMS 2019', 'Breakfast Option 1')
-          .then(() => {
-            return redeemCoupon(knex, 'Breakfast', 'FMS 2019', userId)
-          })
+        return checkProductInventory(knex, 'FMS 2019', 'Breakfast Option A')
           .then((result) => {
-            attachment = 'You have used your breakfast coupon! You will not be allowed to redeem any more breakfast items.';
+            const { inventory } = result.rows[0];
 
-            quickReplies = [new QuickReply('Home', 'Home')];
+            if (!inventory) {
+              attachment = 'Product is out of stock!';
 
-            message = new Message(attachment, quickReplies);
-            return sendMessage(accessToken, senderId, message);
-          })
-          .catch((error) => {
-            //error while redeeming coupon;
-            console.log(error);
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+
+              message = new Message(attachment, quickReplies);
+              return sendMessage(accessToken, senderId, message);
+            } else {
+              decreaseInventory(knex, 'Vendor A', 'FMS 2019', 'Breakfast Option A')
+                .then(() => {
+                  return redeemCoupon(knex, 'Breakfast', 'FMS 2019', userId)
+                })
+                .then((result) => {
+                  attachment = 'You have used your breakfast coupon! You will not be allowed to redeem any more breakfast items.';
+
+                  quickReplies = [new QuickReply('Home', 'Home')];
+
+                  message = new Message(attachment, quickReplies);
+                  return sendMessage(accessToken, senderId, message);
+                })
+                .catch((error) => {
+                  //error while redeeming coupon;
+                  console.log(error);
+                });
+            }
+          }).catch((error) => {
+            //error while checking inventory
           });
+      //insert into coupons (userId/couponId);
 
 
 
