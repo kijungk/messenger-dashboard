@@ -519,6 +519,8 @@ module.exports = (function responseHandler() {
         coupon_types ct
         ON ct.id = c.coupon_type_id
         AND ct.description = :couponTypeDescription
+      ORDER BY
+        p.id
     `, {
         couponTypeDescription,
         eventDescription
