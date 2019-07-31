@@ -173,7 +173,7 @@ module.exports = (function responseHandler() {
       SET
         redeemed = true
       WHERE
-        coupon_id = :couponId
+        id = :couponId
       AND user_id = :userId
     `, {
         couponId,
@@ -729,7 +729,7 @@ module.exports = (function responseHandler() {
 
             if (!couponRedeemed && inventory) {
               attachment = 'You have successfully redeemed this coupon!';
-              console.log(unusedCouponId);
+
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
               redeemCoupon(knex, userId, unusedCouponId);
