@@ -171,7 +171,7 @@ module.exports = (function responseHandler() {
       UPDATE
         coupons_users
       SET
-        redeemed = 'true'
+        redeemed = true
       WHERE
         id = :couponId
     `, {
@@ -735,7 +735,8 @@ module.exports = (function responseHandler() {
 
             return;
           })
-          .then(() => {
+          .then((result) => {
+            console.log(result);
             message = new Message(attachment, quickReplies);
             return sendMessage(accessToken, senderId, message);
           })
