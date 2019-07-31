@@ -541,9 +541,9 @@ module.exports = (function responseHandler() {
             const { rows } = result;
 
             const imageUrls = {
-              vendorA: 'https://via.placeholder.com/1910x1000',
-              vendorB: 'https://via.placeholder.com/1910x1000',
-              vendorC: 'https://via.placeholder.com/1910x1000'
+              'Vendor A': 'https://via.placeholder.com/1910x1000',
+              'Vendor B': 'https://via.placeholder.com/1910x1000',
+              'Vendor C': 'https://via.placeholder.com/1910x1000'
             }
 
             elements = rows.map((row) => {
@@ -559,7 +559,7 @@ module.exports = (function responseHandler() {
                 buttonTitle = 'No Coupons Available';
               }
 
-              return new Element(row.vendor_description, row.product_description, imageUrls.vendorA, [new Button(buttonTitle, 'postback', payload)])
+              return new Element(row.vendor_description, row.product_description, imageUrls[row.vendor_description], [new Button(buttonTitle, 'postback', payload)])
             });
 
             attachment = new Attachment('generic', elements);
@@ -908,7 +908,6 @@ module.exports = (function responseHandler() {
 
             elements = rows.map((row) => {
               const payload = 'Lunch' + row.vendor_description.replace(/ /g, '') + 'Confirmation';
-              console.log(row.vendor_description);
               let buttonTitle = 'Order';
 
               if (!row.inventory) {
@@ -919,7 +918,7 @@ module.exports = (function responseHandler() {
                 buttonTitle = 'No Coupons Available';
               }
 
-              return new Element(row.vendor_description, row.product_description, imageUrls[vendor_description], [new Button(buttonTitle, 'postback', payload)])
+              return new Element(row.vendor_description, row.product_description, imageUrls[row.vendor_description], [new Button(buttonTitle, 'postback', payload)])
             });
 
             attachment = new Attachment('generic', elements);
