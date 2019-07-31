@@ -633,11 +633,10 @@ module.exports = (function responseHandler() {
             }
 
             if (!couponRedeemed && inventory) {
-              console.log('hit');
               attachment = 'You have successfully redeemed this coupon!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
-              console.log(unusedCouponId);
+
               redeemCoupon(knex, userId, unusedCouponId);
             }
 
@@ -730,7 +729,7 @@ module.exports = (function responseHandler() {
 
             if (!couponRedeemed && inventory) {
               attachment = 'You have successfully redeemed this coupon!';
-
+              console.log(unusedCouponId);
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
               redeemCoupon(knex, userId, unusedCouponId);
