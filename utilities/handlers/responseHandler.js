@@ -182,20 +182,20 @@ module.exports = (function responseHandler() {
   function decreaseInventory(knex, eventDescription, productDescription) {
     return knex.raw(`
       UPDATE
-        products
+        p
       SET
-        products.inventory = products.inventory - 1
+        p.inventory = p.inventory - 1
       FROM
-        products
+        products AS p
       JOIN
         vendors v
-        ON v.id = products.vendor_id
+        ON v.id = p.vendor_id
       JOIN
         events e
         ON e.id = v.event_id
         AND e.description = :eventDescription
       WHERE
-        product.description = :productDescription
+        p.description = :productDescription
     `, {
         eventDescription,
         productDescription
@@ -898,7 +898,6 @@ module.exports = (function responseHandler() {
           })
           .then((result) => {
             const { rows } = result;
-            console.log(rows);
 
             const imageUrls = {
               'Vendor A': 'https://via.placeholder.com/1910x1000',
