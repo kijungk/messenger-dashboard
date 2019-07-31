@@ -167,12 +167,11 @@ module.exports = (function responseHandler() {
   }
 
   function redeemCoupon(knex, couponId) {
-    console.log('hit');
     return knex.raw(`
       UPDATE
         coupons_users
       SET
-        redeemed = 1
+        redeemed = TRUE
       WHERE
         id = :couponId
     `, {
