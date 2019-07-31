@@ -182,7 +182,7 @@ module.exports = (function responseHandler() {
   function decreaseInventory(knex, eventDescription, productDescription) {
     return knex.raw(`
       UPDATE
-        p
+        products
       SET
         inventory = inventory - 1
       FROM
