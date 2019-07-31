@@ -633,6 +633,7 @@ module.exports = (function responseHandler() {
             }
 
             if (!couponRedeemed && inventory) {
+              console.log('hit');
               attachment = 'You have successfully redeemed this coupon!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
