@@ -727,12 +727,15 @@ module.exports = (function responseHandler() {
 
             if (!couponRedeemed && inventory) {
               attachment = 'You have successfully redeemed this coupon!';
-              console.log(unusedCouponId);
+
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
-              redeemCoupon(knex, userId, unusedCouponId);
+              return redeemCoupon(knex, userId, unusedCouponId);
             }
 
+            return;
+          })
+          .then(() => {
             message = new Message(attachment, quickReplies);
             return sendMessage(accessToken, senderId, message);
           })
