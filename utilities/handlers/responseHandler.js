@@ -9,7 +9,180 @@ module.exports = (function responseHandler() {
     { sendMessage } = require('../../utilities/handlers/sendHandler'),
     appEventEmitter = require('../eventEmitters');
 
-  function processFMS2019Response(accessToken, payload, userId, senderId, response) {
+  function checkProductInventory(knex, eventDescription, productDescription) {
+    return knex.raw(`
+        SELECT
+          p.inventory
+        FROM
+          products p
+        JOIN
+         vendors v
+         ON v.id = p.vendor_id
+        JOIN
+          events e
+          ON e.id = v.event_id
+          AND e.description = :eventDescription
+        WHERE
+          p.description = :productDescription
+      `, {
+        eventDescription,
+        productDescription
+      });
+  }
+
+  function checkCouponTypeInventory(knex, couponTypeDescription, eventDescription) {
+    return knex.raw(`
+        SELECT
+          v.description AS vendor_description,
+          p.description AS product_description,
+          p.inventory
+        FROM
+          products p
+        JOIN
+          vendors v
+          ON v.id = p.vendor_id
+        JOIN
+          events e
+          ON e.id = v.event_id
+          AND e.description = :eventDescription
+        JOIN
+          coupons c
+          ON c.id = p.coupon_id
+        JOIN
+          coupon_types ct
+          ON ct.id = c.coupon_type_id
+          AND ct.description = :couponTypeDescription
+        ORDER BY
+          p.id
+      `, {
+        couponTypeDescription,
+        eventDescription
+      });
+  }
+
+  function completeBooth(knex, userId, boothDescription) {
+    return knex.raw(`
+      INSERT INTO
+        booths_users bu (booth_id, user_id)
+      SELECT
+        id,
+        :userId
+      FROM
+        booths b
+      WHERE
+        b.description = :boothDescription
+    `, {
+        boothDescription,
+        userId
+      });
+  }
+
+  function checkBooth(knex, userId, boothDescription) {
+    return knex.raw(`
+      SELECT
+        *
+      FROM
+        booths_users bu
+      JOIN
+        booths b
+        ON b.id = bu.booth_id
+        AND b.description = :boothDescription
+      WHERE
+        user_id = :userId
+    `, {
+        boothDescription,
+        userId
+      });
+  }
+
+  function checkBoothStatus(knex, userId) {
+    return knex.raw(`
+      SELECT
+        *
+      FROM
+        booths_users
+      WHERE
+        user_id = :userId
+    `, {
+        userId
+      });
+  }
+
+  function checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription) {
+    return knex.raw(`
+      SELECT
+        cu.id
+      FROM
+        coupons_users cu
+      JOIN
+        coupons c
+        ON c.id = cu.coupon_id
+      JOIN
+        events e
+        ON e.id = c.event_id
+        AND e.description = :eventDescription
+      JOIN
+        coupon_types ct
+        ON ct.id = c.coupon_type_id
+        AND ct.description = :couponTypeDescription
+      WHERE
+        cu.redeemed = false
+    `, {
+        couponTypeDescription,
+        eventDescription,
+        userId
+      });
+  }
+
+  function checkCoupons(knex, userId) {
+    return knex.raw(`
+      SELECT
+        *
+      FROM
+        coupons_users
+      WHERE
+        userId = :userId
+    `, {
+        userId
+      });
+  }
+
+  function assignCoupons(knex, userId, eventDescription) {
+    return knex.raw(`
+      INSERT INTO
+        coupons_users cu (coupon_id, userId)
+      SELECT
+        id,
+        :userId
+      FROM
+        coupons c
+      JOIN
+        events e
+        ON e.id = c.event_id
+        AND e.description = :eventDescription
+    `, {
+        eventDescription,
+        userId
+      });
+  }
+
+  function redeemCoupon(knex, userId, couponId) {
+    return knex.raw(`
+      UPDATE
+        coupons_users
+      SET
+        redeemed = true
+      WHERE
+        id = :couponId
+    `, {
+        couponId,
+        userId
+      });
+  }
+
+  function processFMS2019Response(accessToken, payload, userId, senderId) {
+    const eventDescription = 'FMS 2019';
+
     let
       buttons,
       elements,
@@ -17,7 +190,48 @@ module.exports = (function responseHandler() {
       message,
       quickReplies;
 
+    let
+      boothDescription,
+      couponTypeDescription,
+      couponRedeemed,
+      productDescription,
+      unusedCouponId;
+
     switch (payload) {
+      case 'Register':
+        buttons = [
+          new Button('Agenda', 'postback', 'AgendaCarousel'),
+          new Button('Experience', 'postback', 'Experience'),
+          new Button('Feedback', 'web_url', 'https://surveymonkey.com')
+        ];
+
+        elements = [
+          new Element('FMS Seoul 2019', 'FMS Seoul 2019에 오신 여러분 환영합니다! 다음 메뉴에서 원하는 항목을 선택해주세요.', 'https://via.placeholder.com/1910x1000', buttons)
+        ];
+
+        attachment = new Attachment('generic', elements);
+
+        message = new Message(attachment);
+
+        return checkCoupons(knex, userId)
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (!count) {
+              return assignCoupons(knex, userId, eventDescription);
+            }
+
+            return;
+          })
+          .then(() => {
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking and assigning coupons to users;
+            return;
+          });
+
       case 'Home':
         buttons = [
           new Button('Agenda', 'postback', 'AgendaCarousel'),
@@ -103,17 +317,9 @@ module.exports = (function responseHandler() {
         return sendMessage(accessToken, senderId, message);
 
       case 'BoothStatus':
-        return knex('booths_users')
-          .count('booths_users.id')
-          .join('booths', 'booths_users.booth_id', '=', 'booths.id')
-          .join('events', function() {
-            this.on('events.id', '=', 'booths.event_id').andOn('events.id', '=', 1);
-          })
-          .where({
-            user_id: userId
-          })
+        return checkBoothStatus(knex, userId)
           .then((result) => {
-            const count = result[0].count;
+            const count = result.rows.length;
 
             attachment = `You have completed ${count} scavenger hunt!\n\n`;
 
@@ -129,23 +335,26 @@ module.exports = (function responseHandler() {
             return sendMessage(accessToken, senderId, message);
           })
           .catch((error) => {
+            console.log(error);
             //error while getting status;
+            return;
           });
 
       case 'BoothOneComplete':
-        return knex('booths_users').where({ booth_id: 1, user_id: userId })
+        boothDescription = 'FMS 2019 Demo Booth 1';
+
+        return checkBooth(knex, userId, boothDescription)
           .then((result) => {
-            if (result.length) {
+            const count = result.rows.length;
+
+            if (count) {
               return;
             }
 
-            return knex('booths_users').insert({
-              user_id: userId,
-              booth_id: 1
-            })
+            return completeBooth(knex, userId, boothDescription);
           })
-          .then((result) => {
-            attachment = 'You completed Booth 1 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
+          .then(() => {
+            attachment = `You\'ve completed ${boothDescription}. Check out what other booths are available!`;
 
             quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
@@ -153,24 +362,26 @@ module.exports = (function responseHandler() {
             return sendMessage(accessToken, senderId, message);
           })
           .catch((error) => {
+            console.log(error);
             //error while completing booth 1 for user
             return;
           });
 
       case 'BoothTwoComplete':
-        return knex('booths_users').where({ booth_id: 2, user_id: userId })
+        boothDescription = 'FMS 2019 Demo Booth 2';
+
+        return checkBooth(knex, userId, boothDescription)
           .then((result) => {
-            if (result.length) {
+            const count = result.rows.length;
+
+            if (count) {
               return;
             }
 
-            return knex('booths_users').insert({
-              user_id: userId,
-              booth_id: 2
-            })
+            return completeBooth(knex, userId, boothDescription);
           })
-          .then((result) => {
-            attachment = 'You completed Booth 2 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
+          .then(() => {
+            attachment = `You\'ve completed ${boothDescription}. Check out what other booths are available!`;
 
             quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
@@ -178,24 +389,26 @@ module.exports = (function responseHandler() {
             return sendMessage(accessToken, senderId, message);
           })
           .catch((error) => {
+            console.log(error);
             //error while completing booth 1 for user
             return;
           });
 
       case 'BoothThreeComplete':
-        return knex('booths_users').where({ booth_id: 3, user_id: userId })
+        boothDescription = 'FMS 2019 Demo Booth 3';
+
+        return checkBooth(knex, userId, boothDescription)
           .then((result) => {
-            if (result.length) {
+            const count = result.rows.length;
+
+            if (count) {
               return;
             }
 
-            return knex('booths_users').insert({
-              user_id: userId,
-              booth_id: 3
-            })
+            return completeBooth(knex, userId, boothDescription);
           })
-          .then((result) => {
-            attachment = 'You completed Booth 3 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
+          .then(() => {
+            attachment = `You\'ve completed ${boothDescription}. Check out what other booths are available!`;
 
             quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
@@ -203,24 +416,26 @@ module.exports = (function responseHandler() {
             return sendMessage(accessToken, senderId, message);
           })
           .catch((error) => {
+            console.log(error);
             //error while completing booth 1 for user
             return;
           });
 
       case 'BoothFourComplete':
-        return knex('booths_users').where({ booth_id: 4, user_id: userId })
+        boothDescription = 'FMS 2019 Demo Booth 4';
+
+        return checkBooth(knex, userId, boothDescription)
           .then((result) => {
-            if (result.length) {
+            const count = result.rows.length;
+
+            if (count) {
               return;
             }
 
-            return knex('booths_users').insert({
-              user_id: userId,
-              booth_id: 4
-            })
+            return completeBooth(knex, userId, boothDescription);
           })
-          .then((result) => {
-            attachment = 'You completed Booth 4 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
+          .then(() => {
+            attachment = `You\'ve completed ${boothDescription}. Check out what other booths are available!`;
 
             quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
@@ -228,24 +443,26 @@ module.exports = (function responseHandler() {
             return sendMessage(accessToken, senderId, message);
           })
           .catch((error) => {
+            console.log(error);
             //error while completing booth 1 for user
             return;
           });
 
       case 'BoothFiveComplete':
-        return knex('booths_users').where({ booth_id: 5, user_id: userId })
+        boothDescription = 'FMS 2019 Demo Booth 5';
+
+        return checkBooth(knex, userId, boothDescription)
           .then((result) => {
-            if (result.length) {
+            const count = result.rows.length;
+
+            if (count) {
               return;
             }
 
-            return knex('booths_users').insert({
-              user_id: userId,
-              booth_id: 5
-            })
+            return completeBooth(knex, userId, boothDescription);
           })
-          .then((result) => {
-            attachment = 'You completed Booth 5 scavenger hunt!\n\nFeel free to see what\'s happening at this booth, or check out the other booths available.';
+          .then(() => {
+            attachment = `You\'ve completed ${boothDescription}. Check out what other booths are available!`;
 
             quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
@@ -253,6 +470,7 @@ module.exports = (function responseHandler() {
             return sendMessage(accessToken, senderId, message);
           })
           .catch((error) => {
+            console.log(error);
             //error while completing booth 1 for user
             return;
           });
@@ -285,295 +503,149 @@ module.exports = (function responseHandler() {
         return sendMessage(accessToken, senderId, message);
 
       case 'BreakfastMenu':
-        let
-          couponRedeemed = false;
-        const
-          couponTypeDescription = 'Breakfast',
-          eventDescription = 'FMS 2019';
+        couponTypeDescription = 'Breakfast';
 
-        return getRedeemedCoupons(knex, couponTypeDescription, eventDescription, userId)
+        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
-            if (count) {
+            if (!count) {
               couponRedeemed = true;
             }
 
-            return checkCouponTypeInventory(knex, couponTypeDescription, eventDescription)
+            return checkCouponTypeInventory(knex, couponTypeDescription, eventDescription);
           })
           .then((result) => {
             const { rows } = result;
 
-            const elements = [];
+            const imageUrls = {
+              vendorA: 'https://via.placeholder.com/1910x1000',
+              vendorB: 'https://via.placeholder.com/1910x1000',
+              vendorC: 'https://via.placeholder.com/1910x1000'
+            }
 
-            rows.forEach((row) => {
-              const payload = 'Breakfast' + row.vendor_description.replace(/ /g, '') + 'Confirmation';
-              elements.push(new Element(row.vendor_description, row.product_description, 'https://via.placeholder.com/1910x1000', [new Button(couponRedeemed ? 'Coupon Redeemed' : row.inventory ? 'Order' : 'Out of Stock', 'postback', payload)]));
+            elements = rows.map((row) => {
+              const payload = 'Breakfast' + row.vendor_description + 'Confirmation';
+              let buttonTitle = 'Order';
+
+              if (couponRedeemed) {
+                buttonTitle = 'Coupon Redeemed';
+              }
+
+              if (!row.inventory) {
+                buttonTitle = 'Out of Stock';
+              }
+
+              return new Element(row.vendor_description, row.product_description, imageUrls.vendorA, [new Button(buttonTitle, 'postback', payload)])
             });
 
-            quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
-
             attachment = new Attachment('generic', elements);
+
+            quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
             message = new Message(attachment, quickReplies);
             return sendMessage(accessToken, senderId, message);
           })
           .catch((error) => {
             console.log(error);
-            //error while checking for coupon redemption and inventory;
+            //error while checking coupon usage and product inventory
+            return;
           });
 
       case 'BreakfastVendorAConfirmation':
-        return getRedeemedCoupons(knex, 'Breakfast', 'FMS 2019', userId)
+        couponTypeDescription = 'Breakfast';
+        productDescription = 'Breakfast Option A';
+
+        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
-            if (count) {
-              attachment = 'You already redeemed your breakfast coupon!';
+            if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You already redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
 
               quickReplies = [new QuickReply('Back', 'BreakfastMenu'), new QuickReply('Home', 'Home')];
-
-              message = new Message(attachment, quickReplies);
-
-              return sendMessage(accessToken, senderId, message);
-            } else {
-              checkProductInventory(knex, 'FMS 2019', 'Breakfast Option A')
-                .then((result) => {
-                  const { inventory } = result.rows[0];
-
-                  if (!inventory) {
-                    attachment = 'Product is out of stock!';
-
-                    quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
-
-                    message = new Message(attachment, quickReplies);
-                  } else {
-
-                    elements = [
-                      new Element('Order Completed - Redeem at Vendor A Booth', 'The confirmation button below is for staff', 'https://via.placeholder.com/1910x1000')
-                    ];
-
-                    attachment = new Attachment('generic', elements);
-
-                    quickReplies = [new QuickReply('Staff Confirm', 'BreakfastVendorAComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
-
-                    message = new Message(attachment, quickReplies);
-                  }
-                  return sendMessage(accessToken, senderId, message);
-                })
-                .catch((error) => {
-                  console.log(error);
-                  //error while checking product inventory;
-                });
             }
+
+
+            if (!couponRedeemed && inventory) {
+              elements = [new Element('Order Complete', 'Show this to a staff\nThe button below is for staff only!', 'https://via.placeholder.com/1910x1000')];
+
+              attachment = new Attachment('generic', elements);
+
+              quickReplies = [new QuickReply('Staff Confirm', 'BreakfastVendorAComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
+            }
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
           })
           .catch((error) => {
             console.log(error);
-            //error while checking breakfast coupon redemption status
+            //error while checking coupon eligibility;
+            return;
           });
 
       case 'BreakfastVendorAComplete':
-        return checkProductInventory(knex, 'FMS 2019', 'Breakfast Option A')
-          .then((result) => {
-            const { inventory } = result.rows[0];
+        couponTypeDescription = 'Breakfast';
+        productDescription = 'Breakfast Option A';
 
-            if (!inventory) {
-              attachment = 'Product is out of stock!';
-
-              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
-
-              message = new Message(attachment, quickReplies);
-              return sendMessage(accessToken, senderId, message);
-            } else {
-              decreaseInventory(knex, 'Vendor A', 'FMS 2019', 'Breakfast Option A')
-                .then(() => {
-                  return redeemCoupon(knex, 'Breakfast', 'FMS 2019', userId)
-                })
-                .then((result) => {
-                  attachment = 'You have used your breakfast coupon! You will not be allowed to redeem any more breakfast items.';
-
-                  quickReplies = [new QuickReply('Home', 'Home')];
-
-                  message = new Message(attachment, quickReplies);
-                  return sendMessage(accessToken, senderId, message);
-                })
-                .catch((error) => {
-                  //error while redeeming coupon;
-                  console.log(error);
-                });
-            }
-          }).catch((error) => {
-            //error while checking inventory
-          });
-
-
-      case 'BreakfastVendorBConfirmation':
-        return getRedeemedCoupons(knex, 'Breakfast', 'FMS 2019', userId)
+        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
             if (count) {
-              attachment = 'You already redeemed your breakfast coupon!';
-
-              quickReplies = [new QuickReply('Back', 'BreakfastMenu'), new QuickReply('Home', 'Home')];
-
-              message = new Message(attachment, quickReplies);
-
-              return sendMessage(accessToken, senderId, message);
+              unusedCouponId = result.rows[0].id;
             } else {
-              checkProductInventory(knex, 'FMS 2019', 'Breakfast Option B')
-                .then((result) => {
-                  const { inventory } = result.rows[0];
-
-                  if (!inventory) {
-                    attachment = 'Product is out of stock!';
-
-                    quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
-
-                    message = new Message(attachment, quickReplies);
-                  } else {
-
-                    elements = [
-                      new Element('Order Completed - Redeem at Vendor B Booth', 'The confirmation button below is for staff', 'https://via.placeholder.com/1910x1000')
-                    ];
-
-                    attachment = new Attachment('generic', elements);
-
-                    quickReplies = [new QuickReply('Staff Confirm', 'BreakfastVendorBComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
-
-                    message = new Message(attachment, quickReplies);
-                  }
-                  return sendMessage(accessToken, senderId, message);
-                })
-                .catch((error) => {
-                  console.log(error);
-                  //error while checking product inventory;
-                });
+              couponRedeemed = true;
             }
-          })
-          .catch((error) => {
-            console.log(error);
-            //error while checking breakfast coupon redemption status
-          });
 
-      case 'BreakfastVendorBComplete':
-        return checkProductInventory(knex, 'FMS 2019', 'Breakfast Option B')
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
           .then((result) => {
             const { inventory } = result.rows[0];
 
-            if (!inventory) {
-              attachment = 'Product is out of stock!';
+            if (couponRedeemed) {
+              attachment = 'You already redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'BreakfastMenu'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && inventory) {
+              attachment = 'You have successfully redeemed this coupon!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
-              message = new Message(attachment, quickReplies);
-              return sendMessage(accessToken, senderId, message);
-            } else {
-              decreaseInventory(knex, 'Vendor B', 'FMS 2019', 'Breakfast Option B')
-                .then(() => {
-                  return redeemCoupon(knex, 'Breakfast', 'FMS 2019', userId)
-                })
-                .then((result) => {
-                  attachment = 'You have used your breakfast coupon! You will not be allowed to redeem any more breakfast items.';
-
-                  quickReplies = [new QuickReply('Home', 'Home')];
-
-                  message = new Message(attachment, quickReplies);
-                  return sendMessage(accessToken, senderId, message);
-                })
-                .catch((error) => {
-                  //error while redeeming coupon;
-                  console.log(error);
-                });
+              redeemCoupon(knex, userId, unusedCouponId);
             }
-          }).catch((error) => {
-            //error while checking inventory
-          });
 
-      case 'BreakfastVendorCConfirmation':
-        return getRedeemedCoupons(knex, 'Breakfast', 'FMS 2019', userId)
-          .then((result) => {
-            const count = result.rows.length;
-
-            if (count) {
-              attachment = 'You already redeemed your breakfast coupon!';
-
-              quickReplies = [new QuickReply('Back', 'BreakfastMenu'), new QuickReply('Home', 'Home')];
-
-              message = new Message(attachment, quickReplies);
-
-              return sendMessage(accessToken, senderId, message);
-            } else {
-              checkProductInventory(knex, 'FMS 2019', 'Breakfast Option C')
-                .then((result) => {
-                  const { inventory } = result.rows[0];
-
-                  if (!inventory) {
-                    attachment = 'Product is out of stock!';
-
-                    quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
-
-                    message = new Message(attachment, quickReplies);
-                  } else {
-
-                    elements = [
-                      new Element('Order Completed - Redeem at Vendor C Booth', 'The confirmation button below is for staff', 'https://via.placeholder.com/1910x1000')
-                    ];
-
-                    attachment = new Attachment('generic', elements);
-
-                    quickReplies = [new QuickReply('Staff Confirm', 'BreakfastVendorCComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
-
-                    message = new Message(attachment, quickReplies);
-                  }
-                  return sendMessage(accessToken, senderId, message);
-                })
-                .catch((error) => {
-                  console.log(error);
-                  //error while checking product inventory;
-                });
-            }
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
           })
           .catch((error) => {
             console.log(error);
-            //error while checking breakfast coupon redemption status
+            //error while redeeming coupon;
+            return;
           });
-
-      case 'BreakfastVendorCComplete':
-        return checkProductInventory(knex, 'FMS 2019', 'Breakfast Option C')
-          .then((result) => {
-            const { inventory } = result.rows[0];
-
-            if (!inventory) {
-              attachment = 'Product is out of stock!';
-
-              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
-
-              message = new Message(attachment, quickReplies);
-              return sendMessage(accessToken, senderId, message);
-            } else {
-              decreaseInventory(knex, 'Vendor C', 'FMS 2019', 'Breakfast Option C')
-                .then(() => {
-                  return redeemCoupon(knex, 'Breakfast', 'FMS 2019', userId)
-                })
-                .then((result) => {
-                  attachment = 'You have used your breakfast coupon! You will not be allowed to redeem any more breakfast items.';
-
-                  quickReplies = [new QuickReply('Home', 'Home')];
-
-                  message = new Message(attachment, quickReplies);
-                  return sendMessage(accessToken, senderId, message);
-                })
-                .catch((error) => {
-                  //error while redeeming coupon;
-                  console.log(error);
-                });
-            }
-          }).catch((error) => {
-            //error while checking inventory
-          });
-
-
 
 
       case 'MobileOrderStatus':
@@ -595,8 +667,7 @@ module.exports = (function responseHandler() {
     }
   }
 
-
-  function processCXO2019Response(accessToken, payload, userId, senderId, response) {
+  function processCXO2019Response(accessToken, payload, userId, senderId) {
     let
       buttons,
       elements,
@@ -653,137 +724,6 @@ module.exports = (function responseHandler() {
 
         return sendMessage(accessToken, senderId, message);
     }
-  }
-
-  function checkProductInventory(knex, eventDescription, productDescription) {
-    return knex.raw(`
-      SELECT
-        p.inventory
-      FROM
-        products p
-      JOIN
-       vendors v
-       ON v.id = p.vendor_id
-      JOIN
-        events e
-        ON e.id = v.event_id
-        AND e.description = :eventDescription
-      WHERE
-        p.description = :productDescription
-    `, {
-        eventDescription,
-        productDescription
-      });
-  }
-
-  function checkCouponTypeInventory(knex, couponTypeDescription, eventDescription) {
-    return knex.raw(`
-      SELECT
-        v.description AS vendor_description,
-        p.description AS product_description,
-        p.inventory
-      FROM
-        products p
-      JOIN
-        vendors v
-        ON v.id = p.vendor_id
-      JOIN
-        events e
-        ON e.id = v.event_id
-        AND e.description = :eventDescription
-      JOIN
-        coupons c
-        ON c.id = p.coupon_id
-      JOIN
-        coupon_types ct
-        ON ct.id = c.coupon_type_id
-        AND ct.description = :couponTypeDescription
-      ORDER BY
-        p.id
-    `, {
-        couponTypeDescription,
-        eventDescription
-      });
-  }
-
-  function decreaseInventory(knex, vendorDescription, eventDescription, productDescription) {
-    return knex.raw(`
-      UPDATE
-        products
-      SET
-        inventory = inventory - 1
-      WHERE
-        id = (
-          SELECT
-            p.id
-          FROM
-            products p
-          JOIN
-            vendors v
-            ON v.id = p.vendor_id
-            AND v.description = :vendorDescription
-          JOIN
-            events e
-            ON e.id = v.event_id
-            AND e.description = :eventDescription
-          WHERE
-            p.description = :productDescription
-        )
-    `, {
-        eventDescription,
-        vendorDescription,
-        productDescription
-      });
-  }
-
-  function redeemCoupon(knex, couponTypeDescription, eventDescription, userId) {
-    return knex.raw(`
-      INSERT INTO
-        coupons_users (coupon_id, user_id)
-      SELECT
-        c.id,
-        :userId
-      FROM
-        coupons c
-      JOIN
-        coupon_types ct
-        ON ct.id = c.coupon_type_id
-        AND ct.description = :couponTypeDescription
-      JOIN
-        events e
-        ON e.id = c.event_id
-        AND e.description = :eventDescription
-    `, {
-        couponTypeDescription,
-        eventDescription,
-        userId
-      });
-  }
-
-  function getRedeemedCoupons(knex, couponTypeDescription, eventDescription, userId) {
-    return knex.raw(`
-      SELECT
-        *
-      FROM
-        coupons_users cu
-      JOIN
-        coupons c
-        ON c.id = cu.coupon_id
-      JOIN
-        coupon_types ct
-        ON ct.id = c.coupon_type_id
-        AND ct.description = :couponTypeDescription
-      JOIN
-        events e
-        ON e.id = c.event_id
-        AND e.description = :eventDescription
-      WHERE
-        cu.user_id = :userId
-    `, {
-        couponTypeDescription,
-        eventDescription,
-        userId
-      });
   }
 
   return {
