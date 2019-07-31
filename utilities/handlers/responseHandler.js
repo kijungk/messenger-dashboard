@@ -166,7 +166,7 @@ module.exports = (function responseHandler() {
       });
   }
 
-  function redeemCoupon(knex, userId, couponId) {
+  function redeemCoupon(knex, couponId) {
     return knex.raw(`
       UPDATE
         coupons_users
@@ -174,10 +174,8 @@ module.exports = (function responseHandler() {
         redeemed = true
       WHERE
         id = :couponId
-      AND user_id = :userId
     `, {
-        couponId,
-        userId
+        couponId
       });
   }
 
@@ -729,7 +727,7 @@ module.exports = (function responseHandler() {
 
             if (!couponRedeemed && inventory) {
               attachment = 'You have successfully redeemed this coupon!';
-
+              console.log(unusedCouponId);
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
               redeemCoupon(knex, userId, unusedCouponId);
