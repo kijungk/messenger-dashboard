@@ -188,10 +188,10 @@ module.exports = (function responseHandler() {
       FROM
         products AS p
       JOIN
-        vendors v
+        vendors AS v
         ON v.id = p.vendor_id
       JOIN
-        events e
+        events AS e
         ON e.id = v.event_id
         AND e.description = :eventDescription
       WHERE
