@@ -185,7 +185,7 @@ module.exports = (function responseHandler() {
         p
       SET
         inventory = inventory - 1
-      SELECT
+      FROM
         products p
       JOIN
         vendors v
