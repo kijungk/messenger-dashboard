@@ -183,17 +183,16 @@ module.exports = (function responseHandler() {
     return knex.raw(`
       UPDATE
         products
-      JOIN
-        vendors
-        ON vendors.id = products.vendor_id
-      JOIN
-        events
-        ON events.id = vendors.event_id
-        AND events.description = :eventDescription
       SET
-        products.inventory = products.inventory - 1
+        inventory = inventory - 1
+      FROM
+        vendors,
+        events
       WHERE
-        products.description = :productDescription
+        vendors.id = products.vendor_id
+      AND events.id = vendors.event_id
+      AND events.description = :eventDescription
+      AND products.description = :productDescription
     `, {
         eventDescription,
         productDescription
