@@ -184,18 +184,18 @@ module.exports = (function responseHandler() {
       UPDATE
         products
       SET
-        inventory = p.inventory - 1
+        products.inventory = products.inventory - 1
       FROM
-        products p
+        products
       JOIN
         vendors v
-        ON v.id = p.vendor_id
+        ON v.id = products.vendor_id
       JOIN
         events e
         ON e.id = v.event_id
         AND e.description = :eventDescription
       WHERE
-        p.description = :productDescription
+        product.description = :productDescription
     `, {
         eventDescription,
         productDescription
