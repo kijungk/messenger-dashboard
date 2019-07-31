@@ -167,6 +167,7 @@ module.exports = (function responseHandler() {
   }
 
   function redeemCoupon(knex, couponId) {
+    console.log(couponId);
     return knex.raw(`
       UPDATE
         coupons_users
