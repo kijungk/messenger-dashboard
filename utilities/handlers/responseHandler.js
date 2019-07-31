@@ -150,7 +150,7 @@ module.exports = (function responseHandler() {
   function assignCoupons(knex, userId, eventDescription) {
     return knex.raw(`
       INSERT INTO
-        coupons_users (coupon_id, userId)
+        coupons_users (coupon_id, user_id)
       SELECT
         c.id,
         :userId
