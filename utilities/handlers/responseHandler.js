@@ -511,7 +511,8 @@ module.exports = (function responseHandler() {
         elements = [
           new Element('Breakfast Menu', '9:00 am ~ 11:00 am', 'https://via.placeholder.com/1910x1000', [new Button('Menu', 'postback', 'BreakfastMenu')]),
           new Element('Lunch Menu', '12:00 pm ~ 1:30 pm', 'https://via.placeholder.com/1910x1000', [new Button('Menu', 'postback', 'LunchMenu')]),
-          new Element('Beverage and Dessert', '12:00 pm ~ 5:00 pm', 'https://via.placeholder.com/1910x1000', [new Button('Menu', 'postback', 'BeverageAndDessertMenu')])
+          new Element('Beverage Menu', '12:00 pm ~ 5:00 pm', 'https://via.placeholder.com/1910x1000', [new Button('Menu', 'postback', 'BeverageMenu')]),
+          new Element('Dessert Menu', '12:00 pm ~ 5:00 pm', 'https://via.placeholder.com/1910x1000', [new Button('Menu', 'postback', 'DessertMenu')])
         ];
 
         attachment = new Attachment('generic', elements);
@@ -572,7 +573,7 @@ module.exports = (function responseHandler() {
             return;
           });
 
-      case 'BreakfastVendorAConfirmation':
+      case 'BreakfastFritzConfirmation':
         couponTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option A';
 
@@ -607,7 +608,7 @@ module.exports = (function responseHandler() {
 
               attachment = new Attachment('generic', elements);
 
-              quickReplies = [new QuickReply('Staff Confirm', 'BreakfastVendorAComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
+              quickReplies = [new QuickReply('Staff Confirm', 'BreakfastFritzComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
             }
 
             message = new Message(attachment, quickReplies);
@@ -619,7 +620,7 @@ module.exports = (function responseHandler() {
             return;
           });
 
-      case 'BreakfastVendorAComplete':
+      case 'BreakfastFritzComplete':
         couponTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option A';
 
@@ -673,7 +674,7 @@ module.exports = (function responseHandler() {
             return;
           });
 
-      case 'BreakfastVendorBConfirmation':
+      case 'BreakfastAltdifConfirmation':
         couponTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option B';
 
@@ -708,7 +709,7 @@ module.exports = (function responseHandler() {
 
               attachment = new Attachment('generic', elements);
 
-              quickReplies = [new QuickReply('Staff Confirm', 'BreakfastVendorBComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
+              quickReplies = [new QuickReply('Staff Confirm', 'BreakfastAltdifComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
             }
 
             message = new Message(attachment, quickReplies);
@@ -720,7 +721,7 @@ module.exports = (function responseHandler() {
             return;
           });
 
-      case 'BreakfastVendorBComplete':
+      case 'BreakfastAltdifComplete':
         couponTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option B';
 
@@ -774,7 +775,7 @@ module.exports = (function responseHandler() {
             return;
           });
 
-      case 'BreakfastVendorCConfirmation':
+      case 'BreakfastBreakfastVendorCConfirmation':
         couponTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option C';
 
@@ -809,7 +810,7 @@ module.exports = (function responseHandler() {
 
               attachment = new Attachment('generic', elements);
 
-              quickReplies = [new QuickReply('Staff Confirm', 'BreakfastVendorCComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
+              quickReplies = [new QuickReply('Staff Confirm', 'BreakfastBreakfastVendorCComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
             }
 
             message = new Message(attachment, quickReplies);
@@ -821,7 +822,7 @@ module.exports = (function responseHandler() {
             return;
           });
 
-      case 'BreakfastVendorCComplete':
+      case 'BreakfastBreakfastVendorCComplete':
         couponTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option C';
 
@@ -874,11 +875,6 @@ module.exports = (function responseHandler() {
             //error while redeeming coupon;
             return;
           });
-
-
-
-
-
 
       case 'LunchMenu':
         couponTypeDescription = 'Lunch';
@@ -903,7 +899,7 @@ module.exports = (function responseHandler() {
             }
 
             elements = rows.map((row) => {
-              const payload = 'Lunch' + row.vendor_description.replace(/ /g, '') + 'Confirmation';
+              const payload = row.vendor_description.replace(/ /g, '') + 'Confirmation';
               let buttonTitle = 'Order';
 
               if (!row.inventory) {
@@ -1237,6 +1233,260 @@ module.exports = (function responseHandler() {
 
 
 
+
+
+
+      case 'DessertMenu':
+        couponTypeDescription = 'Dessert';
+
+        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkCouponTypeInventory(knex, couponTypeDescription, eventDescription);
+          })
+          .then((result) => {
+            const { rows } = result;
+
+            const imageUrls = {
+              'Dessert Vendor A': 'https://via.placeholder.com/1910x1000',
+              'Dessert Vendor B': 'https://via.placeholder.com/1910x1000'
+            }
+
+
+            elements = rows.map((row) => {
+              const payload = row.vendor_description.replace(/ /g, '') + 'Confirmation';
+              let buttonTitle = 'Order';
+
+              if (!row.inventory) {
+                buttonTitle = 'Out of Stock';
+              }
+
+              if (couponRedeemed) {
+                buttonTitle = 'No Coupons Available';
+              }
+
+              return new Element(row.vendor_description, row.product_description, imageUrls[row.vendor_description], [new Button(buttonTitle, 'postback', payload)])
+            });
+
+            attachment = new Attachment('generic', elements);
+
+            quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking coupon usage and product inventory
+            return;
+          });
+
+      case 'DessertVendorAConfirmation':
+        couponTypeDescription = 'Dessert';
+        productDescription = 'Dessert Option A';
+
+        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You already redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'DessertMenu'), new QuickReply('Home', 'Home')];
+            }
+
+
+            if (!couponRedeemed && inventory) {
+              elements = [new Element('Order Complete', 'Show this to a staff\nThe button below is for staff only!', 'https://via.placeholder.com/1910x1000')];
+
+              attachment = new Attachment('generic', elements);
+
+              quickReplies = [new QuickReply('Staff Confirm', 'DessertVendorAComplete'), new QuickReply('Cancel', 'DessertMenu')];
+            }
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking coupon eligibility;
+            return;
+          });
+
+      case 'DessertVendorAComplete':
+        couponTypeDescription = 'Dessert';
+        productDescription = 'Dessert Option A';
+
+        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              unusedCouponId = result.rows[0].id;
+            } else {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You already redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'DessertMenu'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && inventory) {
+              attachment = 'You have successfully redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+
+              return redeemCoupon(knex, unusedCouponId);
+            }
+
+            return;
+          })
+          .then(() => {
+            return decreaseInventory(knex, eventDescription, productDescription);
+          })
+          .then(() => {
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while redeeming coupon;
+            return;
+          });
+
+      case 'DessertVendorBConfirmation':
+        couponTypeDescription = 'Dessert';
+        productDescription = 'Dessert Option B';
+
+        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You already redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'DessertMenu'), new QuickReply('Home', 'Home')];
+            }
+
+
+            if (!couponRedeemed && inventory) {
+              elements = [new Element('Order Complete', 'Show this to a staff\nThe button below is for staff only!', 'https://via.placeholder.com/1910x1000')];
+
+              attachment = new Attachment('generic', elements);
+
+              quickReplies = [new QuickReply('Staff Confirm', 'DessertVendorBComplete'), new QuickReply('Cancel', 'DessertMenu')];
+            }
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking coupon eligibility;
+            return;
+          });
+
+      case 'DessertVendorBComplete':
+        couponTypeDescription = 'Dessert';
+        productDescription = 'Dessert Option B';
+
+        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              unusedCouponId = result.rows[0].id;
+            } else {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You already redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'DessertMenu'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && inventory) {
+              attachment = 'You have successfully redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+
+              return redeemCoupon(knex, unusedCouponId);
+            }
+
+            return;
+          })
+          .then(() => {
+            return decreaseInventory(knex, eventDescription, productDescription);
+          })
+          .then(() => {
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while redeeming coupon;
+            return;
+          });
 
 
 
