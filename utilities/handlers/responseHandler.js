@@ -636,9 +636,12 @@ module.exports = (function responseHandler() {
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
-              redeemCoupon(knex, userId, unusedCouponId);
+              return redeemCoupon(knex, unusedCouponId);
             }
 
+            return;
+          })
+          .then((result) => {
             message = new Message(attachment, quickReplies);
             return sendMessage(accessToken, senderId, message);
           })
@@ -731,13 +734,12 @@ module.exports = (function responseHandler() {
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
-              return redeemCoupon(knex, userId, unusedCouponId);
+              return redeemCoupon(knex, unusedCouponId);
             }
 
             return;
           })
-          .then((result) => {
-            console.log(result);
+          .then(() => {
             message = new Message(attachment, quickReplies);
             return sendMessage(accessToken, senderId, message);
           })
@@ -831,9 +833,12 @@ module.exports = (function responseHandler() {
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
-              redeemCoupon(knex, userId, unusedCouponId);
+              return redeemCoupon(knex, unusedCouponId);
             }
 
+            return;
+          })
+          .then(() => {
             message = new Message(attachment, quickReplies);
             return sendMessage(accessToken, senderId, message);
           })
