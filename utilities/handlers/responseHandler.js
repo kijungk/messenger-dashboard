@@ -908,7 +908,7 @@ module.exports = (function responseHandler() {
 
             elements = rows.map((row) => {
               const payload = 'Lunch' + row.vendor_description.replace(/ /g, '') + 'Confirmation';
-
+              console.log(row.vendor_description);
               let buttonTitle = 'Order';
 
               if (!row.inventory) {
