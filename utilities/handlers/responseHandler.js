@@ -183,10 +183,10 @@ module.exports = (function responseHandler() {
     return knex.raw(`
       UPDATE
         products p
-      JOIN
+      INNER JOIN
         vendors v
         ON v.id = p.vendor_id
-      JOIN
+      INNER JOIN
         events e
         ON e.id = v.event_id
         AND e.description = :eventDescription
