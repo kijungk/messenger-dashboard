@@ -525,7 +525,7 @@ module.exports = (function responseHandler() {
             }
 
             elements = rows.map((row) => {
-              const payload = 'Breakfast' + row.vendor_description + 'Confirmation';
+              const payload = 'Breakfast' + row.vendor_description.replace(/ /g, '') + 'Confirmation';
               console.log(payload);
               let buttonTitle = 'Order';
 
