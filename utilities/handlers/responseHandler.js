@@ -636,7 +636,7 @@ module.exports = (function responseHandler() {
               attachment = 'You have successfully redeemed this coupon!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
-
+              console.log(unusedCouponId);
               redeemCoupon(knex, userId, unusedCouponId);
             }
 
