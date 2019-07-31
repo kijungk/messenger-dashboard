@@ -546,6 +546,7 @@ module.exports = (function responseHandler() {
               vendorC: 'https://via.placeholder.com/1910x1000'
             }
 
+            console.log(rows);
             elements = rows.map((row) => {
               const payload = 'Breakfast' + row.vendor_description.replace(/ /g, '') + 'Confirmation';
 
