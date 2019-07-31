@@ -182,11 +182,11 @@ module.exports = (function responseHandler() {
   function decreaseInventory(knex, eventDescription, productDescription) {
     return knex.raw(`
       UPDATE
-        products
+        p
       SET
         inventory = inventory - 1
       FROM
-        products p
+        products AS p
       JOIN
         vendors v
         ON v.id = p.vendor_id
