@@ -526,6 +526,7 @@ module.exports = (function responseHandler() {
 
             elements = rows.map((row) => {
               const payload = 'Breakfast' + row.vendor_description + 'Confirmation';
+              console.log(payload);
               let buttonTitle = 'Order';
 
               if (!row.inventory) {
