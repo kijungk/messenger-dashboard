@@ -647,6 +647,196 @@ module.exports = (function responseHandler() {
             return;
           });
 
+      case 'BreakfastVendorBConfirmation':
+        couponTypeDescription = 'Breakfast';
+        productDescription = 'Breakfast Option B';
+
+        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You already redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'BreakfastMenu'), new QuickReply('Home', 'Home')];
+            }
+
+
+            if (!couponRedeemed && inventory) {
+              elements = [new Element('Order Complete', 'Show this to a staff\nThe button below is for staff only!', 'https://via.placeholder.com/1910x1000')];
+
+              attachment = new Attachment('generic', elements);
+
+              quickReplies = [new QuickReply('Staff Confirm', 'BreakfastVendorBComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
+            }
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking coupon eligibility;
+            return;
+          });
+
+      case 'BreakfastVendorBComplete':
+        couponTypeDescription = 'Breakfast';
+        productDescription = 'Breakfast Option B';
+
+        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              unusedCouponId = result.rows[0].id;
+            } else {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You already redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'BreakfastMenu'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && inventory) {
+              attachment = 'You have successfully redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+
+              redeemCoupon(knex, userId, unusedCouponId);
+            }
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while redeeming coupon;
+            return;
+          });
+
+
+      case 'BreakfastVendorCConfirmation':
+        couponTypeDescription = 'Breakfast';
+        productDescription = 'Breakfast Option C';
+
+        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You already redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'BreakfastMenu'), new QuickReply('Home', 'Home')];
+            }
+
+
+            if (!couponRedeemed && inventory) {
+              elements = [new Element('Order Complete', 'Show this to a staff\nThe button below is for staff only!', 'https://via.placeholder.com/1910x1000')];
+
+              attachment = new Attachment('generic', elements);
+
+              quickReplies = [new QuickReply('Staff Confirm', 'BreakfastVendorCComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
+            }
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking coupon eligibility;
+            return;
+          });
+
+      case 'BreakfastVendorCComplete':
+        couponTypeDescription = 'Breakfast';
+        productDescription = 'Breakfast Option C';
+
+        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              unusedCouponId = result.rows[0].id;
+            } else {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You already redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'BreakfastMenu'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && inventory) {
+              attachment = 'You have successfully redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+
+              redeemCoupon(knex, userId, unusedCouponId);
+            }
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while redeeming coupon;
+            return;
+          });
 
       case 'MobileOrderStatus':
 
