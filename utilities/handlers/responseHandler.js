@@ -173,7 +173,8 @@ module.exports = (function responseHandler() {
       SET
         redeemed = true
       WHERE
-        id = :couponId
+        coupon_id = :couponId
+      AND user_id = :userId
     `, {
         couponId,
         userId
@@ -526,7 +527,7 @@ module.exports = (function responseHandler() {
 
             elements = rows.map((row) => {
               const payload = 'Breakfast' + row.vendor_description.replace(/ /g, '') + 'Confirmation';
-              console.log(payload);
+
               let buttonTitle = 'Order';
 
               if (!row.inventory) {
