@@ -141,7 +141,7 @@ module.exports = (function responseHandler() {
       FROM
         coupons_users
       WHERE
-        userId = :userId
+        user_id = :userId
     `, {
         userId
       });
