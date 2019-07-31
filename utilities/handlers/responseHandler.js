@@ -171,7 +171,7 @@ module.exports = (function responseHandler() {
       UPDATE
         coupons_users
       SET
-        redeemed = TRUE
+        redeemed = 'true'
       WHERE
         id = :couponId
     `, {
