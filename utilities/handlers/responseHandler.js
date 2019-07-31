@@ -528,12 +528,12 @@ module.exports = (function responseHandler() {
               const payload = 'Breakfast' + row.vendor_description + 'Confirmation';
               let buttonTitle = 'Order';
 
-              if (couponRedeemed) {
-                buttonTitle = 'Coupon Redeemed';
-              }
-
               if (!row.inventory) {
                 buttonTitle = 'Out of Stock';
+              }
+
+              if (couponRedeemed) {
+                buttonTitle = 'No Coupons Available';
               }
 
               return new Element(row.vendor_description, row.product_description, imageUrls.vendorA, [new Button(buttonTitle, 'postback', payload)])
