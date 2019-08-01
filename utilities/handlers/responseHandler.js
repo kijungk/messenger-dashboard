@@ -891,6 +891,7 @@ module.exports = (function responseHandler() {
           })
           .then((result) => {
             const { rows } = result;
+            console.log(rows);
 
             const imageUrls = {
               'Vendor A': 'https://via.placeholder.com/1910x1000',
