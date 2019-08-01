@@ -1236,6 +1236,64 @@ module.exports = (function responseHandler() {
 
 
 
+
+      case 'BeverageMenu':
+        couponTypeDescription = 'Beverage';
+
+        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkCouponTypeInventory(knex, couponTypeDescription, eventDescription);
+          })
+          .then((result) => {
+            const { rows } = result;
+
+            const imageUrls = {
+              'Beverage Vendor A': 'https://via.placeholder.com/1910x1000',
+              'Beverage Vendor B': 'https://via.placeholder.com/1910x1000',
+              'Beverage Vendor C': 'https://via.placeholder.com/1910x1000'
+            }
+
+            elements = rows.map((row) => {
+              const payload = 'Beverage' + row.vendor_description + 'Confirmation';
+              let buttonTitle = 'Order';
+
+              if (!row.inventory) {
+                buttonTitle = 'Out of Stock';
+              }
+
+              if (couponRedeemed) {
+                buttonTitle = 'No Coupons Available';
+              }
+
+              return new Element(row.vendor_description, row.productDescription, imageUrls[row.vendor_description], [new Button(buttonTitle, 'postback', payload)]);
+            });
+
+            attachment = new Attachment('generic', elements);
+
+            quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking coupon usage and product inventory
+            return;
+          });
+
+
+
+
+
+
+
+
       case 'DessertMenu':
         couponTypeDescription = 'Dessert';
 
@@ -1487,11 +1545,6 @@ module.exports = (function responseHandler() {
             //error while redeeming coupon;
             return;
           });
-
-
-
-
-
 
       case 'MobileOrderStatus':
         attachment = 'Under construction';
