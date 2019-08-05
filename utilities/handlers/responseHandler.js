@@ -30,6 +30,28 @@ module.exports = (function responseHandler() {
       });
   }
 
+  function checkVendorInventory(knex, eventDescription, vendorDescription) {
+    return knex.raw(`
+      SELECT
+        p.description AS product_description,
+        v.description AS vendor_description,
+        p.inventory
+      FROM
+        products p
+      JOIN
+        vendors v
+        ON v.id = p.vendor_id
+        AND v.description = :vendorDescription
+      JOIN
+        events e
+        ON e.id = v.event_id
+        AND e.description = :eventDescription
+    `, {
+        eventDescription,
+        vendorDescription
+      });
+  }
+
   function checkCouponTypeInventory(knex, couponTypeDescription, eventDescription) {
     return knex.raw(`
         SELECT
@@ -214,6 +236,8 @@ module.exports = (function responseHandler() {
       couponTypeDescription,
       couponRedeemed,
       productDescription,
+      vendorDescription,
+      transactionComplete,
       unusedCouponId;
 
     switch (payload) {
@@ -656,13 +680,18 @@ module.exports = (function responseHandler() {
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
-              return redeemCoupon(knex, unusedCouponId);
+              transactionComplete = true;
             }
 
             return;
           })
           .then(() => {
-            return decreaseInventory(knex, eventDescription, productDescription);
+            if (transactionComplete) {
+              redeemCoupon(knex, unusedCouponId);
+              decreaseInventory(knex, eventDescription, productDescription);
+            }
+
+            return;
           })
           .then(() => {
             message = new Message(attachment, quickReplies);
@@ -757,13 +786,18 @@ module.exports = (function responseHandler() {
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
-              return redeemCoupon(knex, unusedCouponId);
+              transactionComplete = true;
             }
 
             return;
           })
           .then(() => {
-            return decreaseInventory(knex, eventDescription, productDescription);
+            if (transactionComplete) {
+              redeemCoupon(knex, unusedCouponId);
+              decreaseInventory(knex, eventDescription, productDescription);
+            }
+
+            return;
           })
           .then(() => {
             message = new Message(attachment, quickReplies);
@@ -858,13 +892,18 @@ module.exports = (function responseHandler() {
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
-              return redeemCoupon(knex, unusedCouponId);
+              transactionComplete = true;
             }
 
             return;
           })
           .then(() => {
-            return decreaseInventory(knex, eventDescription, productDescription);
+            if (transactionComplete) {
+              redeemCoupon(knex, unusedCouponId);
+              decreaseInventory(knex, eventDescription, productDescription);
+            }
+
+            return;
           })
           .then(() => {
             message = new Message(attachment, quickReplies);
@@ -1009,13 +1048,18 @@ module.exports = (function responseHandler() {
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
-              return redeemCoupon(knex, unusedCouponId);
+              transactionComplete = true;
             }
 
             return;
           })
           .then(() => {
-            return decreaseInventory(knex, eventDescription, productDescription);
+            if (transactionComplete) {
+              redeemCoupon(knex, unusedCouponId);
+              decreaseInventory(knex, eventDescription, productDescription);
+            }
+
+            return;
           })
           .then(() => {
             message = new Message(attachment, quickReplies);
@@ -1110,13 +1154,18 @@ module.exports = (function responseHandler() {
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
-              return redeemCoupon(knex, unusedCouponId);
+              transactionComplete = true;
             }
 
             return;
           })
           .then(() => {
-            return decreaseInventory(knex, eventDescription, productDescription);
+            if (transactionComplete) {
+              redeemCoupon(knex, unusedCouponId);
+              decreaseInventory(knex, eventDescription, productDescription);
+            }
+
+            return;
           })
           .then(() => {
             message = new Message(attachment, quickReplies);
@@ -1211,13 +1260,18 @@ module.exports = (function responseHandler() {
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
-              return redeemCoupon(knex, unusedCouponId);
+              transactionComplete = true;
             }
 
             return;
           })
           .then(() => {
-            return decreaseInventory(knex, eventDescription, productDescription);
+            if (transactionComplete) {
+              redeemCoupon(knex, unusedCouponId);
+              decreaseInventory(knex, eventDescription, productDescription);
+            }
+
+            return;
           })
           .then(() => {
             message = new Message(attachment, quickReplies);
@@ -1247,7 +1301,7 @@ module.exports = (function responseHandler() {
             let buttonTitle = 'Menu';
 
             if (!count) {
-              buttonTitle = 'No Coupon Available';
+              buttonTitle = 'No Coupons Available';
             }
 
             elements = [
@@ -1271,9 +1325,159 @@ module.exports = (function responseHandler() {
 
       case 'BeverageFritzMenu':
         couponTypeDescription = 'Beverage';
-        productDescription = '?????';
+        vendorDescription = 'Fritz';
 
-        return;
+        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkVendorInventory(knex, eventDescription, vendorDescription);
+          })
+          .then((result) => {
+            const { rows } = result;
+
+            const imageUrls = {
+              'Americano': 'https://via.placeholder.com/1910x1000'
+            }
+
+            elements = rows.map((row) => {
+              const payload = row.vendor_description.replace(/ /g, '') + row.product_description.replace(/ /g, '') + 'Confirmation';
+              let buttonTitle = 'Order';
+
+              if (!row.inventory) {
+                buttonTitle = 'Out of Stock';
+              }
+
+              if (couponRedeemed) {
+                buttonTitle = 'No Coupons Availalble';
+              }
+
+              return new Element(row.vendor_description, row.product_description, imageUrls[row.product_description, [new Button(buttonTitle, 'postback', payload)]]);
+            });
+
+            attachment = new Attachment('list', elements, 'compact');
+
+            quickReplies = [new QuickReply('Back', 'BeverageMenu'), new QuickReply('Home', 'Home')];
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking vendor inventory
+            return;
+          });
+
+      case 'FritzAmericanoConfirmation':
+        couponTypeDescription = 'Beverage';
+        productDescription = 'Americano';
+
+        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You already redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'BeverageFritzMenu'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && inventory) {
+              elements = [new Element('Confirm Order', 'It is difficult to cancel an order!', 'https://via.placeholder.com/1910x1000')];
+
+              attachment = new Attachment('generic', elements);
+
+              quickReplies = [new QuickReply('Confirm', 'FritzAmericanoComplete'), new QuickReply('Cancel', 'BeverageFritzMenu')];
+            }
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking inventory
+            return;
+          });
+
+      case 'FritzAmericanoComplete':
+        couponTypeDescription = 'Beverage';
+        productDescription = 'Americano';
+
+        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              unusedCouponId = result.rows[0].id;
+            } else {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You already redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'BeverageFritzMenu'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && inventory) {
+              attachment = 'You have successfully redeemed this coupon!';
+
+              transactionComplete = true;
+            }
+
+            return;
+          })
+          .then(() => {
+            if (transactionComplete) {
+              redeemCoupon(knex, unusedCouponId);
+              decreaseInventory(knex, eventDescription, productDescription);
+              //return receiveOrder returning id
+            }
+
+            return;
+          })
+          .then((result) => {
+            //if result has ID
+            //attachment + "\n\n The order number is ${id}"
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking inventory
+            return;
+          });
 
 
 
@@ -1359,7 +1563,6 @@ module.exports = (function responseHandler() {
               quickReplies = [new QuickReply('Back', 'DessertMenu'), new QuickReply('Home', 'Home')];
             }
 
-
             if (!couponRedeemed && inventory) {
               elements = [new Element('Order Complete', 'Show this to a staff\nThe button below is for staff only!', 'https://via.placeholder.com/1910x1000')];
 
@@ -1413,13 +1616,18 @@ module.exports = (function responseHandler() {
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
-              return redeemCoupon(knex, unusedCouponId);
+              transactionComplete = true;
             }
 
             return;
           })
           .then(() => {
-            return decreaseInventory(knex, eventDescription, productDescription);
+            if (transactionComplete) {
+              redeemCoupon(knex, unusedCouponId);
+              decreaseInventory(knex, eventDescription, productDescription);
+            }
+
+            return;
           })
           .then(() => {
             message = new Message(attachment, quickReplies);
@@ -1514,13 +1722,18 @@ module.exports = (function responseHandler() {
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
-              return redeemCoupon(knex, unusedCouponId);
+              transactionComplete = true;
             }
 
             return;
           })
           .then(() => {
-            return decreaseInventory(knex, eventDescription, productDescription);
+            if (transactionComplete) {
+              redeemCoupon(knex, unusedCouponId);
+              decreaseInventory(knex, eventDescription, productDescription);
+            }
+
+            return;
           })
           .then(() => {
             message = new Message(attachment, quickReplies);
