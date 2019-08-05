@@ -1250,15 +1250,10 @@ module.exports = (function responseHandler() {
               buttonTitle = 'No Coupon Available';
             }
 
-            buttons = [
-              new Button(buttonTitle ? buttonTitle : 'Altdif', 'postback', 'BeverageAltdifMenu'),
-              new Button(buttonTitle ? buttonTitle : 'Vendor C', 'postback', 'BeverageVendorCMenu')
-            ];
-
             elements = [
               new Element('Fritz', 'Beverage Menu', 'https://via.placeholder.com/1910x1000', new Button(buttonTitle, 'postback', 'BeverageFritzMenu')),
-              new Element('Altdif', 'Beverage Menu', 'https://via.placeholder.com/1910x1000', new Button(buttonTitle, 'postback', 'BeverageFritzMenu')),
-              new Element('Vendor C', 'Beverage Menu', 'https://via.placeholder.com/1910x1000', new Button(buttonTitle, 'postback', 'BeverageFritzMenu'))
+              new Element('Altdif', 'Beverage Menu', 'https://via.placeholder.com/1910x1000', new Button(buttonTitle, 'postback', 'BeverageAltdifMenu')),
+              new Element('Vendor C', 'Beverage Menu', 'https://via.placeholder.com/1910x1000', new Button(buttonTitle, 'postback', 'BeverageVendorCMenu'))
             ];
 
             attachment = new Attachment('generic', elements);
@@ -1268,7 +1263,11 @@ module.exports = (function responseHandler() {
             message = new Message(attachment, quickReplies);
             return sendMessage(accessToken, senderId, message);
           })
-
+          .catch((error) => {
+            console.log(error);
+            //error while checking for beverage coupon usage
+            return;
+          });
 
       case 'BeverageFritzMenu':
         couponTypeDescription = 'Beverage';
