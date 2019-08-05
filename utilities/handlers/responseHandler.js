@@ -1251,9 +1251,9 @@ module.exports = (function responseHandler() {
             }
 
             elements = [
-              new Element('Fritz', 'Beverage Menu', 'https://via.placeholder.com/1910x1000', new Button(buttonTitle, 'postback', 'BeverageFritzMenu')),
-              new Element('Altdif', 'Beverage Menu', 'https://via.placeholder.com/1910x1000', new Button(buttonTitle, 'postback', 'BeverageAltdifMenu')),
-              new Element('Vendor C', 'Beverage Menu', 'https://via.placeholder.com/1910x1000', new Button(buttonTitle, 'postback', 'BeverageVendorCMenu'))
+              new Element('Fritz', 'Beverage Menu', 'https://via.placeholder.com/1910x1000', [new Button(buttonTitle, 'postback', 'BeverageFritzMenu')]),
+              new Element('Altdif', 'Beverage Menu', 'https://via.placeholder.com/1910x1000', [new Button(buttonTitle, 'postback', 'BeverageAltdifMenu')]),
+              new Element('Vendor C', 'Beverage Menu', 'https://via.placeholder.com/1910x1000', [new Button(buttonTitle, 'postback', 'BeverageVendorCMenu')])
             ];
 
             attachment = new Attachment('generic', elements);
