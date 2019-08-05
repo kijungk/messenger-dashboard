@@ -891,7 +891,6 @@ module.exports = (function responseHandler() {
           })
           .then((result) => {
             const { rows } = result;
-            console.log(rows);
 
             const imageUrls = {
               'Vendor A': 'https://via.placeholder.com/1910x1000',
@@ -1245,35 +1244,22 @@ module.exports = (function responseHandler() {
           .then((result) => {
             const count = result.rows.length;
 
+            let buttonTitle = 'Menu';
+
             if (!count) {
-              couponRedeemed = true;
+              buttonTitle = 'No Coupon Available';
             }
 
-            return checkCouponTypeInventory(knex, couponTypeDescription, eventDescription);
-          })
-          .then((result) => {
-            const { rows } = result;
+            buttons = [
+              new Button(buttonTitle ? buttonTitle : 'Altdif', 'postback', 'BeverageAltdifMenu'),
+              new Button(buttonTitle ? buttonTitle : 'Vendor C', 'postback', 'BeverageVendorCMenu')
+            ];
 
-            const imageUrls = {
-              'Beverage Vendor A': 'https://via.placeholder.com/1910x1000',
-              'Beverage Vendor B': 'https://via.placeholder.com/1910x1000',
-              'Beverage Vendor C': 'https://via.placeholder.com/1910x1000'
-            }
-
-            elements = rows.map((row) => {
-              const payload = 'Beverage' + row.vendor_description + 'Confirmation';
-              let buttonTitle = 'Order';
-
-              if (!row.inventory) {
-                buttonTitle = 'Out of Stock';
-              }
-
-              if (couponRedeemed) {
-                buttonTitle = 'No Coupons Available';
-              }
-
-              return new Element(row.vendor_description, row.productDescription, imageUrls[row.vendor_description], [new Button(buttonTitle, 'postback', payload)]);
-            });
+            elements = [
+              new Element('Fritz', 'Beverage Menu', 'https://via.placeholder.com/1910x1000', new Button(buttonTitle, 'postback', 'BeverageFritzMenu')),
+              new Element('Altdif', 'Beverage Menu', 'https://via.placeholder.com/1910x1000', new Button(buttonTitle, 'postback', 'BeverageFritzMenu')),
+              new Element('Vendor C', 'Beverage Menu', 'https://via.placeholder.com/1910x1000', new Button(buttonTitle, 'postback', 'BeverageFritzMenu'))
+            ];
 
             attachment = new Attachment('generic', elements);
 
@@ -1282,13 +1268,13 @@ module.exports = (function responseHandler() {
             message = new Message(attachment, quickReplies);
             return sendMessage(accessToken, senderId, message);
           })
-          .catch((error) => {
-            console.log(error);
-            //error while checking coupon usage and product inventory
-            return;
-          });
 
 
+      case 'BeverageFritzMenu':
+        couponTypeDescription = 'Beverage';
+        productDescription = '?????';
+
+        return;
 
 
 
