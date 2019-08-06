@@ -1370,7 +1370,7 @@ module.exports = (function responseHandler() {
               couponRedeemed = true;
             }
 
-            return checkVendorInventory(knex, eventDescription, vendorDescription);
+            return checkVendorInventory(knex, couponTypeDescription, eventDescription, vendorDescription);
           })
           .then((result) => {
             const { rows } = result;
