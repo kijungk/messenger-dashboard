@@ -9,6 +9,32 @@ module.exports = (function responseHandler() {
     { sendMessage } = require('../../utilities/handlers/sendHandler'),
     appEventEmitter = require('../eventEmitters');
 
+  function receiveOrder(knex, eventDescription, productDescription) {
+    return knex.raw(`
+      INSERT INTO
+        orders (event_id, product_id)
+      SELECT
+        e.id,
+        p.id
+      FROM
+        products p
+      JOIN
+        vendors v
+        ON v.id = p.vendor_id
+      JOIN
+        events e
+        ON e.id = v.event_id
+        AND e.description = :eventDescription
+      WHERE
+        p.description = :productDescription
+      RETURNING
+        orders.id
+    `, {
+        eventDescription,
+        productDescription
+      });
+  }
+
   function checkProductInventory(knex, eventDescription, productDescription) {
     return knex.raw(`
         SELECT
@@ -1461,7 +1487,7 @@ module.exports = (function responseHandler() {
             if (transactionComplete) {
               redeemCoupon(knex, unusedCouponId);
               decreaseInventory(knex, eventDescription, productDescription);
-              //return receiveOrder returning id
+              return receiveOrder(knex, eventDescription, productDescription);
             }
 
             return;
@@ -1469,6 +1495,7 @@ module.exports = (function responseHandler() {
           .then((result) => {
             //if result has ID
             //attachment + "\n\n The order number is ${id}"
+            console.log(result);
 
             message = new Message(attachment, quickReplies);
             return sendMessage(accessToken, senderId, message);
