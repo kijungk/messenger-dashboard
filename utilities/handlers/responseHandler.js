@@ -100,11 +100,8 @@ module.exports = (function responseHandler() {
           ON e.id = v.event_id
           AND e.description = :eventDescription
         JOIN
-          coupons c
-          ON c.id = p.coupon_id
-        JOIN
           product_types pt
-          ON pt.id = c.product_type_id
+          ON pt.id = p.product_type_id
           AND pt.description = :productTypeDescription
         ORDER BY
           p.id
