@@ -714,6 +714,7 @@ module.exports = (function responseHandler() {
             return;
           })
           .then(() => {
+            console.log(transactionComplete);
             if (transactionComplete) {
               redeemCoupon(knex, unusedCouponId);
               decreaseInventory(knex, eventDescription, productDescription);
