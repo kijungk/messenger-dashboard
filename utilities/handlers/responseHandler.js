@@ -12,8 +12,9 @@ module.exports = (function responseHandler() {
   function receiveOrder(knex, eventDescription, productDescription) {
     return knex.raw(`
       INSERT INTO
-        orders (event_id, product_id)
+        orders (id, event_id, product_id)
       SELECT
+        DEFAULT
         e.id,
         p.id
       FROM
@@ -28,7 +29,7 @@ module.exports = (function responseHandler() {
       WHERE
         p.description = :productDescription
       RETURNING
-        orders.id
+        id
     `, {
         eventDescription,
         productDescription
@@ -56,7 +57,7 @@ module.exports = (function responseHandler() {
       });
   }
 
-  function checkVendorInventory(knex, eventDescription, vendorDescription) {
+  function checkVendorInventory(knex, couponTypeDescription, eventDescription, vendorDescription) {
     return knex.raw(`
       SELECT
         p.description AS product_description,
@@ -64,6 +65,13 @@ module.exports = (function responseHandler() {
         p.inventory
       FROM
         products p
+      JOIN
+        coupons c
+        ON c.id = p.coupon_id
+      JOIN
+        coupon_types ct
+        ON ct.id = c.coupon_type_id
+        AND ct.description = :couponTypeDescription
       JOIN
         vendors v
         ON v.id = p.vendor_id
@@ -73,6 +81,7 @@ module.exports = (function responseHandler() {
         ON e.id = v.event_id
         AND e.description = :eventDescription
     `, {
+        couponTypeDescription,
         eventDescription,
         vendorDescription
       });
