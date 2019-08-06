@@ -1513,11 +1513,17 @@ module.exports = (function responseHandler() {
             if (transactionComplete) {
               const promises = [
                 redeemCoupon(knex, unusedCouponId),
-                decreaseInventory(knex, eventDescription, productDescription),
-                receiveOrder(knex, eventDescription, productDescription)
+                decreaseInventory(knex, eventDescription, productDescription)
               ];
 
               return Promise.all(promises);
+            }
+
+            return;
+          })
+          .then(() => {
+            if (transactionComplete) {
+              return receiveOrder(knex, eventDescription, productDescription);
             }
 
             return;
