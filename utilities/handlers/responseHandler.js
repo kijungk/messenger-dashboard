@@ -1508,7 +1508,8 @@ module.exports = (function responseHandler() {
 
             return;
           })
-          .then(() => {
+          .then((result) => {
+            console.log('what is this?', result);
             if (transactionComplete) {
               const promises = [
                 redeemCoupon(knex, unusedCouponId),
