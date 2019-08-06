@@ -591,9 +591,9 @@ module.exports = (function responseHandler() {
             const { rows } = result;
 
             const imageUrls = {
-              'Vendor A': 'https://via.placeholder.com/1910x1000',
-              'Vendor B': 'https://via.placeholder.com/1910x1000',
-              'Vendor C': 'https://via.placeholder.com/1910x1000'
+              'Fritz': 'https://via.placeholder.com/1910x1000',
+              'Altdif': 'https://via.placeholder.com/1910x1000',
+              'Breakfast Vendor C': 'https://via.placeholder.com/1910x1000'
             }
 
             elements = rows.map((row) => {
