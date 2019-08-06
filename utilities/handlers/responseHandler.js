@@ -12,9 +12,8 @@ module.exports = (function responseHandler() {
   function receiveOrder(knex, eventDescription, productDescription) {
     return knex.raw(`
       INSERT INTO
-        orders (id, event_id, product_id)
+        orders (event_id, product_id)
       SELECT
-        DEFAULT
         e.id,
         p.id
       FROM
