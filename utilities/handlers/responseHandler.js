@@ -57,7 +57,7 @@ module.exports = (function responseHandler() {
       });
   }
 
-  function checkVendorInventory(knex, couponTypeDescription, eventDescription, vendorDescription) {
+  function checkVendorInventory(knex, productTypeDescription, eventDescription, vendorDescription) {
     return knex.raw(`
       SELECT
         p.description AS product_description,
@@ -69,9 +69,9 @@ module.exports = (function responseHandler() {
         coupons c
         ON c.id = p.coupon_id
       JOIN
-        coupon_types ct
-        ON ct.id = c.coupon_type_id
-        AND ct.description = :couponTypeDescription
+        product_types pt
+        ON pt.id = c.product_type_id
+        AND pt.description = :productTypeDescription
       JOIN
         vendors v
         ON v.id = p.vendor_id
@@ -81,13 +81,13 @@ module.exports = (function responseHandler() {
         ON e.id = v.event_id
         AND e.description = :eventDescription
     `, {
-        couponTypeDescription,
+        productTypeDescription,
         eventDescription,
         vendorDescription
       });
   }
 
-  function checkCouponTypeInventory(knex, couponTypeDescription, eventDescription) {
+  function checkProductTypeInventory(knex, productTypeDescription, eventDescription) {
     return knex.raw(`
         SELECT
           v.description AS vendor_description,
@@ -106,13 +106,13 @@ module.exports = (function responseHandler() {
           coupons c
           ON c.id = p.coupon_id
         JOIN
-          coupon_types ct
-          ON ct.id = c.coupon_type_id
-          AND ct.description = :couponTypeDescription
+          product_types pt
+          ON pt.id = c.product_type_id
+          AND pt.description = :productTypeDescription
         ORDER BY
           p.id
       `, {
-        couponTypeDescription,
+        productTypeDescription,
         eventDescription
       });
   }
@@ -165,7 +165,7 @@ module.exports = (function responseHandler() {
       });
   }
 
-  function checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription) {
+  function checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription) {
     return knex.raw(`
       SELECT
         cu.id
@@ -179,13 +179,13 @@ module.exports = (function responseHandler() {
         ON e.id = c.event_id
         AND e.description = :eventDescription
       JOIN
-        coupon_types ct
-        ON ct.id = c.coupon_type_id
-        AND ct.description = :couponTypeDescription
+        product_types pt
+        ON pt.id = c.product_type_id
+        AND pt.description = :productTypeDescription
       WHERE
         cu.redeemed = false
     `, {
-        couponTypeDescription,
+        productTypeDescription,
         eventDescription,
         userId
       });
@@ -268,7 +268,6 @@ module.exports = (function responseHandler() {
 
     let
       boothDescription,
-      couponTypeDescription,
       couponRedeemed,
       productDescription,
       vendorDescription,
@@ -582,9 +581,9 @@ module.exports = (function responseHandler() {
         return sendMessage(accessToken, senderId, message);
 
       case 'BreakfastMenu':
-        couponTypeDescription = 'Breakfast';
+        productTypeDescription = 'Breakfast';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -592,7 +591,7 @@ module.exports = (function responseHandler() {
               couponRedeemed = true;
             }
 
-            return checkCouponTypeInventory(knex, couponTypeDescription, eventDescription);
+            return checkProductTypeInventory(knex, productTypeDescription, eventDescription);
           })
           .then((result) => {
             const { rows } = result;
@@ -633,10 +632,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'BreakfastFritzConfirmation':
-        couponTypeDescription = 'Breakfast';
+        productTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option A';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -680,10 +679,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'BreakfastFritzComplete':
-        couponTypeDescription = 'Breakfast';
+        productTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option A';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -739,10 +738,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'BreakfastAltdifConfirmation':
-        couponTypeDescription = 'Breakfast';
+        productTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option B';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -786,10 +785,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'BreakfastAltdifComplete':
-        couponTypeDescription = 'Breakfast';
+        productTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option B';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -845,10 +844,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'BreakfastBreakfastVendorCConfirmation':
-        couponTypeDescription = 'Breakfast';
+        productTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option C';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -892,10 +891,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'BreakfastBreakfastVendorCComplete':
-        couponTypeDescription = 'Breakfast';
+        productTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option C';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -951,9 +950,9 @@ module.exports = (function responseHandler() {
           });
 
       case 'LunchMenu':
-        couponTypeDescription = 'Lunch';
+        productTypeDescription = 'Lunch';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -961,7 +960,7 @@ module.exports = (function responseHandler() {
               couponRedeemed = true;
             }
 
-            return checkCouponTypeInventory(knex, couponTypeDescription, eventDescription);
+            return checkProductTypeInventory(knex, productTypeDescription, eventDescription);
           })
           .then((result) => {
             const { rows } = result;
@@ -1001,10 +1000,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'LunchVendorAConfirmation':
-        couponTypeDescription = 'Lunch';
+        productTypeDescription = 'Lunch';
         productDescription = 'Lunch Option A';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -1048,10 +1047,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'LunchVendorAComplete':
-        couponTypeDescription = 'Lunch';
+        productTypeDescription = 'Lunch';
         productDescription = 'Lunch Option A';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -1107,10 +1106,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'LunchVendorBConfirmation':
-        couponTypeDescription = 'Lunch';
+        productTypeDescription = 'Lunch';
         productDescription = 'Lunch Option B';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -1154,10 +1153,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'LunchVendorBComplete':
-        couponTypeDescription = 'Lunch';
+        productTypeDescription = 'Lunch';
         productDescription = 'Lunch Option B';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -1213,10 +1212,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'LunchVendorCConfirmation':
-        couponTypeDescription = 'Lunch';
+        productTypeDescription = 'Lunch';
         productDescription = 'Lunch Option C';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -1260,10 +1259,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'LunchVendorCComplete':
-        couponTypeDescription = 'Lunch';
+        productTypeDescription = 'Lunch';
         productDescription = 'Lunch Option C';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -1327,9 +1326,9 @@ module.exports = (function responseHandler() {
 
 
       case 'BeverageMenu':
-        couponTypeDescription = 'Beverage';
+        productTypeDescription = 'Beverage';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -1359,10 +1358,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'BeverageFritzMenu':
-        couponTypeDescription = 'Beverage';
+        productTypeDescription = 'Beverage';
         vendorDescription = 'Fritz';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -1370,7 +1369,7 @@ module.exports = (function responseHandler() {
               couponRedeemed = true;
             }
 
-            return checkVendorInventory(knex, couponTypeDescription, eventDescription, vendorDescription);
+            return checkVendorInventory(knex, productTypeDescription, eventDescription, vendorDescription);
           })
           .then((result) => {
             const { rows } = result;
@@ -1408,10 +1407,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'FritzAmericanoConfirmation':
-        couponTypeDescription = 'Beverage';
+        productTypeDescription = 'Beverage';
         productDescription = 'Americano';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -1454,10 +1453,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'FritzAmericanoComplete':
-        couponTypeDescription = 'Beverage';
+        productTypeDescription = 'Beverage';
         productDescription = 'Americano';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -1521,9 +1520,9 @@ module.exports = (function responseHandler() {
 
 
       case 'DessertMenu':
-        couponTypeDescription = 'Dessert';
+        productTypeDescription = 'Dessert';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -1531,7 +1530,7 @@ module.exports = (function responseHandler() {
               couponRedeemed = true;
             }
 
-            return checkCouponTypeInventory(knex, couponTypeDescription, eventDescription);
+            return checkProductTypeInventory(knex, productTypeDescription, eventDescription);
           })
           .then((result) => {
             const { rows } = result;
@@ -1571,10 +1570,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'DessertVendorAConfirmation':
-        couponTypeDescription = 'Dessert';
+        productTypeDescription = 'Dessert';
         productDescription = 'Dessert Option A';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -1617,10 +1616,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'DessertVendorAComplete':
-        couponTypeDescription = 'Dessert';
+        productTypeDescription = 'Dessert';
         productDescription = 'Dessert Option A';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -1676,10 +1675,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'DessertVendorBConfirmation':
-        couponTypeDescription = 'Dessert';
+        productTypeDescription = 'Dessert';
         productDescription = 'Dessert Option B';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
@@ -1723,10 +1722,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'DessertVendorBComplete':
-        couponTypeDescription = 'Dessert';
+        productTypeDescription = 'Dessert';
         productDescription = 'Dessert Option B';
 
-        return checkUnusedCoupon(knex, userId, couponTypeDescription, eventDescription)
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
             const count = result.rows.length;
 
