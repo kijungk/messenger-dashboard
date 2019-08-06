@@ -972,9 +972,9 @@ module.exports = (function responseHandler() {
             const { rows } = result;
 
             const imageUrls = {
-              'Vendor A': 'https://via.placeholder.com/1910x1000',
-              'Vendor B': 'https://via.placeholder.com/1910x1000',
-              'Vendor C': 'https://via.placeholder.com/1910x1000'
+              'Lunch Vendor A': 'https://via.placeholder.com/1910x1000',
+              'Lunch Vendor B': 'https://via.placeholder.com/1910x1000',
+              'Lunch Vendor C': 'https://via.placeholder.com/1910x1000'
             }
 
             elements = rows.map((row) => {
