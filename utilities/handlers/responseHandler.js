@@ -715,16 +715,12 @@ module.exports = (function responseHandler() {
           })
           .then(() => {
             if (transactionComplete) {
-              redeemCoupon(knex, unusedCouponId)
-                .then(() => {
-                  console.log('hit1');
-                  return;
-                });
-              decreaseInventory(knex, eventDescription, productDescription)
-                .then(() => {
-                  console.log('hit2')
-                  return;
-                });
+              const promises = [
+                redeemCoupon(knex, unusedCouponId),
+                decreaseInventory(knex, eventDescription, productDescription)
+              ];
+
+              return Promise.all(promises);
             }
 
             return;
@@ -829,8 +825,12 @@ module.exports = (function responseHandler() {
           })
           .then(() => {
             if (transactionComplete) {
-              redeemCoupon(knex, unusedCouponId);
-              decreaseInventory(knex, eventDescription, productDescription);
+              const promises = [
+                redeemCoupon(knex, unusedCouponId),
+                decreaseInventory(knex, eventDescription, productDescription)
+              ];
+
+              return Promise.all(promises);
             }
 
             return;
@@ -935,8 +935,12 @@ module.exports = (function responseHandler() {
           })
           .then(() => {
             if (transactionComplete) {
-              redeemCoupon(knex, unusedCouponId);
-              decreaseInventory(knex, eventDescription, productDescription);
+              const promises = [
+                redeemCoupon(knex, unusedCouponId),
+                decreaseInventory(knex, eventDescription, productDescription)
+              ];
+
+              return Promise.all(promises);
             }
 
             return;
@@ -1091,8 +1095,12 @@ module.exports = (function responseHandler() {
           })
           .then(() => {
             if (transactionComplete) {
-              redeemCoupon(knex, unusedCouponId);
-              decreaseInventory(knex, eventDescription, productDescription);
+              const promises = [
+                redeemCoupon(knex, unusedCouponId),
+                decreaseInventory(knex, eventDescription, productDescription)
+              ];
+
+              return Promise.all(promises);
             }
 
             return;
@@ -1197,8 +1205,12 @@ module.exports = (function responseHandler() {
           })
           .then(() => {
             if (transactionComplete) {
-              redeemCoupon(knex, unusedCouponId);
-              decreaseInventory(knex, eventDescription, productDescription);
+              const promises = [
+                redeemCoupon(knex, unusedCouponId),
+                decreaseInventory(knex, eventDescription, productDescription)
+              ];
+
+              return Promise.all(promises);
             }
 
             return;
@@ -1303,8 +1315,12 @@ module.exports = (function responseHandler() {
           })
           .then(() => {
             if (transactionComplete) {
-              redeemCoupon(knex, unusedCouponId);
-              decreaseInventory(knex, eventDescription, productDescription);
+              const promises = [
+                redeemCoupon(knex, unusedCouponId),
+                decreaseInventory(knex, eventDescription, productDescription)
+              ];
+
+              return Promise.all(promises);
             }
 
             return;
@@ -1495,9 +1511,13 @@ module.exports = (function responseHandler() {
           })
           .then(() => {
             if (transactionComplete) {
-              redeemCoupon(knex, unusedCouponId);
-              decreaseInventory(knex, eventDescription, productDescription);
-              return receiveOrder(knex, eventDescription, productDescription);
+              const promises = [
+                redeemCoupon(knex, unusedCouponId),
+                decreaseInventory(knex, eventDescription, productDescription),
+                receiveOrder(knex, eventDescription, productDescription)
+              ];
+
+              return Promise.all(promises);
             }
 
             return;
@@ -1660,8 +1680,12 @@ module.exports = (function responseHandler() {
           })
           .then(() => {
             if (transactionComplete) {
-              redeemCoupon(knex, unusedCouponId);
-              decreaseInventory(knex, eventDescription, productDescription);
+              const promises = [
+                redeemCoupon(knex, unusedCouponId),
+                decreaseInventory(knex, eventDescription, productDescription)
+              ];
+
+              return Promise.all(promises);
             }
 
             return;
@@ -1766,8 +1790,12 @@ module.exports = (function responseHandler() {
           })
           .then(() => {
             if (transactionComplete) {
-              redeemCoupon(knex, unusedCouponId);
-              decreaseInventory(knex, eventDescription, productDescription);
+              const promises = [
+                redeemCoupon(knex, unusedCouponId),
+                decreaseInventory(knex, eventDescription, productDescription)
+              ];
+
+              return Promise.all(promises);
             }
 
             return;
