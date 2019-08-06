@@ -690,7 +690,6 @@ module.exports = (function responseHandler() {
           })
           .then((result) => {
             const { inventory } = result.rows[0];
-            console.log(inventory);
 
             if (couponRedeemed) {
               attachment = 'You already redeemed this coupon!';
@@ -716,8 +715,16 @@ module.exports = (function responseHandler() {
           })
           .then(() => {
             if (transactionComplete) {
-              redeemCoupon(knex, unusedCouponId);
-              decreaseInventory(knex, eventDescription, productDescription);
+              redeemCoupon(knex, unusedCouponId)
+                .then(() => {
+                  console.log('hit1');
+                  return;
+                });
+              decreaseInventory(knex, eventDescription, productDescription)
+                .then(() => {
+                  console.log('hit2')
+                  return;
+                });
             }
 
             return;
