@@ -1409,6 +1409,8 @@ module.exports = (function responseHandler() {
               return new Element(row.vendor_description, row.product_description, imageUrls[row.product_description], [new Button(buttonTitle, 'postback', payload)]);
             });
 
+            console.log(elements);
+
             attachment = new Attachment('list', elements, 'compact');
 
             quickReplies = [new QuickReply('Back', 'BeverageMenu'), new QuickReply('Home', 'Home')];
