@@ -1406,7 +1406,7 @@ module.exports = (function responseHandler() {
                 buttonTitle = 'No Coupons Availalble';
               }
 
-              return new Element(row.vendor_description, row.product_description, imageUrls[row.product_description], [new Button(buttonTitle, 'postback', payload)]]);
+              return new Element(row.vendor_description, row.product_description, imageUrls[row.product_description], [new Button(buttonTitle, 'postback', payload)]);
             });
 
             attachment = new Attachment('list', elements, 'compact');
