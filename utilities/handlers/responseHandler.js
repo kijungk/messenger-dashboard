@@ -1532,8 +1532,8 @@ module.exports = (function responseHandler() {
             return;
           })
           .then((result) => {
-            const result = result.rows[0];
-            const id = result.id.toString();
+            let { id } = result.rows[0];
+            id = id.toString();
 
             if (id) {
               attachment += `\n\nThe order number is ${id.padStart(4, '0')}.`
