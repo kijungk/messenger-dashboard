@@ -28,7 +28,7 @@ module.exports = (function responseHandler() {
       WHERE
         p.description = :productDescription
       RETURNING
-        id, complete
+        id, complete, p.description
     `, {
         eventDescription,
         productDescription
