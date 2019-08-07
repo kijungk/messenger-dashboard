@@ -141,6 +141,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_not_found_not_found_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/not-found/not-found.component */ "./src/app/pages/not-found/not-found.component.ts");
 /* harmony import */ var _pages_events_events_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/events/events.component */ "./src/app/pages/events/events.component.ts");
 /* harmony import */ var _components_footer_footer_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/footer/footer.component */ "./src/app/components/footer/footer.component.ts");
+/* harmony import */ var _components_orders_orders_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/orders/orders.component */ "./src/app/components/orders/orders.component.ts");
+
 
 
 
@@ -163,7 +165,8 @@ var AppModule = /** @class */ (function () {
                 _pages_home_home_component__WEBPACK_IMPORTED_MODULE_7__["HomeComponent"],
                 _pages_not_found_not_found_component__WEBPACK_IMPORTED_MODULE_8__["NotFoundComponent"],
                 _pages_events_events_component__WEBPACK_IMPORTED_MODULE_9__["EventsComponent"],
-                _components_footer_footer_component__WEBPACK_IMPORTED_MODULE_10__["FooterComponent"]
+                _components_footer_footer_component__WEBPACK_IMPORTED_MODULE_10__["FooterComponent"],
+                _components_orders_orders_component__WEBPACK_IMPORTED_MODULE_11__["OrdersComponent"]
             ],
             imports: [
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_4__["AppRoutingModule"],
@@ -293,6 +296,62 @@ var HeaderComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/components/orders/orders.component.html":
+/*!*********************************************************!*\
+  !*** ./src/app/components/orders/orders.component.html ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    hello world\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/components/orders/orders.component.scss":
+/*!*********************************************************!*\
+  !*** ./src/app/components/orders/orders.component.scss ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvb3JkZXJzL29yZGVycy5jb21wb25lbnQuc2NzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/components/orders/orders.component.ts":
+/*!*******************************************************!*\
+  !*** ./src/app/components/orders/orders.component.ts ***!
+  \*******************************************************/
+/*! exports provided: OrdersComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrdersComponent", function() { return OrdersComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+var OrdersComponent = /** @class */ (function () {
+    function OrdersComponent() {
+    }
+    OrdersComponent.prototype.ngOnInit = function () {
+    };
+    OrdersComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-orders',
+            template: __webpack_require__(/*! ./orders.component.html */ "./src/app/components/orders/orders.component.html"),
+            styles: [__webpack_require__(/*! ./orders.component.scss */ "./src/app/components/orders/orders.component.scss")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+    ], OrdersComponent);
+    return OrdersComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/pages/events/events.component.html":
 /*!****************************************************!*\
   !*** ./src/app/pages/events/events.component.html ***!
@@ -334,8 +393,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var EventsComponent = /** @class */ (function () {
-    function EventsComponent(keyValueDiffers, eventsService, route) {
-        this.keyValueDiffers = keyValueDiffers;
+    function EventsComponent(eventsService, route) {
         this.eventsService = eventsService;
         this.route = route;
         this.modals = {
@@ -344,17 +402,8 @@ var EventsComponent = /** @class */ (function () {
         };
     }
     EventsComponent.prototype.ngOnInit = function () {
-        this.difference = this.keyValueDiffers.find({}).create();
         this.id = this.route.snapshot.params.id;
         this.event = this.getEvent(this.id);
-    };
-    EventsComponent.prototype.ngDoCheck = function () {
-        var change = this.difference.diff(this);
-        if (change) {
-            change.forEachChangedItem(function (item) {
-                console.log(item);
-            });
-        }
     };
     EventsComponent.prototype.getEvent = function (id) {
         return this.eventsService.getEvent(id);
@@ -368,8 +417,7 @@ var EventsComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./events.component.html */ "./src/app/pages/events/events.component.html"),
             styles: [__webpack_require__(/*! ./events.component.scss */ "./src/app/pages/events/events.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_1__["KeyValueDiffers"],
-            src_app_services_events_service__WEBPACK_IMPORTED_MODULE_2__["EventsService"],
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_events_service__WEBPACK_IMPORTED_MODULE_2__["EventsService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
     ], EventsComponent);
     return EventsComponent;
