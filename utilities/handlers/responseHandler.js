@@ -1528,9 +1528,7 @@ module.exports = (function responseHandler() {
             return;
           })
           .then((result) => {
-            //if result has ID
-            //attachment + "\n\n The order number is ${id}"
-            const { id } = result.rows[0];
+            const { id } = result.rows[0].toString();
 
             if (id) {
               attachment + `\n\nThe order number is ${id.padStart(4, '0')}.`
