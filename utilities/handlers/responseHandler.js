@@ -1390,7 +1390,6 @@ module.exports = (function responseHandler() {
           })
           .then((result) => {
             const { rows } = result;
-            console.log(rows);
             const imageUrls = {
               'Americano': 'https://via.placeholder.com/1910x1000'
             }
@@ -1508,8 +1507,7 @@ module.exports = (function responseHandler() {
 
             return;
           })
-          .then((result) => {
-            console.log('what is this?', result);
+          .then(() => {
             if (transactionComplete) {
               const promises = [
                 redeemCoupon(knex, unusedCouponId),
