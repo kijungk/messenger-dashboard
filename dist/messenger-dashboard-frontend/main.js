@@ -336,6 +336,7 @@ var OrdersComponent = /** @class */ (function () {
     function OrdersComponent() {
     }
     OrdersComponent.prototype.ngOnInit = function () {
+        console.log('hello world');
     };
     OrdersComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
