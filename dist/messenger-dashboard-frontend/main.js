@@ -300,7 +300,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"events\">\n      <div *ngIf=\"event | async as event\" id=\"event\">\n        <img src={{event.url}} alt={{event.description}} id=\"event-image\">\n        <div id=\"title-container\">\n          <div class=\"oswald\">\n            {{event.description}}\n          </div>\n          <div class=\"roboto\">\n            Dashboard\n          </div>\n        </div>\n      </div>\n      <div id=\"menu\">\n        <div class=\"card\" (click)=\"toggleModal('pushNotification')\">\n          <i class=\"fas fa-bullhorn\"></i>\n          <div class=\"oswald\">\n            Push Notification\n          </div>\n        </div>\n        <div class=\"card\">\n          <i class=\"fas fa-cash-register\" (click)=\"toggleModal('orders')\"></i>\n          <div class=\"oswald\">\n            Orders\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"events\">\n      <div *ngIf=\"event | async as event\" id=\"event\">\n        <img src={{event.url}} alt={{event.description}} id=\"event-image\">\n        <div id=\"title-container\">\n          <div class=\"oswald\">\n            {{event.description}}\n          </div>\n          <div class=\"roboto\">\n            Dashboard\n          </div>\n        </div>\n      </div>\n      <div id=\"menu\">\n        <div class=\"card\" (click)=\"toggleModal('pushNotification')\">\n          <i class=\"fas fa-bullhorn\"></i>\n          <div class=\"oswald\">\n            Push Notification\n          </div>\n        </div>\n        <div class=\"card\" (click)=\"toggleModal('orders')\">\n          <i class=\"fas fa-cash-register\"></i>\n          <div class=\"oswald\">\n            Orders\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -334,23 +334,33 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var EventsComponent = /** @class */ (function () {
-    function EventsComponent(eventsService, route) {
+    function EventsComponent(keyValueDiffers, eventsService, route) {
+        this.keyValueDiffers = keyValueDiffers;
         this.eventsService = eventsService;
         this.route = route;
         this.modals = {
             pushNotification: false,
-            orders: false
+            orders: false,
         };
     }
     EventsComponent.prototype.ngOnInit = function () {
+        this.difference = this.keyValueDiffers.find({}).create();
         this.id = this.route.snapshot.params.id;
         this.event = this.getEvent(this.id);
+    };
+    EventsComponent.prototype.ngDoCheck = function () {
+        var change = this.difference.diff(this);
+        if (change) {
+            change.forEachChangedItem(function (item) {
+                console.log(item);
+            });
+        }
     };
     EventsComponent.prototype.getEvent = function (id) {
         return this.eventsService.getEvent(id);
     };
     EventsComponent.prototype.toggleModal = function (modal) {
-        console.log(modal);
+        return this.modals[modal] = !this.modals[modal];
     };
     EventsComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -358,7 +368,8 @@ var EventsComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./events.component.html */ "./src/app/pages/events/events.component.html"),
             styles: [__webpack_require__(/*! ./events.component.scss */ "./src/app/pages/events/events.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_events_service__WEBPACK_IMPORTED_MODULE_2__["EventsService"],
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_1__["KeyValueDiffers"],
+            src_app_services_events_service__WEBPACK_IMPORTED_MODULE_2__["EventsService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
     ], EventsComponent);
     return EventsComponent;
