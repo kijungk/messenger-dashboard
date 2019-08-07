@@ -28,7 +28,7 @@ module.exports = (function responseHandler() {
       WHERE
         p.description = :productDescription
       RETURNING
-        id, complete, e.description, p.description
+        id
     `, {
         eventDescription,
         productDescription
@@ -318,7 +318,6 @@ module.exports = (function responseHandler() {
         attachment = new Attachment('generic', elements);
 
         message = new Message(attachment);
-        console.log(message);
         return sendMessage(accessToken, senderId, message);
 
       case 'AgendaCarousel':
@@ -1533,13 +1532,12 @@ module.exports = (function responseHandler() {
             return;
           })
           .then((result) => {
-            const result = result.rows[0];
-            const id = result.id.toString();
-
-            appEventEmitter.emit('order', result);
+            let { id } = result.rows[0];
+            id = id.toString();
 
             if (id) {
-              attachment += `\n\nThe order number is ${id.padStart(4, '0')}.`
+              console.log('hit');
+              attachment + `\n\nThe order number is ${id.padStart(4, '0')}.`
             }
 
             message = new Message(attachment, quickReplies);
