@@ -19,7 +19,7 @@ router.route('/')
         o.id,
         o.complete,
         e.description,
-        p.description,
+        p.description
       FROM
         orders o
       JOIN
