@@ -15,9 +15,9 @@ router.route('/')
     knex.raw(`
       SELECT
         o.id,
-        o.complete,
-        e.description,
-        p.description
+        o.created_at,
+        p.description,
+        v.id
       FROM
         orders o
       JOIN
@@ -27,6 +27,9 @@ router.route('/')
       JOIN
         products p
         ON p.id = o.product_id
+      JOIN
+        vendors v
+        ON v.id = p.vendor_id
       WHERE
         o.complete = false
     `)
