@@ -1503,6 +1503,8 @@ module.exports = (function responseHandler() {
             if (!couponRedeemed && inventory) {
               attachment = 'You have successfully redeemed this coupon!';
 
+              quickReplies = [new QuickReply('Back', 'BeverageMenu'), new QuickReply('Home', 'Home')];
+
               transactionComplete = true;
             }
 
@@ -1531,6 +1533,7 @@ module.exports = (function responseHandler() {
             const { id } = result.rows[0].toString();
 
             if (id) {
+              console.log('hit');
               attachment + `\n\nThe order number is ${id.padStart(4, '0')}.`
             }
 
