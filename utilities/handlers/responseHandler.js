@@ -318,7 +318,6 @@ module.exports = (function responseHandler() {
         attachment = new Attachment('generic', elements);
 
         message = new Message(attachment);
-        console.log(message);
         return sendMessage(accessToken, senderId, message);
 
       case 'AgendaCarousel':
@@ -1535,8 +1534,6 @@ module.exports = (function responseHandler() {
           .then((result) => {
             const result = result.rows[0];
             const id = result.id.toString();
-
-            appEventEmitter.emit('order', result);
 
             if (id) {
               attachment += `\n\nThe order number is ${id.padStart(4, '0')}.`
