@@ -1532,7 +1532,7 @@ module.exports = (function responseHandler() {
             return;
           })
           .then((result) => {
-            const { id } = result.rows[0].toString();
+            const { id } = result.rows[0];
             console.log(id);
             if (id) {
               console.log('hit');
