@@ -17,7 +17,7 @@ router.route('/')
         o.id,
         o.created_at,
         p.description,
-        v.id
+        p.vendor_id
       FROM
         orders o
       JOIN
@@ -27,9 +27,6 @@ router.route('/')
       JOIN
         products p
         ON p.id = o.product_id
-      JOIN
-        vendors v
-        ON v.id = p.vendor_id
       WHERE
         o.complete = false
     `)
@@ -49,15 +46,12 @@ router.route('/')
           o.id,
           o.created_at,
           p.description,
-          v.id
+          p.vendor_id
         FROM
           orders o
         JOIN
           products p
           ON p.id = o.product_id
-        JOIN
-          vendors v
-          ON v.id = p.vendor_id
         WHERE
           o.id = :id
       `, {
