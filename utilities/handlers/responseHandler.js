@@ -28,7 +28,7 @@ module.exports = (function responseHandler() {
       WHERE
         p.description = :productDescription
       RETURNING
-        id
+        id, complete, e.description, p.description
     `, {
         eventDescription,
         productDescription
@@ -1532,8 +1532,8 @@ module.exports = (function responseHandler() {
             return;
           })
           .then((result) => {
-            let { id } = result.rows[0];
-            id = id.toString();
+            const result = result.rows[0];
+            const id = result.id.toString();
 
             if (id) {
               attachment += `\n\nThe order number is ${id.padStart(4, '0')}.`

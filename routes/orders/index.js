@@ -16,7 +16,10 @@ router.route('/')
 
     knex.raw(`
       SELECT
-        *
+        o.id,
+        o.complete,
+        e.description,
+        p.description,
       FROM
         orders o
       JOIN
