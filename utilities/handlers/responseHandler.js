@@ -1536,7 +1536,7 @@ module.exports = (function responseHandler() {
             id = id.toString();
 
             if (id) {
-              attachment + `\n\nThe order number is ${id.padStart(4, '0')}.`
+              attachment += `\n\nThe order number is ${id.padStart(4, '0')}.`
             }
 
             message = new Message(attachment, quickReplies);
