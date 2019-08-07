@@ -1533,7 +1533,7 @@ module.exports = (function responseHandler() {
           })
           .then((result) => {
             const { id } = result.rows[0].toString();
-
+            console.log(id);
             if (id) {
               console.log('hit');
               attachment + `\n\nThe order number is ${id.padStart(4, '0')}.`
