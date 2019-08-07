@@ -1391,7 +1391,8 @@ module.exports = (function responseHandler() {
           .then((result) => {
             const { rows } = result;
             const imageUrls = {
-              'Americano': 'https://via.placeholder.com/1910x1000'
+              'Americano': 'https://via.placeholder.com/1910x1000',
+              'Latte': 'https://via.placeholder.com/1910x1000'
             }
 
             elements = rows.map((row) => {
@@ -1408,8 +1409,6 @@ module.exports = (function responseHandler() {
 
               return new Element(row.vendor_description, row.product_description, imageUrls[row.product_description], [new Button(buttonTitle, 'postback', payload)]);
             });
-
-            console.log(elements);
 
             attachment = new Attachment('list', elements, 'compact');
 
@@ -1531,7 +1530,11 @@ module.exports = (function responseHandler() {
           .then((result) => {
             //if result has ID
             //attachment + "\n\n The order number is ${id}"
-            console.log(result);
+            const { id } = result.rows[0];
+
+            if (id) {
+              attachment + `\n\nThe order number is ${id.padStart(4, '0')}.`
+            }
 
             message = new Message(attachment, quickReplies);
             return sendMessage(accessToken, senderId, message);
