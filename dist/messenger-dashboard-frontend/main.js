@@ -337,6 +337,10 @@ var EventsComponent = /** @class */ (function () {
     function EventsComponent(eventsService, route) {
         this.eventsService = eventsService;
         this.route = route;
+        this.modals = {
+            pushNotification: false,
+            orders: false
+        };
     }
     EventsComponent.prototype.ngOnInit = function () {
         this.id = this.route.snapshot.params.id;
@@ -345,8 +349,8 @@ var EventsComponent = /** @class */ (function () {
     EventsComponent.prototype.getEvent = function (id) {
         return this.eventsService.getEvent(id);
     };
-    EventsComponent.prototype.navigateTo = function (uri) {
-        //dosomething
+    EventsComponent.prototype.toggleModal = function (modal) {
+        console.log(modal);
     };
     EventsComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
