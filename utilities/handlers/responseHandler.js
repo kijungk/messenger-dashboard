@@ -1532,8 +1532,10 @@ module.exports = (function responseHandler() {
             return;
           })
           .then((result) => {
-            const { id } = result.rows[0].toString();
-            console.log(id);
+            let { id } = result.rows[0];
+            id = id.toString();
+            console.log(id, typeof id);
+
             if (id) {
               console.log('hit');
               attachment + `\n\nThe order number is ${id.padStart(4, '0')}.`
