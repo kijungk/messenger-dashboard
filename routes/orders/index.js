@@ -1,6 +1,7 @@
 const
   express = require('express'),
   router = express.Router(),
+  knex = require('../../db/knex'),
   appEventEmitter = require('../../utilities/eventEmitters');
 
 router.route('/')
@@ -12,6 +13,24 @@ router.route('/')
       'cache-control': 'no-cache',
       'content-type': 'application/json'
     });
+
+    knex.raw(`
+      SELECT
+        *
+      FROM
+        orders o
+      JOIN
+        events e
+        ON e.id = o.event_id
+        AND e.description = 'FMS 2019'
+      JOIN
+        products p
+        ON p.id = o.product_id
+    `)
+      .then((result) => {
+        const { rows } = result;
+        response.write(JSON.stringify(rows));
+      })
 
     appEventEmitter.on('order', (data) => {
       data.stream_id = ++id;
