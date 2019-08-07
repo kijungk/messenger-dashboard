@@ -76,6 +76,8 @@ module.exports = (function responseHandler() {
         events e
         ON e.id = v.event_id
         AND e.description = :eventDescription
+      ORDER BY
+        p.id
     `, {
         productTypeDescription,
         eventDescription,
