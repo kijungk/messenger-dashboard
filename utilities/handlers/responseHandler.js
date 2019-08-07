@@ -28,7 +28,7 @@ module.exports = (function responseHandler() {
       WHERE
         p.description = :productDescription
       RETURNING
-        id, complete
+        id
     `, {
         eventDescription,
         productDescription
@@ -1536,9 +1536,9 @@ module.exports = (function responseHandler() {
             let { id } = row;
             id = id.toString();
 
-            appEventEmitter.emit('order', row);
 
             if (id) {
+              appEventEmitter.emit('order', row);
               attachment += `\n\nThe order number is ${id.padStart(4, '0')}.`
             }
 
