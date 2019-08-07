@@ -318,6 +318,7 @@ module.exports = (function responseHandler() {
         attachment = new Attachment('generic', elements);
 
         message = new Message(attachment);
+        console.log(message);
         return sendMessage(accessToken, senderId, message);
 
       case 'AgendaCarousel':
