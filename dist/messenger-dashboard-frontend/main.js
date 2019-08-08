@@ -627,9 +627,10 @@ var OrdersService = /** @class */ (function () {
         var _this = this;
         return new rxjs__WEBPACK_IMPORTED_MODULE_2__["Observable"](function (observable) {
             var eventSource = new EventSource(_this.ordersUrl);
+            console.log('hit');
             eventSource.addEventListener('message', function (event) {
-                console.log(event);
-                // observable.next(event.data);
+                console.log(event.data);
+                alert(event.data);
             });
             return function () { return eventSource.close(); };
         });
