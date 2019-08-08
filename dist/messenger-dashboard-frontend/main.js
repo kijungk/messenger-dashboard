@@ -303,7 +303,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    hello world\n  </div>\n</div>"
+module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"order\" *ngFor=\"let order of orders | async\">\n      {{order.id}}\n      {{order.createdAt}}\n      {{order.productDescription}}\n      {{order.vendorId}}\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -330,13 +330,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrdersComponent", function() { return OrdersComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_orders_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/orders.service */ "./src/app/services/orders.service.ts");
+
 
 
 var OrdersComponent = /** @class */ (function () {
-    function OrdersComponent() {
+    function OrdersComponent(ordersService) {
+        this.ordersService = ordersService;
     }
     OrdersComponent.prototype.ngOnInit = function () {
-        console.log('hello world');
+        this.orders = this.getOrders();
+        console.log(this.orders);
+    };
+    OrdersComponent.prototype.getOrders = function () {
+        return this.ordersService.getOrders();
     };
     OrdersComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -344,7 +351,7 @@ var OrdersComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./orders.component.html */ "./src/app/components/orders/orders.component.html"),
             styles: [__webpack_require__(/*! ./orders.component.scss */ "./src/app/components/orders/orders.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_orders_service__WEBPACK_IMPORTED_MODULE_2__["OrdersService"]])
     ], OrdersComponent);
     return OrdersComponent;
 }());
@@ -588,6 +595,43 @@ var EventsService = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
     ], EventsService);
     return EventsService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/services/orders.service.ts":
+/*!********************************************!*\
+  !*** ./src/app/services/orders.service.ts ***!
+  \********************************************/
+/*! exports provided: OrdersService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrdersService", function() { return OrdersService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+
+
+
+var OrdersService = /** @class */ (function () {
+    function OrdersService(http) {
+        this.http = http;
+        this.ordersUrl = '/api/orders';
+    }
+    OrdersService.prototype.getOrders = function () {
+        return this.http.get(this.ordersUrl);
+    };
+    OrdersService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+    ], OrdersService);
+    return OrdersService;
 }());
 
 
