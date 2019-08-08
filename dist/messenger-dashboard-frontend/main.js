@@ -342,6 +342,7 @@ var OrdersComponent = /** @class */ (function () {
         this.getOrders();
     };
     OrdersComponent.prototype.getOrders = function () {
+        console.log('initial');
         return this.ordersService.getOrders();
     };
     OrdersComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
