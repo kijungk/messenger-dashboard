@@ -10,7 +10,6 @@ router.route('/')
 
     response.set({
       'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache',
       'Connection': 'keep-alive'
     });
 
