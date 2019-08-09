@@ -9,7 +9,7 @@ router.route('/')
     response.status(200).set({
       'connection': 'keep-alive',
       'cache-control': 'no-cache',
-      'content-type': 'application/json'
+      'content-type': 'text/event-stream'
     });
 
     knex.raw(`
