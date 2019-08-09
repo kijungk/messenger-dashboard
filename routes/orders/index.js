@@ -12,7 +12,15 @@ router.route('/')
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive'
     });
-    response.write('fuck you and just work');
+
+
+    function keepAlive() {
+      response.write('fuck you and just work');
+      response.write('\n\n');
+      setTimeout(keepAlive, 20000);
+    }
+
+    setTimeout(keepAlive, 20000);
 
     // response.status(200).set({
     //   'connection': 'keep-alive',
