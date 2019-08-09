@@ -610,19 +610,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrdersService", function() { return OrdersService; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var ng_event_source__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ng-event-source */ "./node_modules/ng-event-source/eventsource.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+
 
 
 
 var OrdersService = /** @class */ (function () {
-    function OrdersService(http, zone) {
+    function OrdersService(http) {
         this.http = http;
-        this.zone = zone;
         this.ordersUrl = '/api/orders';
     }
     OrdersService.prototype.test = function () {
-        var eventSource = new EventSource(this.ordersUrl);
-        eventSource.addEventListener('message', (function (event) {
+        this.eventSource = new ng_event_source__WEBPACK_IMPORTED_MODULE_2__["EventSourcePolyfill"](this.ordersUrl);
+        this.eventSource.addEventListener('message', (function (event) {
             console.log(event);
         }));
     };
@@ -630,8 +631,7 @@ var OrdersService = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"],
-            _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgZone"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"]])
     ], OrdersService);
     return OrdersService;
 }());

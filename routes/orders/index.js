@@ -6,16 +6,17 @@ const
 
 router.route('/')
   .get((request, response) => {
+    console.log('lets check for request');
 
     response.set({
-      'Content-Type': 'application/json',
+      'Content-Type': 'text/event-stream',
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive'
     });
 
 
     function keepAlive() {
-      response.write('{data: fuck you and just work}');
+      response.write('fuck you and just work');
       response.write('\n\n');
       setTimeout(keepAlive, 1000);
     }
