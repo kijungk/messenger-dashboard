@@ -622,8 +622,12 @@ var OrdersService = /** @class */ (function () {
         this.ordersUrl = '/api/orders';
     }
     OrdersService.prototype.test = function () {
+        var _this = this;
         this.source = new EventSource(this.ordersUrl);
         this.source.addEventListener('message', function (message) { console.log(message.data); });
+        this.source.onerror(function () {
+            _this.source.close();
+        });
     };
     OrdersService.prototype.close = function () {
         return this.source.close();
