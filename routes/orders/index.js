@@ -7,7 +7,6 @@ const
 function orderHandler(response) {
   return function(data) {
     if (!response.finished) {
-
       response.write('event:message\n');
       response.write(`data: ${data}\n\n`);
       console.log('hit');
@@ -18,11 +17,8 @@ function orderHandler(response) {
 
 router.route('/')
   .get((request, response) => {
-    console.log('lets check for request');
-
     request.socket.on('close', () => {
-      console.log('close');
-      appEventEmitter.removeListener('order', orderHandler(response));
+      appEventEmitter.removeAllListeners('order');
       return response.end();
     });
 
