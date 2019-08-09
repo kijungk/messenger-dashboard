@@ -15,7 +15,10 @@ router.route('/')
 
 
     function keepAlive() {
-      console.log('1');
+      if (response.on('close', () => {
+        response.sendStatus(200);
+      }))
+        console.log('1');
       response.write('event: message\n');
       response.write('data: fuck you and just work\n\n');
       setTimeout(keepAlive, 1000);
