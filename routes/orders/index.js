@@ -95,5 +95,6 @@ router.route('/')
 router.route('/test')
   .get((request, response) => {
     appEventEmitter.emit('order', 'hello');
+    return response.end();
   })
 module.exports = router;
