@@ -623,9 +623,10 @@ var OrdersService = /** @class */ (function () {
         return this.http.get(this.ordersUrl);
     };
     OrdersService.prototype.test = function () {
+        console.log('start');
         var eventSource = new this.eventSource(this.ordersUrl);
-        eventSource.onmessage(function (event) {
-            var data = JSON.parse(event.data);
+        eventSource.addEventListener('message', function (event) {
+            var data = event.data;
             console.log(data);
         });
     };
