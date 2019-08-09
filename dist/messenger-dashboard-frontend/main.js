@@ -621,7 +621,7 @@ var OrdersService = /** @class */ (function () {
     }
     OrdersService.prototype.test = function () {
         this.source = new EventSource(this.ordersUrl);
-        this.source.addEventListener('message', function (message) { alert(message.data); });
+        this.source.addEventListener('message', function (message) { console.log(message.data); });
     };
     OrdersService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
