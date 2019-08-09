@@ -22,6 +22,7 @@ router.route('/')
     appEventEmitter.on('order', write)
 
     request.on('close', () => {
+      console.log('close');
       appEventEmitter.removeListener('order', write);
       return response.end();
     })
