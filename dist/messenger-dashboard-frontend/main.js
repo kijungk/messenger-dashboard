@@ -339,7 +339,10 @@ var OrdersComponent = /** @class */ (function () {
         this.ordersService = ordersService;
     }
     OrdersComponent.prototype.ngOnInit = function () {
-        console.log(this.getOrders, 'component');
+        this.orders = this.getOrders();
+        this.orders.subscribe(function (observer) {
+            console.log(observer);
+        });
     };
     OrdersComponent.prototype.getOrders = function () {
         return this.ordersService.getOrders();
@@ -623,11 +626,7 @@ var OrdersService = /** @class */ (function () {
         this.ordersUrl = '/api/orders';
     }
     OrdersService.prototype.getOrders = function () {
-        var eventSource = new EventSource(this.ordersUrl);
-        eventSource.addEventListener('message', function (message) {
-            console.log(JSON.parse(message.data));
-            return JSON.parse(message.data);
-        });
+        return this.http.get(this.ordersUrl);
     };
     OrdersService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
