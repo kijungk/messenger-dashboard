@@ -12,6 +12,10 @@ router.route('/')
       return response.end();
     });
 
+    request.on('error', (error) => {
+      console.log(error);
+    });
+
     response.set({
       'Content-Type': 'text/event-stream',
       'Connection': 'keep-alive'
