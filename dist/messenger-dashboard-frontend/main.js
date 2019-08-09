@@ -343,7 +343,9 @@ var OrdersComponent = /** @class */ (function () {
         console.log(this.orders);
     };
     OrdersComponent.prototype.getOrders = function () {
-        return this.ordersService.getOrders();
+        return this.ordersService.getOrders().subscribe(function (data) {
+            console.log(data);
+        });
     };
     OrdersComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
