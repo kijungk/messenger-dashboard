@@ -619,14 +619,8 @@ var OrdersService = /** @class */ (function () {
         this.ordersUrl = '/api/orders';
         this.eventSource = window['EventSource'];
     }
-    OrdersService.prototype.getOrders = function () {
-        return this.http.get(this.ordersUrl);
-    };
     OrdersService.prototype.test = function () {
-        console.log('start');
-        var eventSource = new this.eventSource(this.ordersUrl);
-        eventSource.addEventListener('message', function (event) {
-            var data = event.data;
+        this.http.get(this.ordersUrl).subscribe(function (data) {
             console.log(data);
         });
     };
