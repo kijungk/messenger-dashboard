@@ -642,7 +642,7 @@ var OrdersService = /** @class */ (function () {
         }));
     };
     OrdersService.prototype.formatOrderId = function (id) {
-        return id.padStart(4, '0');
+        return id.toString().padStart(4, '0');
     };
     OrdersService.prototype.formatOrderTime = function (timestamp) {
         var text;
