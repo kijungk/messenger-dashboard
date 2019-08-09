@@ -303,7 +303,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"order\" *ngIf=\"orders | async as order\">\n      {{order}}\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <!-- <div class=\"order\" *ngIf=\"orders | async as order\">\n      {{order}}\n    </div> -->\n  </div>\n</div>"
 
 /***/ }),
 
@@ -344,7 +344,7 @@ var OrdersComponent = /** @class */ (function () {
     };
     OrdersComponent.prototype.getOrders = function () {
         return this.ordersService.getOrders().subscribe(function (data) {
-            console.log(data);
+            console.log('data', data);
         });
     };
     OrdersComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
