@@ -314,7 +314,7 @@ module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".order {\n  display: flex;\n  flex-direction: row;\n  width: 100%;\n  margin: 12px; }\n  .order .order-id {\n    width: 20%; }\n  .order .order-description {\n    width: 60%; }\n  .order .order-time {\n    width: 20%; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9vcmRlcnMvQzpcXFVzZXJzXFxLaSBKdW5nIEtpbVxcRGVza3RvcFxcUHJvamVjdHNcXG1lc3Nlbmdlci1kYXNoYm9hcmQtZnJvbnRlbmQvc3JjXFxhcHBcXGNvbXBvbmVudHNcXG9yZGVyc1xcb3JkZXJzLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsYUFBYTtFQUNiLG1CQUFtQjtFQUVuQixXQUFXO0VBRVgsWUFBWSxFQUFBO0VBTmQ7SUFTSSxVQUFVLEVBQUE7RUFUZDtJQWFJLFVBQVUsRUFBQTtFQWJkO0lBaUJJLFVBQVUsRUFBQSIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvb3JkZXJzL29yZGVycy5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5vcmRlciB7XHJcbiAgZGlzcGxheTogZmxleDtcclxuICBmbGV4LWRpcmVjdGlvbjogcm93O1xyXG5cclxuICB3aWR0aDogMTAwJTtcclxuXHJcbiAgbWFyZ2luOiAxMnB4O1xyXG5cclxuICAub3JkZXItaWQge1xyXG4gICAgd2lkdGg6IDIwJTtcclxuICB9XHJcblxyXG4gIC5vcmRlci1kZXNjcmlwdGlvbiB7XHJcbiAgICB3aWR0aDogNjAlO1xyXG4gIH1cclxuXHJcbiAgLm9yZGVyLXRpbWUge1xyXG4gICAgd2lkdGg6IDIwJTtcclxuICB9XHJcbn0iXX0= */"
+module.exports = ".order {\n  display: flex;\n  flex-direction: row;\n  margin: 6px;\n  padding: 6px;\n  border: 1px solid #222233;\n  text-align: center; }\n  .order .order-id {\n    min-width: 15%; }\n  .order .order-description {\n    min-width: 30%; }\n  .order .order-time {\n    min-width: 55%; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9vcmRlcnMvQzpcXFVzZXJzXFxLaSBKdW5nIEtpbVxcRGVza3RvcFxcUHJvamVjdHNcXG1lc3Nlbmdlci1kYXNoYm9hcmQtZnJvbnRlbmQvc3JjXFxhcHBcXGNvbXBvbmVudHNcXG9yZGVyc1xcb3JkZXJzLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsYUFBYTtFQUNiLG1CQUFtQjtFQUVuQixXQUFXO0VBQ1gsWUFBWTtFQUVaLHlCQUF5QjtFQUV6QixrQkFBa0IsRUFBQTtFQVRwQjtJQVlJLGNBQWMsRUFBQTtFQVpsQjtJQWdCSSxjQUFjLEVBQUE7RUFoQmxCO0lBb0JJLGNBQWMsRUFBQSIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvb3JkZXJzL29yZGVycy5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5vcmRlciB7XHJcbiAgZGlzcGxheTogZmxleDtcclxuICBmbGV4LWRpcmVjdGlvbjogcm93O1xyXG5cclxuICBtYXJnaW46IDZweDtcclxuICBwYWRkaW5nOiA2cHg7XHJcblxyXG4gIGJvcmRlcjogMXB4IHNvbGlkICMyMjIyMzM7XHJcblxyXG4gIHRleHQtYWxpZ246IGNlbnRlcjtcclxuXHJcbiAgLm9yZGVyLWlkIHtcclxuICAgIG1pbi13aWR0aDogMTUlO1xyXG4gIH1cclxuXHJcbiAgLm9yZGVyLWRlc2NyaXB0aW9uIHtcclxuICAgIG1pbi13aWR0aDogMzAlO1xyXG4gIH1cclxuXHJcbiAgLm9yZGVyLXRpbWUge1xyXG4gICAgbWluLXdpZHRoOiA1NSU7XHJcbiAgfVxyXG59Il19 */"
 
 /***/ }),
 
@@ -627,7 +627,7 @@ var OrdersService = /** @class */ (function () {
     }
     OrdersService.prototype.getOrders = function () {
         var _this = this;
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["interval"])(999999999999).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["startWith"])(0)).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["flatMap"])(function () {
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["interval"])(5000).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["startWith"])(0)).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["flatMap"])(function () {
             return _this.http.get(_this.ordersUrl)
                 .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (response) {
                 response.forEach(function (order) {
@@ -656,10 +656,10 @@ var OrdersService = /** @class */ (function () {
             text = 'New Order';
         }
         if (minutesAgo === 1) {
-            text = minutesAgo.toString() + 'minute ago';
+            text = minutesAgo.toString() + 'minute';
         }
         if (minutesAgo > 1) {
-            text = minutesAgo.toString() + 'minutes ago';
+            text = minutesAgo.toString() + 'minutes';
         }
         return text;
     };
