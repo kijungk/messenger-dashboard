@@ -344,6 +344,12 @@ var OrdersComponent = /** @class */ (function () {
     OrdersComponent.prototype.getOrders = function () {
         return this.ordersService.getOrders();
     };
+    OrdersComponent.prototype.completeOrderHandler = function (event) {
+        console.log(event);
+    };
+    OrdersComponent.prototype.cancelOrderHandler = function (event) {
+        console.log(event);
+    };
     OrdersComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-orders',
