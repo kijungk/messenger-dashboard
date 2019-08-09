@@ -32,6 +32,7 @@ router.route('/')
     `)
       .then((result) => {
         const { rows } = result;
+        console.log('wtf')
         response.write(JSON.stringify(rows));
       })
       .catch((error) => {
