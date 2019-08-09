@@ -627,7 +627,7 @@ var OrdersService = /** @class */ (function () {
     }
     OrdersService.prototype.getOrders = function () {
         var _this = this;
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["interval"])(5000).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["startWith"])(0)).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["flatMap"])(function () {
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["interval"])(999999999999).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["startWith"])(0)).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["flatMap"])(function () {
             return _this.http.get(_this.ordersUrl)
                 .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (response) {
                 response.forEach(function (order) {
