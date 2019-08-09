@@ -4,6 +4,15 @@ const
   knex = require('../../db/knex'),
   appEventEmitter = require('../../utilities/eventEmitters');
 
+function orderHandler(response) {
+  return function(data) {
+    response.write('event:message\n');
+    response.write(`data: ${data}\n\n`);
+    console.log('hit');
+    return;
+  }
+}
+
 router.route('/')
   .get((request, response) => {
     console.log('lets check for request');
@@ -19,11 +28,7 @@ router.route('/')
       'Connection': 'keep-alive'
     });
 
-    appEventEmitter.on('order', function orderHandler(data) {
-      response.write('event:message\n');
-      response.write(`data: ${data}\n\n`);
-      console.log('hit');
-    });
+    appEventEmitter.on('order', orderHandler(response));
 
 
     // response.status(200).set({
