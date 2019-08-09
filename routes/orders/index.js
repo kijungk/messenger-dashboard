@@ -13,10 +13,12 @@ router.route('/')
       'Connection': 'keep-alive'
     });
 
-    response.write('event:message\n');
-    response.write('data: hello world\n\n');
+    appEventEmitter.on('order', (data) => {
+      response.write('event:message\n');
+      response.write(`data: ${data}\n\n`);
+      console.log('hit');
+    })
 
-    console.log('hit');
 
     // response.status(200).set({
     //   'connection': 'keep-alive',
@@ -90,4 +92,8 @@ router.route('/')
     // setTimeout(keepAlive, 20000);
   })
 
+router.route('/test')
+  .get((request, response) => {
+    appEventEmitter.emit('order', 'hello');
+  })
 module.exports = router;

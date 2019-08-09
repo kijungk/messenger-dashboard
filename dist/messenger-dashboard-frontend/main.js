@@ -624,10 +624,8 @@ var OrdersService = /** @class */ (function () {
     OrdersService.prototype.test = function () {
         this.source = new EventSource(this.ordersUrl);
         this.source.addEventListener('message', function (message) { console.log(message.data); });
-        this.timeout = setTimeout(this.test, 1000);
     };
     OrdersService.prototype.close = function () {
-        clearTimeout(this.timeout);
         return this.source.close();
     };
     OrdersService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
