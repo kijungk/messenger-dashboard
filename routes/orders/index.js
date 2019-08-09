@@ -16,7 +16,7 @@ router.route('/')
 
     function keepAlive() {
       if (response.on('close', () => {
-        response.end();
+        return response.end();
       }))
         console.log('1');
       response.write('event: message\n');
