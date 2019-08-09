@@ -7,9 +7,7 @@ const
 router.route('/')
   .get((request, response) => {
     console.log('lets check for request');
-    response.on('close', () => {
-      return response.end();
-    })
+
     response.set({
       'Content-Type': 'text/event-stream',
       'Connection': 'keep-alive'
@@ -21,6 +19,7 @@ router.route('/')
       console.log('hit');
     })
 
+    return;
 
     // response.status(200).set({
     //   'connection': 'keep-alive',
