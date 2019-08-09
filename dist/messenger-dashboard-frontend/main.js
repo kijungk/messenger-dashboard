@@ -621,8 +621,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var OrdersService = /** @class */ (function () {
-    function OrdersService(http) {
+    function OrdersService(http, ngZone) {
         this.http = http;
+        this.ngZone = ngZone;
         this.ordersUrl = '/api/orders';
     }
     OrdersService.prototype.getOrders = function () {
@@ -631,7 +632,9 @@ var OrdersService = /** @class */ (function () {
             var eventSource = new EventSource(_this.ordersUrl);
             eventSource.addEventListener('message', function (event) {
                 console.log('event.data', event.data);
-                observable.next(event.data);
+                _this.ngZone.run(function () {
+                    observable.next(event.data);
+                });
             });
             return function () { return eventSource.close(); };
         });
@@ -640,7 +643,8 @@ var OrdersService = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"],
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgZone"]])
     ], OrdersService);
     return OrdersService;
 }());
