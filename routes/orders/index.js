@@ -7,18 +7,18 @@ const
 router.route('/')
   .get((request, response) => {
     console.log('lets check for request');
+    if (response.on('close', () => {
+      return response.end();
+    }))
 
-    response.set({
-      'Content-Type': 'text/event-stream',
-      'Connection': 'keep-alive'
-    });
+      response.set({
+        'Content-Type': 'text/event-stream',
+        'Connection': 'keep-alive'
+      });
 
 
     function keepAlive() {
-      if (response.on('close', () => {
-        return response.end();
-      }))
-        console.log('1');
+      console.log('1');
       response.write('event: message\n');
       response.write('data: fuck you and just work\n\n');
       setTimeout(keepAlive, 1000);
