@@ -303,7 +303,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"order\" *ngFor=\"let order of orders | async\">\n      <div class=\"order-id\">\n        {{order.id}}\n      </div>\n      <div class=\"order-description\">\n        {{order.description}}\n      </div>\n      <div class=\"order-time\">\n        {{order.created_at}}\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"order\" *ngFor=\"let order of orders | async\">\n      <div class=\"order-id\">\n        {{order.id}}\n      </div>\n      <div class=\"order-description\">\n        {{order.description}}\n      </div>\n      <div class=\"order-time\">\n        {{order.created_at}}\n      </div>\n      <i class=\"fas fa-check order-complete-icon\"></i>\n      <i class=\"fas fa-ban order-cancel-icon\"></i>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -314,7 +314,7 @@ module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".order {\n  display: flex;\n  flex-direction: row;\n  margin: 6px;\n  padding: 6px;\n  border: 1px solid #222233;\n  text-align: center; }\n  .order .order-id {\n    min-width: 15%; }\n  .order .order-description {\n    min-width: 30%; }\n  .order .order-time {\n    min-width: 55%; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9vcmRlcnMvQzpcXFVzZXJzXFxLaSBKdW5nIEtpbVxcRGVza3RvcFxcUHJvamVjdHNcXG1lc3Nlbmdlci1kYXNoYm9hcmQtZnJvbnRlbmQvc3JjXFxhcHBcXGNvbXBvbmVudHNcXG9yZGVyc1xcb3JkZXJzLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsYUFBYTtFQUNiLG1CQUFtQjtFQUVuQixXQUFXO0VBQ1gsWUFBWTtFQUVaLHlCQUF5QjtFQUV6QixrQkFBa0IsRUFBQTtFQVRwQjtJQVlJLGNBQWMsRUFBQTtFQVpsQjtJQWdCSSxjQUFjLEVBQUE7RUFoQmxCO0lBb0JJLGNBQWMsRUFBQSIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvb3JkZXJzL29yZGVycy5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5vcmRlciB7XHJcbiAgZGlzcGxheTogZmxleDtcclxuICBmbGV4LWRpcmVjdGlvbjogcm93O1xyXG5cclxuICBtYXJnaW46IDZweDtcclxuICBwYWRkaW5nOiA2cHg7XHJcblxyXG4gIGJvcmRlcjogMXB4IHNvbGlkICMyMjIyMzM7XHJcblxyXG4gIHRleHQtYWxpZ246IGNlbnRlcjtcclxuXHJcbiAgLm9yZGVyLWlkIHtcclxuICAgIG1pbi13aWR0aDogMTUlO1xyXG4gIH1cclxuXHJcbiAgLm9yZGVyLWRlc2NyaXB0aW9uIHtcclxuICAgIG1pbi13aWR0aDogMzAlO1xyXG4gIH1cclxuXHJcbiAgLm9yZGVyLXRpbWUge1xyXG4gICAgbWluLXdpZHRoOiA1NSU7XHJcbiAgfVxyXG59Il19 */"
+module.exports = ".order {\n  display: flex;\n  flex-direction: row;\n  margin: 6px;\n  padding: 6px;\n  border: 1px solid #222233;\n  text-align: center; }\n  .order .order-id {\n    min-width: 15%; }\n  .order .order-description {\n    min-width: 30%; }\n  .order .order-time {\n    min-width: 35%; }\n  .order .order-complete-icon {\n    width: 10%;\n    color: green; }\n  .order .order-cancel-icon {\n    width: 10%;\n    color: red; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9vcmRlcnMvQzpcXFVzZXJzXFxLaSBKdW5nIEtpbVxcRGVza3RvcFxcUHJvamVjdHNcXG1lc3Nlbmdlci1kYXNoYm9hcmQtZnJvbnRlbmQvc3JjXFxhcHBcXGNvbXBvbmVudHNcXG9yZGVyc1xcb3JkZXJzLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsYUFBYTtFQUNiLG1CQUFtQjtFQUVuQixXQUFXO0VBQ1gsWUFBWTtFQUVaLHlCQUF5QjtFQUV6QixrQkFBa0IsRUFBQTtFQVRwQjtJQVlJLGNBQWMsRUFBQTtFQVpsQjtJQWdCSSxjQUFjLEVBQUE7RUFoQmxCO0lBb0JJLGNBQWMsRUFBQTtFQXBCbEI7SUF3QkksVUFBVTtJQUNWLFlBQVksRUFBQTtFQXpCaEI7SUE2QkksVUFBVTtJQUNWLFVBQVUsRUFBQSIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvb3JkZXJzL29yZGVycy5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5vcmRlciB7XHJcbiAgZGlzcGxheTogZmxleDtcclxuICBmbGV4LWRpcmVjdGlvbjogcm93O1xyXG5cclxuICBtYXJnaW46IDZweDtcclxuICBwYWRkaW5nOiA2cHg7XHJcblxyXG4gIGJvcmRlcjogMXB4IHNvbGlkICMyMjIyMzM7XHJcblxyXG4gIHRleHQtYWxpZ246IGNlbnRlcjtcclxuXHJcbiAgLm9yZGVyLWlkIHtcclxuICAgIG1pbi13aWR0aDogMTUlO1xyXG4gIH1cclxuXHJcbiAgLm9yZGVyLWRlc2NyaXB0aW9uIHtcclxuICAgIG1pbi13aWR0aDogMzAlO1xyXG4gIH1cclxuXHJcbiAgLm9yZGVyLXRpbWUge1xyXG4gICAgbWluLXdpZHRoOiAzNSU7XHJcbiAgfVxyXG5cclxuICAub3JkZXItY29tcGxldGUtaWNvbiB7XHJcbiAgICB3aWR0aDogMTAlO1xyXG4gICAgY29sb3I6IGdyZWVuO1xyXG4gIH1cclxuXHJcbiAgLm9yZGVyLWNhbmNlbC1pY29uIHtcclxuICAgIHdpZHRoOiAxMCU7XHJcbiAgICBjb2xvcjogcmVkO1xyXG4gIH1cclxufSJdfQ== */"
 
 /***/ }),
 
@@ -656,10 +656,10 @@ var OrdersService = /** @class */ (function () {
             text = 'New Order';
         }
         if (minutesAgo === 1) {
-            text = minutesAgo.toString() + 'minute';
+            text = minutesAgo.toString() + ' minute';
         }
         if (minutesAgo > 1) {
-            text = minutesAgo.toString() + 'minutes';
+            text = minutesAgo.toString() + ' minutes';
         }
         return text;
     };
