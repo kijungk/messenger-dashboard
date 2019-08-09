@@ -20,8 +20,8 @@ router.route('/')
     request.socket.on('close', () => {
       console.log('close');
       appEventEmitter.removeListener('order', orderHandler);
-      return response.end();
     });
+
 
     response.set({
       'Content-Type': 'text/event-stream',
