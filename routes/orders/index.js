@@ -18,10 +18,10 @@ router.route('/')
     function keepAlive() {
       response.write('fuck you and just work');
       response.write('\n\n');
-      setTimeout(keepAlive, 20000);
+      setTimeout(keepAlive, 1000);
     }
 
-    setTimeout(keepAlive, 20000);
+    setTimeout(keepAlive, 1000);
 
     // response.status(200).set({
     //   'connection': 'keep-alive',
