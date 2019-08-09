@@ -340,7 +340,7 @@ var OrdersComponent = /** @class */ (function () {
     }
     OrdersComponent.prototype.ngOnInit = function () {
         this.orders = this.getOrders();
-        console.log(this.orders);
+        console.log('init', this.orders);
     };
     OrdersComponent.prototype.getOrders = function () {
         return this.ordersService.getOrders().subscribe(function (data) {
@@ -632,7 +632,7 @@ var OrdersService = /** @class */ (function () {
             var eventSource = new EventSource(_this.ordersUrl);
             console.log('hit');
             eventSource.addEventListener('message', function (event) {
-                console.log(event.data);
+                console.log('event.data', event.data);
                 alert(event.data);
             });
             return function () { return eventSource.close(); };
