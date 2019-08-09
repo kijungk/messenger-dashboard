@@ -8,6 +8,7 @@ router.route('/')
   .get((request, response) => {
     console.log('lets check for request');
     response.on('close', () => {
+      console.log('hit');
       clearTimeout(timeout);
       return response.end();
     });
