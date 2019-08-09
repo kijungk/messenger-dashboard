@@ -1,19 +1,7 @@
 const
   express = require('express'),
   router = express.Router(),
-  knex = require('../../db/knex'),
-  appEventEmitter = require('../../utilities/eventEmitters');
-
-function orderHandler(response) {
-  return function(data) {
-    if (!response.finished) {
-      response.write('event:message\n');
-      response.write(`data: ${data}\n\n`);
-      console.log('hit');
-    }
-    return;
-  }
-}
+  knex = require('../../db/knex');
 
 router.route('/')
   .get((request, response) => {
