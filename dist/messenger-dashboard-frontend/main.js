@@ -339,13 +339,12 @@ var OrdersComponent = /** @class */ (function () {
         this.ordersService = ordersService;
     }
     OrdersComponent.prototype.ngOnInit = function () {
-        this.orders = this.getOrders();
-        console.log('init', this.orders);
+        this.stream = this.getOrders().subscribe(function (data) {
+            console.log('please: ', JSON.parse(data));
+        });
     };
     OrdersComponent.prototype.getOrders = function () {
-        return this.ordersService.getOrders().subscribe(function (data) {
-            console.log('data', data);
-        });
+        return this.ordersService.getOrders();
     };
     OrdersComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -630,10 +629,9 @@ var OrdersService = /** @class */ (function () {
         var _this = this;
         return new rxjs__WEBPACK_IMPORTED_MODULE_2__["Observable"](function (observable) {
             var eventSource = new EventSource(_this.ordersUrl);
-            console.log('hit');
             eventSource.addEventListener('message', function (event) {
                 console.log('event.data', event.data);
-                alert(event.data);
+                observable.next(event.data);
             });
             return function () { return eventSource.close(); };
         });
