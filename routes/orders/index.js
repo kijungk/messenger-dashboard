@@ -19,7 +19,8 @@ router.route('/')
 
     request.socket.on('close', () => {
       console.log('close');
-      appEventEmitter.removeListener('order', orderHandler);
+      appEventEmitter.removeListener('order', orderHandler(response));
+      return response.end();
     });
 
 
