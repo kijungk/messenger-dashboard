@@ -12,15 +12,17 @@ router.route('/')
       'Content-Type': 'text/event-stream',
       'Connection': 'keep-alive'
     });
-
-    appEventEmitter.on('order', (data) => {
+    function write() {
       response.write('event:message\n');
       response.write(`data: ${data}\n\n`);
       console.log('hit');
-    })
+
+    }
+
+    appEventEmitter.on('order', write)
 
     request.on('close', () => {
-      appEventEmitter.removeListener('order');
+      appEventEmitter.removeListener('order', write);
       return response.end();
     })
     // response.status(200).set({
