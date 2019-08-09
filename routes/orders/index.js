@@ -32,6 +32,8 @@ router.route('/')
     `)
       .then((result) => {
         const { rows } = result;
+        console.log('request is in, trying to send back rows');
+
         response.write(JSON.stringify({ message: rows }) + '\n\n');
       })
       .catch((error) => {
@@ -59,7 +61,6 @@ router.route('/')
         })
         .then((result) => {
           const row = result.rows[0];
-
           response.write(JSON.stringify(row));
         })
         .catch((error) => {
