@@ -303,7 +303,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"order\" *ngFor=\"let order of orders | async\">\n      {{order.id}}\n      {{order.createdAt}}\n      {{order.productDescription}}\n      {{order.vendorId}}\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"order\" *ngIf=\"orders as order | async\">\n      {{order}}\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
