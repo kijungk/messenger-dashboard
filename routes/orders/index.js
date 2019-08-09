@@ -32,7 +32,7 @@ router.route('/')
     `)
       .then((result) => {
         const { rows } = result;
-        response.write(JSON.stringify(rows) + '\n\n');
+        response.write(JSON.stringify({ message: rows }) + '\n\n');
       })
       .catch((error) => {
         console.log(error);
