@@ -339,10 +339,10 @@ var OrdersComponent = /** @class */ (function () {
         this.ordersService = ordersService;
     }
     OrdersComponent.prototype.ngOnInit = function () {
-        this.getOrders();
+        this.orders = this.getOrders();
+        console.log(this.orders);
     };
     OrdersComponent.prototype.getOrders = function () {
-        console.log('initial');
         return this.ordersService.getOrders();
     };
     OrdersComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
