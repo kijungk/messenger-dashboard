@@ -15,8 +15,8 @@ router.route('/')
 
 
     function keepAlive() {
-      response.write('message: fuck you and just work');
-      response.write('\n\n');
+      response.write('event: message\n');
+      response.write('data: fuck you and just work\n\n');
       setTimeout(keepAlive, 1000);
     }
 
