@@ -12,7 +12,8 @@ router.route('/')
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive'
     });
-
+    response.write('fuck you and just work');
+    response.write('\n\n');
 
     function keepAlive() {
       response.write('fuck you and just work');
