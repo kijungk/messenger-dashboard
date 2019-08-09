@@ -7,25 +7,23 @@ const
 router.route('/')
   .get((request, response) => {
     console.log('lets check for request');
+    request.socket.on('close', () => {
+      console.log('close');
+      return response.end();
+    });
 
     response.set({
       'Content-Type': 'text/event-stream',
       'Connection': 'keep-alive'
     });
-    function write(data) {
+
+    appEventEmitter.on('order', (data) => {
       response.write('event:message\n');
       response.write(`data: ${data}\n\n`);
       console.log('hit');
+    });
 
-    }
 
-    appEventEmitter.on('order', write(data))
-
-    request.socket.on('close', () => {
-      console.log('close');
-      appEventEmitter.removeListener('order', write);
-      return response.end();
-    })
     // response.status(200).set({
     //   'connection': 'keep-alive',
     //   'cache-control': 'no-cache',
