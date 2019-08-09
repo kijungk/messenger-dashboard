@@ -7,7 +7,9 @@ const
 router.route('/')
   .get((request, response) => {
     console.log('lets check for request');
-
+    response.on('close', () => {
+      return response.end();
+    })
     response.set({
       'Content-Type': 'text/event-stream',
       'Connection': 'keep-alive'
