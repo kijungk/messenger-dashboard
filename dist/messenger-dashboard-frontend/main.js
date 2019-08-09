@@ -303,7 +303,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <!-- <div class=\"order\" *ngIf=\"orders | async as order\">\n      {{order}}\n    </div> -->\n  </div>\n</div>"
+module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"order\" *ngFor=\"let order of orders | async\">\n      {{order}}\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -339,10 +339,10 @@ var OrdersComponent = /** @class */ (function () {
         this.ordersService = ordersService;
     }
     OrdersComponent.prototype.ngOnInit = function () {
-        this.ordersService.test();
+        this.orders = this.getOrders();
     };
-    OrdersComponent.prototype.ngOnDestroy = function () {
-        return this.ordersService.close();
+    OrdersComponent.prototype.getOrders = function () {
+        return this.ordersService.getOrders();
     };
     OrdersComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -621,18 +621,8 @@ var OrdersService = /** @class */ (function () {
         this.http = http;
         this.ordersUrl = '/api/orders';
     }
-    OrdersService.prototype.test = function () {
-        var _this = this;
-        this.source = new EventSource(this.ordersUrl);
-        this.source.addEventListener('message', function (event) {
-            if (!event) {
-                return _this.source.close();
-            }
-            console.log(event.data);
-        });
-    };
-    OrdersService.prototype.close = function () {
-        return this.source.close();
+    OrdersService.prototype.getOrders = function () {
+        return this.http.get(this.ordersUrl);
     };
     OrdersService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
