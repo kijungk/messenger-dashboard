@@ -303,7 +303,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"order\" *ngFor=\"let order of orders | async\">\n      <div class=\"order-id\">\n        {{order.id}}\n      </div>\n      <div class=\"order-description\">\n        {{order.description}}\n      </div>\n      <div class=\"order-time\">\n        {{order.createdAt}}\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"order\" *ngFor=\"let order of orders | async\">\n      <div class=\"order-id\">\n        {{order.id}}\n      </div>\n      <div class=\"order-description\">\n        {{order.description}}\n      </div>\n      <div class=\"order-time\">\n        {{order.created_at}}\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -627,13 +627,8 @@ var OrdersService = /** @class */ (function () {
     }
     OrdersService.prototype.getOrders = function () {
         var _this = this;
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["interval"])(5000).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["startWith"])(0))
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["flatMap"])(function () {
-            return _this.http.get(_this.ordersUrl)
-                .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (response) {
-                console.log(response);
-                return response;
-            }));
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["interval"])(5000).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["startWith"])(0)).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["flatMap"])(function () {
+            return _this.http.get(_this.ordersUrl);
         }));
     };
     OrdersService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
