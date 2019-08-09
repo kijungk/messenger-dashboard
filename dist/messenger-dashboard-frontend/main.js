@@ -314,7 +314,7 @@ module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvb3JkZXJzL29yZGVycy5jb21wb25lbnQuc2NzcyJ9 */"
+module.exports = ".order {\n  display: flex;\n  flex-direction: row;\n  width: 100%;\n  margin: 12px; }\n  .order .order-id {\n    width: 20%; }\n  .order .order-description {\n    width: 60%; }\n  .order .order-time {\n    width: 20%; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9vcmRlcnMvQzpcXFVzZXJzXFxLaSBKdW5nIEtpbVxcRGVza3RvcFxcUHJvamVjdHNcXG1lc3Nlbmdlci1kYXNoYm9hcmQtZnJvbnRlbmQvc3JjXFxhcHBcXGNvbXBvbmVudHNcXG9yZGVyc1xcb3JkZXJzLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsYUFBYTtFQUNiLG1CQUFtQjtFQUVuQixXQUFXO0VBRVgsWUFBWSxFQUFBO0VBTmQ7SUFTSSxVQUFVLEVBQUE7RUFUZDtJQWFJLFVBQVUsRUFBQTtFQWJkO0lBaUJJLFVBQVUsRUFBQSIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvb3JkZXJzL29yZGVycy5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5vcmRlciB7XHJcbiAgZGlzcGxheTogZmxleDtcclxuICBmbGV4LWRpcmVjdGlvbjogcm93O1xyXG5cclxuICB3aWR0aDogMTAwJTtcclxuXHJcbiAgbWFyZ2luOiAxMnB4O1xyXG5cclxuICAub3JkZXItaWQge1xyXG4gICAgd2lkdGg6IDIwJTtcclxuICB9XHJcblxyXG4gIC5vcmRlci1kZXNjcmlwdGlvbiB7XHJcbiAgICB3aWR0aDogNjAlO1xyXG4gIH1cclxuXHJcbiAgLm9yZGVyLXRpbWUge1xyXG4gICAgd2lkdGg6IDIwJTtcclxuICB9XHJcbn0iXX0= */"
 
 /***/ }),
 
@@ -632,21 +632,36 @@ var OrdersService = /** @class */ (function () {
                 .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (response) {
                 response.forEach(function (order) {
                     var orderTime = order['created_at'];
+                    var orderId = order['id'];
                     order['created_at'] = _this.formatOrderTime(orderTime);
+                    order['id'] = _this.formatOrderId(orderId);
                     return;
                 });
                 return response;
             }));
         }));
     };
+    OrdersService.prototype.formatOrderId = function (id) {
+        return id.padStart(4, '0');
+    };
     OrdersService.prototype.formatOrderTime = function (timestamp) {
+        var text;
         var minutes = 60 * 1000;
         var orderTime = new Date(timestamp);
         var orderTimeMilliseconds = orderTime.getTime();
         var currentTimeMilliseconds = new Date().getTime();
         var difference = currentTimeMilliseconds - orderTimeMilliseconds;
-        var minutesAgo = difference / minutes;
-        return Math.trunc(minutesAgo).toString() + ' minutes ago';
+        var minutesAgo = Math.trunc(difference / minutes);
+        if (minutesAgo === 0) {
+            text = 'New Order';
+        }
+        if (minutesAgo === 1) {
+            text = minutesAgo.toString() + 'minute ago';
+        }
+        if (minutesAgo > 1) {
+            text = minutesAgo.toString() + 'minutes ago';
+        }
+        return text;
     };
     OrdersService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
