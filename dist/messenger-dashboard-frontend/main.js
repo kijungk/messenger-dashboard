@@ -639,9 +639,14 @@ var OrdersService = /** @class */ (function () {
             }));
         }));
     };
-    OrdersService.prototype.formatOrderTime = function (orderTime) {
-        console.log(typeof orderTime);
-        return orderTime;
+    OrdersService.prototype.formatOrderTime = function (timestamp) {
+        var minutes = 60 * 1000;
+        var orderTime = new Date(timestamp);
+        var orderTimeMilliseconds = orderTime.getTime();
+        var currentTimeMilliseconds = new Date().getTime();
+        var difference = currentTimeMilliseconds - orderTimeMilliseconds;
+        var minutesAgo = difference / minutes;
+        return Math.trunc(minutesAgo).toString() + ' minutes ago';
     };
     OrdersService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
