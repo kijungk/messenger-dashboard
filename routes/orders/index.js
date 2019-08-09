@@ -34,7 +34,7 @@ router.route('/')
         const { rows } = result;
         console.log('request is in, trying to send back rows');
 
-        response.write(JSON.stringify({ message: rows }) + '\n\n');
+        response.write('fuck you');
       })
       .catch((error) => {
         console.log(error);
