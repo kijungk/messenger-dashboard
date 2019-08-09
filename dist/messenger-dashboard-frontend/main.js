@@ -628,8 +628,20 @@ var OrdersService = /** @class */ (function () {
     OrdersService.prototype.getOrders = function () {
         var _this = this;
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["interval"])(5000).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["startWith"])(0)).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["flatMap"])(function () {
-            return _this.http.get(_this.ordersUrl);
+            return _this.http.get(_this.ordersUrl)
+                .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (response) {
+                response.forEach(function (order) {
+                    var orderTime = order['created_at'];
+                    order['created_at'] = _this.formatOrderTime(orderTime);
+                    return;
+                });
+                return response;
+            }));
         }));
+    };
+    OrdersService.prototype.formatOrderTime = function (orderTime) {
+        console.log(typeof orderTime);
+        return orderTime;
     };
     OrdersService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
