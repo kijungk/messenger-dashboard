@@ -19,8 +19,10 @@ router.route('/')
       console.log('hit');
     })
 
-    return;
-
+    request.on('close', () => {
+      appEventEmitter.removeListener('order');
+      return response.end();
+    })
     // response.status(200).set({
     //   'connection': 'keep-alive',
     //   'cache-control': 'no-cache',
