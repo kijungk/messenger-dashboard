@@ -6,9 +6,12 @@ const
 
 function orderHandler(response) {
   return function(data) {
-    response.write('event:message\n');
-    response.write(`data: ${data}\n\n`);
-    console.log('hit');
+    if (!response.finished) {
+
+      response.write('event:message\n');
+      response.write(`data: ${data}\n\n`);
+      console.log('hit');
+    }
     return;
   }
 }
