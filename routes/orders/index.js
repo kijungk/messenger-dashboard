@@ -12,14 +12,14 @@ router.route('/')
       'Content-Type': 'text/event-stream',
       'Connection': 'keep-alive'
     });
-    function write() {
+    function write(data) {
       response.write('event:message\n');
       response.write(`data: ${data}\n\n`);
       console.log('hit');
 
     }
 
-    appEventEmitter.on('order', write)
+    appEventEmitter.on('order', write(data))
 
     request.on('close', () => {
       console.log('close');
