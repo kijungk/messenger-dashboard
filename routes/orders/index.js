@@ -7,26 +7,16 @@ const
 router.route('/')
   .get((request, response) => {
     console.log('lets check for request');
-    response.on('close', () => {
-      console.log('hit');
-      clearTimeout(timeout);
-      return response.end();
-    });
 
     response.set({
       'Content-Type': 'text/event-stream',
       'Connection': 'keep-alive'
     });
 
+    response.write('event:message\n');
+    response.write('data: hello world\n\n');
 
-    function keepAlive() {
-      console.log('1');
-      response.write('event: message\n');
-      response.write('data: fuck you and just work\n\n');
-      setTimeout(keepAlive, 1000);
-    }
-
-    let timeout = setTimeout(keepAlive, 1000);
+    console.log('hit');
 
     // response.status(200).set({
     //   'connection': 'keep-alive',
