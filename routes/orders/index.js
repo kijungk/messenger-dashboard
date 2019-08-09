@@ -7,14 +7,11 @@ const
 router.route('/')
   .get((request, response) => {
     console.log('lets check for request');
-    if (response.on('close', () => {
-      return response.end();
-    }))
 
-      response.set({
-        'Content-Type': 'text/event-stream',
-        'Connection': 'keep-alive'
-      });
+    response.set({
+      'Content-Type': 'text/event-stream',
+      'Connection': 'keep-alive'
+    });
 
 
     function keepAlive() {
@@ -24,8 +21,12 @@ router.route('/')
       setTimeout(keepAlive, 1000);
     }
 
-    setTimeout(keepAlive, 1000);
+    let timeout = setTimeout(keepAlive, 1000);
 
+    if (response.on('close', () => {
+      clearTimeout(timeout);
+      return response.end();
+    }))
     // response.status(200).set({
     //   'connection': 'keep-alive',
     //   'cache-control': 'no-cache',
