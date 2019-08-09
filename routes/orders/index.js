@@ -7,13 +7,11 @@ const
 router.route('/')
   .get((request, response) => {
     console.log('lets check for request');
+
     request.socket.on('close', () => {
       console.log('close');
+      appEventEmitter.removeListener('order', orderHandler);
       return response.end();
-    });
-
-    request.on('error', (error) => {
-      console.log(error);
     });
 
     response.set({
@@ -21,7 +19,7 @@ router.route('/')
       'Connection': 'keep-alive'
     });
 
-    appEventEmitter.on('order', (data) => {
+    appEventEmitter.on('order', function orderHandler(data) {
       response.write('event:message\n');
       response.write(`data: ${data}\n\n`);
       console.log('hit');
