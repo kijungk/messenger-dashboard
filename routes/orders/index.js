@@ -5,7 +5,6 @@ const
 
 router.route('/')
   .get((request, response) => {
-    console.log('check for request');
     return knex.raw(`
       SELECT
         o.id,
