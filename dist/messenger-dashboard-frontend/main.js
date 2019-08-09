@@ -339,13 +339,7 @@ var OrdersComponent = /** @class */ (function () {
         this.ordersService = ordersService;
     }
     OrdersComponent.prototype.ngOnInit = function () {
-        this.orders = this.getOrders();
-        this.orders.subscribe(function (observer) {
-            console.log(observer);
-        });
-    };
-    OrdersComponent.prototype.getOrders = function () {
-        return this.ordersService.getOrders();
+        this.ordersService.test();
     };
     OrdersComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -620,20 +614,26 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var OrdersService = /** @class */ (function () {
-    function OrdersService(http, ngZone) {
+    function OrdersService(http) {
         this.http = http;
-        this.ngZone = ngZone;
         this.ordersUrl = '/api/orders';
     }
     OrdersService.prototype.getOrders = function () {
         return this.http.get(this.ordersUrl);
     };
+    OrdersService.prototype.test = function () {
+        var eventSource = new EventSource(this.ordersUrl);
+        eventSource.addEventListener('message', function (event) {
+            console.log('inside listener');
+            var data = event.data;
+            console.log(data);
+        });
+    };
     OrdersService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"],
-            _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgZone"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
     ], OrdersService);
     return OrdersService;
 }());
