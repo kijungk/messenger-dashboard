@@ -339,6 +339,7 @@ var OrdersComponent = /** @class */ (function () {
         this.ordersService = ordersService;
     }
     OrdersComponent.prototype.ngOnInit = function () {
+        console.log('init');
         this.ordersService.test();
     };
     OrdersComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -617,11 +618,11 @@ var OrdersService = /** @class */ (function () {
     function OrdersService(http) {
         this.http = http;
         this.ordersUrl = '/api/orders';
-        this.eventSource = window['EventSource'];
     }
     OrdersService.prototype.test = function () {
-        this.http.get(this.ordersUrl).subscribe(function (data) {
-            console.log(data);
+        var eventSource = new EventSource(this.ordersUrl);
+        eventSource.addEventListener('message', function (message) {
+            console.log(message);
         });
     };
     OrdersService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
