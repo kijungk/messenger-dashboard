@@ -8,15 +8,14 @@ router.route('/')
   .get((request, response) => {
 
     response.set({
-      'Content-Type': 'text/event-stream',
+      'Content-Type': 'application/json',
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive'
     });
 
 
     function keepAlive() {
-      response.write('\n')
-      response.write('fuck you and just work');
+      response.write('{data: fuck you and just work}');
       response.write('\n\n');
       setTimeout(keepAlive, 1000);
     }
