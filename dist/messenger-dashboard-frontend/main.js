@@ -617,15 +617,15 @@ var OrdersService = /** @class */ (function () {
     function OrdersService(http) {
         this.http = http;
         this.ordersUrl = '/api/orders';
+        this.eventSource = window['EventSource'];
     }
     OrdersService.prototype.getOrders = function () {
         return this.http.get(this.ordersUrl);
     };
     OrdersService.prototype.test = function () {
-        var eventSource = new EventSource(this.ordersUrl);
-        eventSource.addEventListener('message', function (event) {
-            console.log('inside listener');
-            var data = event.data;
+        var eventSource = new this.eventSource(this.ordersUrl);
+        eventSource.onmessage(function (event) {
+            var data = JSON.parse(event.data);
             console.log(data);
         });
     };
