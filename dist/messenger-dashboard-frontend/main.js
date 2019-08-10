@@ -197,7 +197,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">BROADCAST</div>\n    <div class=\"broadcast oswald\">\n      <textarea placeholder=\"Input broadcast message\" cols=\" 30\" rows=\"10\" [(ngModel)]=\"text\"></textarea>\n      <div class=\"broadcast-send\" (click)=\"sendBroadcast($event)\">SEND</div>\n    </div>\n    <div class=\"modal-close oswald\" (click)=\"close($event)\">CLOSE</div>\n  </div>\n</div>"
+module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">BROADCAST</div>\n    <div class=\"broadcast oswald\">\n      <textarea placeholder=\"Input broadcast message\" cols=\"45\" rows=\"20\" [(ngModel)]=\"text\"></textarea>\n      <div class=\"broadcast-send\" (click)=\"sendBroadcast($event)\">SEND</div>\n    </div>\n    <div class=\"modal-close oswald\" (click)=\"close($event)\">CLOSE</div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -208,7 +208,7 @@ module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvYnJvYWRjYXN0L2Jyb2FkY2FzdC5jb21wb25lbnQuc2NzcyJ9 */"
+module.exports = ".broadcast {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin: 12px; }\n  .broadcast .broadcast-send {\n    color: green; }\n  .broadcast .broadcast-send:hover {\n      cursor: pointer;\n      transform: scale(1.2); }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9icm9hZGNhc3QvQzpcXFVzZXJzXFxLaSBKdW5nIEtpbVxcRGVza3RvcFxcUHJvamVjdHNcXG1lc3Nlbmdlci1kYXNoYm9hcmQtZnJvbnRlbmQvc3JjXFxhcHBcXGNvbXBvbmVudHNcXGJyb2FkY2FzdFxcYnJvYWRjYXN0LmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsYUFBYTtFQUNiLHNCQUFzQjtFQUN0QixtQkFBbUI7RUFFbkIsWUFBWSxFQUFBO0VBTGQ7SUFRSSxZQUFZLEVBQUE7RUFSaEI7TUFXTSxlQUFlO01BQ2YscUJBQXFCLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL2Jyb2FkY2FzdC9icm9hZGNhc3QuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuYnJvYWRjYXN0IHtcclxuICBkaXNwbGF5OiBmbGV4O1xyXG4gIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XHJcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuXHJcbiAgbWFyZ2luOiAxMnB4O1xyXG5cclxuICAuYnJvYWRjYXN0LXNlbmQge1xyXG4gICAgY29sb3I6IGdyZWVuO1xyXG5cclxuICAgICY6aG92ZXIge1xyXG4gICAgICBjdXJzb3I6IHBvaW50ZXI7XHJcbiAgICAgIHRyYW5zZm9ybTogc2NhbGUoMS4yKTtcclxuICAgIH1cclxuICB9XHJcbn0iXX0= */"
 
 /***/ }),
 
