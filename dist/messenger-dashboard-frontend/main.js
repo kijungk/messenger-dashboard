@@ -345,9 +345,14 @@ var OrdersComponent = /** @class */ (function () {
         return this.ordersService.getOrders();
     };
     OrdersComponent.prototype.completeOrderHandler = function (event) {
+        var _this = this;
         var orderId = Number(event.target.parentElement.firstChild.textContent);
         return this.ordersService.completeOrder(orderId).subscribe(function (response) {
-            console.log(response);
+            if (response['success']) {
+                console.log('Order successfully completed. User has been notified');
+                _this.orders = _this.getOrders();
+            }
+            ;
         }, function (error) {
             console.log(error);
         });
