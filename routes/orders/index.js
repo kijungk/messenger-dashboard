@@ -98,7 +98,7 @@ router.route('/:id/complete')
           productDescription = row.product_description,
           vendorDescription = row.vendor_description;
 
-        const attachment = new Attachment(`Your ${productDescription} is finished!\n\nPlease pick it up at the ${vendorDescription} booth.`);
+        const attachment = `Your ${productDescription} is finished!\n\nPlease pick it up at the ${vendorDescription} booth.`;
         const quickReplies = [new QuickReply('Home', 'Home')];
         const message = new Message(attachment, quickReplies);
 
