@@ -8,6 +8,35 @@ const
   QuickReply = require('../../utilities/models/QuickReply'),
   { sendMessage } = require('../../utilities/handlers/sendHandler');
 
+
+function increaseInventory(knex, productDescription) {
+  return knex.raw(`
+    UPDATE
+      products
+    SET
+      inventory = inventory + 1
+    WHERE
+      description = :productDescription
+  `, {
+      productDescription
+    });
+}
+
+function refundCoupon(knex, userId, couponId) {
+  return knex.raw(`
+    UPDATE
+      coupons_users
+    SET
+      redeemed = false
+    WHERE
+      coupon_id = :couponId
+    AND user_id = :userId
+  `, {
+      couponId,
+      userId
+    });
+}
+
 router.route('/')
   .get((request, response) => {
     console.log('check for request');
@@ -44,7 +73,13 @@ router.route('/:id/cancel')
   .delete((request, response) => {
     const { id } = request.params;
 
-    let userId;
+    let
+      userId,
+      facebookId,
+      couponId,
+      attachment,
+      quickReplies,
+      message;
 
     return knex.raw(`
       DELETE FROM
@@ -52,7 +87,7 @@ router.route('/:id/cancel')
       WHERE
         id = :id
       RETURNING
-        user_id, product_id
+        user_id, product_id, coupon_id
     `, {
         id
       })
@@ -62,6 +97,7 @@ router.route('/:id/cancel')
           productId = row.product_id;
 
         userId = row.user_id;
+        couponId = row.coupon_id;
 
         return knex.raw(`
           SELECT
@@ -86,14 +122,23 @@ router.route('/:id/cancel')
       .then((result) => {
         const row = result.rows[0];
         const
-          facebookId = row.facebook_id,
           productDescription = row.product_description,
           vendorDescription = row.vendor_description;
 
-        const attachment = `Your ${productDescription} was cancelled!\n\nPlease see an attendant at ${vendorDescription} booth if there's any issues.`;
-        const quickReplies = [new QuickReply('Home', 'Home')];
-        const message = new Message(attachment, quickReplies);
+        facebookId = row.facebook_id;
 
+        attachment = `Your ${productDescription} was cancelled!\n\nPlease see an attendant at ${vendorDescription} booth if there's any issues.`;
+        quickReplies = [new QuickReply('Home', 'Home')];
+        message = new Message(attachment, quickReplies);
+
+        const promises = [
+          refundCoupon(knex, userId, couponId),
+          increaseInventory(knex, productDescription)
+        ];
+
+        return Promise.all(promises);
+      })
+      .then(() => {
         sendMessage(process.env.FMS2019, facebookId, message);
         return response.status(200).send({ success: true });
       })

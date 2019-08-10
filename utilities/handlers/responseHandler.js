@@ -6,16 +6,16 @@ module.exports = (function responseHandler() {
     Message = require('../models/Message'),
     QuickReply = require('../models/QuickReply'),
     knex = require('../../db/knex'),
-    { sendMessage } = require('../../utilities/handlers/sendHandler'),
-    appEventEmitter = require('../eventEmitters');
+    { sendMessage } = require('../../utilities/handlers/sendHandler');
 
-  function receiveOrder(knex, eventDescription, productDescription, userId) {
+  function receiveOrder(knex, eventDescription, productDescription, couponId, userId) {
     return knex.raw(`
       INSERT INTO
-        orders (event_id, product_id, user_id)
+        orders (event_id, product_id, coupon_id, user_id)
       SELECT
         e.id,
         p.id,
+        :couponId,
         :userId
       FROM
         products p
@@ -33,6 +33,7 @@ module.exports = (function responseHandler() {
     `, {
         eventDescription,
         productDescription,
+        couponId,
         userId
       });
   }
@@ -1528,7 +1529,7 @@ module.exports = (function responseHandler() {
           })
           .then(() => {
             if (transactionComplete) {
-              return receiveOrder(knex, eventDescription, productDescription, userId);
+              return receiveOrder(knex, eventDescription, productDescription, unusedCouponId, userId);
             }
 
             return;
@@ -1653,7 +1654,7 @@ module.exports = (function responseHandler() {
           })
           .then(() => {
             if (transactionComplete) {
-              return receiveOrder(knex, eventDescription, productDescription, userId);
+              return receiveOrder(knex, eventDescription, productDescription, unusedCouponId, userId);
             }
 
             return;
@@ -1843,7 +1844,7 @@ module.exports = (function responseHandler() {
           })
           .then(() => {
             if (transactionComplete) {
-              return receiveOrder(knex, eventDescription, productDescription, userId);
+              return receiveOrder(knex, eventDescription, productDescription, unusedCouponId, userId);
             }
 
             return;
@@ -1968,7 +1969,7 @@ module.exports = (function responseHandler() {
           })
           .then(() => {
             if (transactionComplete) {
-              return receiveOrder(knex, eventDescription, productDescription, userId);
+              return receiveOrder(knex, eventDescription, productDescription, unusedCouponId, userId);
             }
 
             return;
