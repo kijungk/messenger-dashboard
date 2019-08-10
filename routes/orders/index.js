@@ -22,18 +22,16 @@ function increaseInventory(knex, productDescription) {
     });
 }
 
-function refundCoupon(knex, userId, couponId) {
+function refundCoupon(knex, couponUserId) {
   return knex.raw(`
     UPDATE
       coupons_users
     SET
       redeemed = false
     WHERE
-      coupon_id = :couponId
-    AND user_id = :userId
+      id = :couponUserId
   `, {
-      couponId,
-      userId
+      couponUserId
     });
 }
 
@@ -87,7 +85,7 @@ router.route('/:id/cancel')
       WHERE
         id = :id
       RETURNING
-        user_id, product_id, coupon_id
+        user_id, product_id, coupon_user_id
     `, {
         id
       })
@@ -97,7 +95,7 @@ router.route('/:id/cancel')
           productId = row.product_id;
 
         userId = row.user_id;
-        couponId = row.coupon_id;
+        couponUserId = row.coupon_user_id;
 
         return knex.raw(`
           SELECT
@@ -132,7 +130,7 @@ router.route('/:id/cancel')
         message = new Message(attachment, quickReplies);
 
         const promises = [
-          refundCoupon(knex, userId, couponId),
+          refundCoupon(knex, userId, couponUserId),
           increaseInventory(knex, productDescription)
         ];
 
