@@ -4,7 +4,6 @@ const
   knex = require('../../db/knex');
 
 const
-  Attachment = require('../../utilities/models/Attachment'),
   Message = require('../../utilities/models/Message'),
   QuickReply = require('../../utilities/models/QuickReply'),
   { sendMessage } = require('../../utilities/handlers/sendHandler');
