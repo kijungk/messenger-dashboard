@@ -142,6 +142,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_events_events_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/events/events.component */ "./src/app/pages/events/events.component.ts");
 /* harmony import */ var _components_footer_footer_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/footer/footer.component */ "./src/app/components/footer/footer.component.ts");
 /* harmony import */ var _components_orders_orders_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/orders/orders.component */ "./src/app/components/orders/orders.component.ts");
+/* harmony import */ var _components_broadcast_broadcast_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/broadcast/broadcast.component */ "./src/app/components/broadcast/broadcast.component.ts");
+
 
 
 
@@ -166,7 +168,8 @@ var AppModule = /** @class */ (function () {
                 _pages_not_found_not_found_component__WEBPACK_IMPORTED_MODULE_8__["NotFoundComponent"],
                 _pages_events_events_component__WEBPACK_IMPORTED_MODULE_9__["EventsComponent"],
                 _components_footer_footer_component__WEBPACK_IMPORTED_MODULE_10__["FooterComponent"],
-                _components_orders_orders_component__WEBPACK_IMPORTED_MODULE_11__["OrdersComponent"]
+                _components_orders_orders_component__WEBPACK_IMPORTED_MODULE_11__["OrdersComponent"],
+                _components_broadcast_broadcast_component__WEBPACK_IMPORTED_MODULE_12__["BroadcastComponent"]
             ],
             imports: [
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_4__["AppRoutingModule"],
@@ -178,6 +181,75 @@ var AppModule = /** @class */ (function () {
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/broadcast/broadcast.component.html":
+/*!***************************************************************!*\
+  !*** ./src/app/components/broadcast/broadcast.component.html ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">BROADCAST</div>\n    <div class=\"broadcast oswald\">\n      <textarea placeholder=\"Input broadcast message\" cols=\" 30\" rows=\"10\" [(ngModel)]=\"text\"></textarea>\n      <div class=\"broadcast-send\" (click)=\"sendBroadcast($event)\">SEND</div>\n    </div>\n    <div class=\"modal-close oswald\" (click)=\"close($event)\">CLOSE</div>\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/components/broadcast/broadcast.component.scss":
+/*!***************************************************************!*\
+  !*** ./src/app/components/broadcast/broadcast.component.scss ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvYnJvYWRjYXN0L2Jyb2FkY2FzdC5jb21wb25lbnQuc2NzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/components/broadcast/broadcast.component.ts":
+/*!*************************************************************!*\
+  !*** ./src/app/components/broadcast/broadcast.component.ts ***!
+  \*************************************************************/
+/*! exports provided: BroadcastComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BroadcastComponent", function() { return BroadcastComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_modals_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/modals.service */ "./src/app/services/modals.service.ts");
+
+
+
+var BroadcastComponent = /** @class */ (function () {
+    function BroadcastComponent(modalsService) {
+        this.modalsService = modalsService;
+    }
+    BroadcastComponent.prototype.ngOnInit = function () {
+        this.text = '';
+    };
+    BroadcastComponent.prototype.close = function (event) {
+        event.preventDefault();
+        this.modalsService.toggleModal('broadcast');
+        return;
+    };
+    BroadcastComponent.prototype.sendBroadcast = function (event) {
+        event.preventDefault();
+        console.log(this.text);
+    };
+    BroadcastComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-broadcast',
+            template: __webpack_require__(/*! ./broadcast.component.html */ "./src/app/components/broadcast/broadcast.component.html"),
+            styles: [__webpack_require__(/*! ./broadcast.component.scss */ "./src/app/components/broadcast/broadcast.component.scss")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_modals_service__WEBPACK_IMPORTED_MODULE_2__["ModalsService"]])
+    ], BroadcastComponent);
+    return BroadcastComponent;
 }());
 
 
@@ -401,7 +473,7 @@ var OrdersComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"events\">\n      <div *ngIf=\"event | async as event\" id=\"event\">\n        <img src={{event.url}} alt={{event.description}} id=\"event-image\">\n        <div id=\"title-container\">\n          <div class=\"oswald\">\n            {{event.description}}\n          </div>\n          <div class=\"roboto\">\n            Dashboard\n          </div>\n        </div>\n      </div>\n      <div id=\"menu\">\n        <div class=\"card\" (click)=\"open('pushNotification')\">\n          <i class=\"fas fa-bullhorn\"></i>\n          <div class=\"oswald\">\n            Push Notification\n          </div>\n        </div>\n        <div class=\"card\" (click)=\"open('orders')\">\n          <i class=\"fas fa-cash-register\"></i>\n          <div class=\"oswald\">\n            Orders\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <app-orders *ngIf=\"controller.orders\"></app-orders>\n</div>"
+module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"events\">\n      <div *ngIf=\"event | async as event\" id=\"event\">\n        <img src={{event.url}} alt={{event.description}} id=\"event-image\">\n        <div id=\"title-container\">\n          <div class=\"oswald\">\n            {{event.description}}\n          </div>\n          <div class=\"roboto\">\n            Dashboard\n          </div>\n        </div>\n      </div>\n      <div id=\"menu\">\n        <div class=\"card\" (click)=\"open('broadcast')\">\n          <i class=\"fas fa-bullhorn\"></i>\n          <div class=\"oswald\">\n            Push Notification\n          </div>\n        </div>\n        <div class=\"card\" (click)=\"open('orders')\">\n          <i class=\"fas fa-cash-register\"></i>\n          <div class=\"oswald\">\n            Orders\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <app-orders *ngIf=\"controller.orders\"></app-orders>\n</div>"
 
 /***/ }),
 
@@ -658,7 +730,7 @@ var ModalsService = /** @class */ (function () {
     function ModalsService() {
         this.controller = {
             orders: false,
-            pushNotification: false
+            broadcast: false
         };
     }
     ModalsService.prototype.toggleModal = function (modal) {
