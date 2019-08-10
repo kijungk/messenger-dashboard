@@ -103,7 +103,7 @@ router.route('/:id/complete')
         const message = new Message(attachment, quickReplies);
 
         sendMessage(process.env.FMS2019, facebookId, message);
-        return response.sendStatus(200);
+        return response.status(200).send({ success: true });
       })
       .catch((error) => {
         console.log(error);

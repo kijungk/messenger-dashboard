@@ -346,8 +346,8 @@ var OrdersComponent = /** @class */ (function () {
     };
     OrdersComponent.prototype.completeOrderHandler = function (event) {
         var orderId = Number(event.target.parentElement.firstChild.textContent);
-        return this.ordersService.completeOrder(orderId).subscribe(function () {
-            //fire confirmation message?
+        return this.ordersService.completeOrder(orderId).subscribe(function (response) {
+            console.log(response);
         }, function (error) {
             console.log(error);
         });
