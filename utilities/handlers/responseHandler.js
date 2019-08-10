@@ -905,7 +905,6 @@ module.exports = (function responseHandler() {
 
             if (count) {
               unusedCouponId = result.rows[0].id;
-              console.log(unusedCouponId);
             } else {
               couponRedeemed = true;
             }
@@ -1541,7 +1540,6 @@ module.exports = (function responseHandler() {
 
 
             if (id) {
-              appEventEmitter.emit('order', row);
               attachment += `\n\nThe order number is ${id.padStart(4, '0')}.`
             }
 

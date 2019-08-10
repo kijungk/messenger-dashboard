@@ -358,7 +358,17 @@ var OrdersComponent = /** @class */ (function () {
         });
     };
     OrdersComponent.prototype.cancelOrderHandler = function (event) {
-        console.log(event);
+        var _this = this;
+        var orderId = Number(event.target.parentElement.firstChild.textContent);
+        return this.ordersService.cancelOrder(orderId).subscribe(function (response) {
+            if (response['success']) {
+                console.log('Order successfully cancelled. User has been notified');
+                _this.orders = _this.getOrders();
+            }
+            ;
+        }, function (error) {
+            console.log(error);
+        });
     };
     OrdersComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -659,6 +669,9 @@ var OrdersService = /** @class */ (function () {
     };
     OrdersService.prototype.completeOrder = function (id) {
         return this.http.put(this.ordersUrl + ("/" + id + "/complete"), {});
+    };
+    OrdersService.prototype.cancelOrder = function (id) {
+        return this.http.delete(this.ordersUrl + ("/" + id + "/cancel"));
     };
     OrdersService.prototype.formatOrderId = function (id) {
         return id.toString().padStart(4, '0');
