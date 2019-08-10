@@ -74,7 +74,7 @@ router.route('/:id/complete')
         return knex.raw(`
           SELECT
             p.description AS product_description,
-            v.descriptio AS vendor_description,
+            v.description AS vendor_description,
             u.facebook_id
           FROM
             products p
