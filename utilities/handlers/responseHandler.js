@@ -1552,6 +1552,135 @@ module.exports = (function responseHandler() {
             return;
           });
 
+      case 'FritzLatteConfirmation':
+        productTypeDescription = 'Beverage';
+        productDescription = 'Latte';
+
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You already redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'BeverageFritzMenu'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && inventory) {
+              elements = [new Element('Confirm Order', 'It is difficult to cancel an order!', 'https://via.placeholder.com/1910x1000')];
+
+              attachment = new Attachment('generic', elements);
+
+              quickReplies = [new QuickReply('Confirm', 'FritzLatteComplete'), new QuickReply('Cancel', 'BeverageFritzMenu')];
+            }
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking inventory
+            return;
+          });
+
+      case 'FritzLatteComplete':
+        productTypeDescription = 'Beverage';
+        productDescription = 'Latte';
+
+        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              unusedCouponId = result.rows[0].id;
+            } else {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You already redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'BeverageFritzMenu'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && inventory) {
+              attachment = 'You have successfully redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'BeverageMenu'), new QuickReply('Home', 'Home')];
+
+              transactionComplete = true;
+            }
+
+            return;
+          })
+          .then(() => {
+            if (transactionComplete) {
+              const promises = [
+                redeemCoupon(knex, unusedCouponId),
+                decreaseInventory(knex, eventDescription, productDescription)
+              ];
+
+              return Promise.all(promises);
+            }
+
+            return;
+          })
+          .then(() => {
+            if (transactionComplete) {
+              return receiveOrder(knex, eventDescription, productDescription, userId);
+            }
+
+            return;
+          })
+          .then((result) => {
+            const row = result.rows[0];
+            let { id } = row;
+            id = id.toString();
+
+
+            if (id) {
+              attachment += `\n\nThe order number is ${id.padStart(4, '0')}.`
+            }
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking inventory
+            return;
+          });
+
+
+
+
+
 
 
 
