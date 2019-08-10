@@ -74,7 +74,7 @@ router.route('/:id/cancel')
     let
       userId,
       facebookId,
-      couponId,
+      couponUserId,
       attachment,
       quickReplies,
       message;
