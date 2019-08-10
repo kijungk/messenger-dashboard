@@ -477,7 +477,7 @@ var OrdersComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"events\">\n      <div *ngIf=\"event | async as event\" id=\"event\">\n        <img src={{event.url}} alt={{event.description}} id=\"event-image\">\n        <div id=\"title-container\">\n          <div class=\"oswald\">\n            {{event.description}}\n          </div>\n          <div class=\"roboto\">\n            Dashboard\n          </div>\n        </div>\n      </div>\n      <div id=\"menu\">\n        <div class=\"card\" (click)=\"open('broadcast')\">\n          <i class=\"fas fa-bullhorn\"></i>\n          <div class=\"oswald\">\n            Push Notification\n          </div>\n        </div>\n        <div class=\"card\" (click)=\"open('orders')\">\n          <i class=\"fas fa-cash-register\"></i>\n          <div class=\"oswald\">\n            Orders\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <app-orders *ngIf=\"controller.orders\"></app-orders>\n</div>"
+module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"events\">\n      <div *ngIf=\"event | async as event\" id=\"event\">\n        <img src={{event.url}} alt={{event.description}} id=\"event-image\">\n        <div id=\"title-container\">\n          <div class=\"oswald\">\n            {{event.description}}\n          </div>\n          <div class=\"roboto\">\n            Dashboard\n          </div>\n        </div>\n      </div>\n      <div id=\"menu\">\n        <div class=\"card\" (click)=\"open('broadcast')\">\n          <i class=\"fas fa-bullhorn\"></i>\n          <div class=\"oswald\">\n            Push Notification\n          </div>\n        </div>\n        <div class=\"card\" (click)=\"open('orders')\">\n          <i class=\"fas fa-cash-register\"></i>\n          <div class=\"oswald\">\n            Orders\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <app-orders *ngIf=\"controller.orders\"></app-orders>\n  <app-broadcast *ngIf=\"controller.broadcast\"></app-broadcast>\n</div>"
 
 /***/ }),
 
@@ -518,7 +518,7 @@ var EventsComponent = /** @class */ (function () {
         this.modalsService = modalsService;
         this.route = route;
         this.controller = {
-            pushNotification: false,
+            broadcast: false,
             orders: false,
         };
     }
