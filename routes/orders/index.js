@@ -102,7 +102,8 @@ router.route('/:id/complete')
         const quickReplies = [new QuickReply('Home', 'Home')];
         const message = new Message(attachment, quickReplies);
 
-        return sendMessage(process.env.FMS2019, facebookId, message);
+        sendMessage(process.env.FMS2019, facebookId, message);
+        return response.sendStatus(200);
       })
       .catch((error) => {
         console.log(error);
