@@ -8,14 +8,14 @@ module.exports = (function responseHandler() {
     knex = require('../../db/knex'),
     { sendMessage } = require('../../utilities/handlers/sendHandler');
 
-  function receiveOrder(knex, eventDescription, productDescription, couponId, userId) {
+  function receiveOrder(knex, eventDescription, productDescription, couponUserId, userId) {
     return knex.raw(`
       INSERT INTO
-        orders (event_id, product_id, coupon_id, user_id)
+        orders (event_id, product_id, coupon_user_id, user_id)
       SELECT
         e.id,
         p.id,
-        :couponId,
+        :couponUserId,
         :userId
       FROM
         products p
@@ -33,7 +33,7 @@ module.exports = (function responseHandler() {
     `, {
         eventDescription,
         productDescription,
-        couponId,
+        couponUserId,
         userId
       });
   }
