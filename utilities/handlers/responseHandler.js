@@ -9,13 +9,14 @@ module.exports = (function responseHandler() {
     { sendMessage } = require('../../utilities/handlers/sendHandler'),
     appEventEmitter = require('../eventEmitters');
 
-  function receiveOrder(knex, eventDescription, productDescription) {
+  function receiveOrder(knex, eventDescription, productDescription, userId) {
     return knex.raw(`
       INSERT INTO
-        orders (event_id, product_id)
+        orders (event_id, product_id, user_id)
       SELECT
         e.id,
-        p.id
+        p.id,
+        :userId
       FROM
         products p
       JOIN
@@ -31,7 +32,8 @@ module.exports = (function responseHandler() {
         id
     `, {
         eventDescription,
-        productDescription
+        productDescription,
+        userId
       });
   }
 
@@ -1526,7 +1528,7 @@ module.exports = (function responseHandler() {
           })
           .then(() => {
             if (transactionComplete) {
-              return receiveOrder(knex, eventDescription, productDescription);
+              return receiveOrder(knex, eventDescription, productDescription, userId);
             }
 
             return;

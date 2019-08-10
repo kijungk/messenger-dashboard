@@ -28,7 +28,7 @@ router.route('/')
 
 router.route('/:id')
   .get((request, response) => {
-    const id = request.params.id;
+    const { id } = request.params;
 
     return knex.raw(`
       SELECT

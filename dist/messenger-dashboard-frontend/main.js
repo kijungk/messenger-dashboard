@@ -345,7 +345,12 @@ var OrdersComponent = /** @class */ (function () {
         return this.ordersService.getOrders();
     };
     OrdersComponent.prototype.completeOrderHandler = function (event) {
-        console.log(event.target.parentElement.firstChild.textContent);
+        var orderId = Number(event.target.parentElement.firstChild.textContent);
+        return this.ordersService.completeOrder(orderId).subscribe(function () {
+            //fire confirmation message?
+        }, function (error) {
+            console.log(error);
+        });
     };
     OrdersComponent.prototype.cancelOrderHandler = function (event) {
         console.log(event);
@@ -646,6 +651,9 @@ var OrdersService = /** @class */ (function () {
                 return response;
             }));
         }));
+    };
+    OrdersService.prototype.completeOrder = function (id) {
+        return this.http.put(this.ordersUrl + ("/" + id + "/complete"), {});
     };
     OrdersService.prototype.formatOrderId = function (id) {
         return id.toString().padStart(4, '0');
