@@ -345,7 +345,7 @@ var OrdersComponent = /** @class */ (function () {
         return this.ordersService.getOrders();
     };
     OrdersComponent.prototype.completeOrderHandler = function (event) {
-        console.log(event);
+        console.log(event.target.parentElement.firstChild.textContent);
     };
     OrdersComponent.prototype.cancelOrderHandler = function (event) {
         console.log(event);
