@@ -19,7 +19,8 @@ app.use(session({
   store: new RedisStore(),
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  credentials: 'include'
 }));
 
 app.use(passport.initialize());
