@@ -347,7 +347,7 @@ var FooterComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"header\">\n  <div id=\"header-container\">\n    <i class=\"fab fa-facebook-square header-icon\"></i>\n    <div class=\"oswald\">\n      Messenger Dashboard\n    </div>\n  </div>\n</div>"
+module.exports = "<div id=\"header\">\n  <div id=\"header-container\" (click)=\"navigateTo('/')\">\n    <i class=\"fab fa-facebook-square header-icon\"></i>\n    <div class=\"oswald\">\n      Messenger Dashboard\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -358,7 +358,7 @@ module.exports = "<div id=\"header\">\n  <div id=\"header-container\">\n    <i c
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "#header {\n  height: 40px;\n  width: 100%;\n  background-color: #222233; }\n  #header #header-container {\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    height: 100%;\n    color: aliceblue;\n    font-size: 24px;\n    margin-left: 8px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9oZWFkZXIvQzpcXFVzZXJzXFxLaSBKdW5nIEtpbVxcRGVza3RvcFxcUHJvamVjdHNcXG1lc3Nlbmdlci1kYXNoYm9hcmQtZnJvbnRlbmQvc3JjXFxhcHBcXGNvbXBvbmVudHNcXGhlYWRlclxcaGVhZGVyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsWUFBWTtFQUNaLFdBQVc7RUFFWCx5QkFBeUIsRUFBQTtFQUozQjtJQU9JLGFBQWE7SUFDYixtQkFBbUI7SUFDbkIsbUJBQW1CO0lBRW5CLFlBQVk7SUFFWixnQkFBZ0I7SUFDaEIsZUFBZTtJQUVmLGdCQUFnQixFQUFBIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9oZWFkZXIvaGVhZGVyLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiI2hlYWRlciB7XHJcbiAgaGVpZ2h0OiA0MHB4O1xyXG4gIHdpZHRoOiAxMDAlO1xyXG5cclxuICBiYWNrZ3JvdW5kLWNvbG9yOiAjMjIyMjMzO1xyXG5cclxuICAjaGVhZGVyLWNvbnRhaW5lciB7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgZmxleC1kaXJlY3Rpb246IHJvdztcclxuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcblxyXG4gICAgaGVpZ2h0OiAxMDAlO1xyXG5cclxuICAgIGNvbG9yOiBhbGljZWJsdWU7XHJcbiAgICBmb250LXNpemU6IDI0cHg7XHJcblxyXG4gICAgbWFyZ2luLWxlZnQ6IDhweDtcclxuICB9XHJcbn0iXX0= */"
+module.exports = "#header {\n  height: 40px;\n  width: 100%;\n  background-color: #222233; }\n  #header #header-container {\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    height: 100%;\n    color: aliceblue;\n    font-size: 24px;\n    margin-left: 8px;\n    cursor: pointer; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9oZWFkZXIvQzpcXFVzZXJzXFxLaSBKdW5nIEtpbVxcRGVza3RvcFxcUHJvamVjdHNcXG1lc3Nlbmdlci1kYXNoYm9hcmQtZnJvbnRlbmQvc3JjXFxhcHBcXGNvbXBvbmVudHNcXGhlYWRlclxcaGVhZGVyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsWUFBWTtFQUNaLFdBQVc7RUFFWCx5QkFBeUIsRUFBQTtFQUozQjtJQU9JLGFBQWE7SUFDYixtQkFBbUI7SUFDbkIsbUJBQW1CO0lBRW5CLFlBQVk7SUFFWixnQkFBZ0I7SUFDaEIsZUFBZTtJQUVmLGdCQUFnQjtJQUVoQixlQUFlLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL2hlYWRlci9oZWFkZXIuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIjaGVhZGVyIHtcclxuICBoZWlnaHQ6IDQwcHg7XHJcbiAgd2lkdGg6IDEwMCU7XHJcblxyXG4gIGJhY2tncm91bmQtY29sb3I6ICMyMjIyMzM7XHJcblxyXG4gICNoZWFkZXItY29udGFpbmVyIHtcclxuICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICBmbGV4LWRpcmVjdGlvbjogcm93O1xyXG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuXHJcbiAgICBoZWlnaHQ6IDEwMCU7XHJcblxyXG4gICAgY29sb3I6IGFsaWNlYmx1ZTtcclxuICAgIGZvbnQtc2l6ZTogMjRweDtcclxuXHJcbiAgICBtYXJnaW4tbGVmdDogOHB4O1xyXG5cclxuICAgIGN1cnNvcjogcG9pbnRlcjtcclxuICB9XHJcbn0iXX0= */"
 
 /***/ }),
 
@@ -374,12 +374,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeaderComponent", function() { return HeaderComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
 
 
 var HeaderComponent = /** @class */ (function () {
-    function HeaderComponent() {
+    function HeaderComponent(router) {
+        this.router = router;
     }
     HeaderComponent.prototype.ngOnInit = function () {
+    };
+    HeaderComponent.prototype.navigateTo = function (route) {
+        return this.router.navigateByUrl(route);
     };
     HeaderComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -387,7 +393,7 @@ var HeaderComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./header.component.html */ "./src/app/components/header/header.component.html"),
             styles: [__webpack_require__(/*! ./header.component.scss */ "./src/app/components/header/header.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
     ], HeaderComponent);
     return HeaderComponent;
 }());
@@ -464,7 +470,7 @@ var LoginComponent = /** @class */ (function () {
         this.userService.login(this.user).subscribe(function (response) {
             _this.userService.setUser(response);
             _this.controller['login'] = true;
-            _this.administrator = response;
+            _this.administrator = _this.userService.administrator;
         });
     };
     LoginComponent.prototype.logout = function (event) {
@@ -604,7 +610,7 @@ var OrdersComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"events\">\n      <div *ngIf=\"event | async as event\" id=\"event\">\n        <img src={{event.url}} alt={{event.description}} id=\"event-image\">\n        <div id=\"title-container\">\n          <div class=\"oswald\">\n            {{event.description}}\n          </div>\n          <div class=\"roboto\">\n            Dashboard\n          </div>\n        </div>\n      </div>\n      <div id=\"menu\">\n        <div class=\"card\" (click)=\"open('broadcast')\">\n          <i class=\"fas fa-bullhorn\"></i>\n          <div class=\"oswald\">\n            Push Notification\n          </div>\n        </div>\n        <div class=\"card\" *ngIf=\"menuController.ordersMenu\" (click)=\"open('orders')\">\n          <i class=\"fas fa-cash-register\"></i>\n          <div class=\"oswald\">\n            Orders\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <app-orders *ngIf=\"controller.orders\"></app-orders>\n  <app-broadcast *ngIf=\"controller.broadcast\"></app-broadcast>\n</div>"
+module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"events\">\n      <div *ngIf=\"event | async as event\" id=\"event\">\n        <img src={{event.url}} alt={{event.description}} id=\"event-image\">\n        <div id=\"title-container\">\n          <div class=\"oswald\">\n            {{event.description}}\n          </div>\n          <div class=\"roboto\">\n            Dashboard\n          </div>\n        </div>\n      </div>\n      <div id=\"menu\">\n        <div class=\"card\" *ngIf=\"administrator.permission === 'superuser'\" (click)=\"open('broadcast')\">\n          <i class=\"fas fa-bullhorn\"></i>\n          <div class=\"oswald\">\n            Push Notification\n          </div>\n        </div>\n        <div class=\"card\" *ngIf=\"menuController.ordersMenu\" (click)=\"open('orders')\">\n          <i class=\"fas fa-cash-register\"></i>\n          <div class=\"oswald\">\n            Orders\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <app-orders *ngIf=\"controller.orders\"></app-orders>\n  <app-broadcast *ngIf=\"controller.broadcast\"></app-broadcast>\n</div>"
 
 /***/ }),
 
@@ -634,15 +640,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _services_events_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/events.service */ "./src/app/services/events.service.ts");
 /* harmony import */ var _services_modals_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/modals.service */ "./src/app/services/modals.service.ts");
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/user.service */ "./src/app/services/user.service.ts");
+
 
 
 
 
 
 var EventsComponent = /** @class */ (function () {
-    function EventsComponent(eventsService, modalsService, route) {
+    function EventsComponent(eventsService, modalsService, userService, route) {
         this.eventsService = eventsService;
         this.modalsService = modalsService;
+        this.userService = userService;
         this.route = route;
         this.controller = {
             broadcast: false,
@@ -654,6 +663,7 @@ var EventsComponent = /** @class */ (function () {
     }
     EventsComponent.prototype.ngOnInit = function () {
         this.id = this.route.snapshot.params.id;
+        this.administrator = this.userService.administrator;
         this.controller = this.modalsService.controller;
         if (Number(this.id) === 1) {
             this.menuController['ordersMenu'] = true;
@@ -674,6 +684,7 @@ var EventsComponent = /** @class */ (function () {
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_events_service__WEBPACK_IMPORTED_MODULE_3__["EventsService"],
             _services_modals_service__WEBPACK_IMPORTED_MODULE_4__["ModalsService"],
+            _services_user_service__WEBPACK_IMPORTED_MODULE_5__["UserService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"]])
     ], EventsComponent);
     return EventsComponent;
@@ -1003,10 +1014,12 @@ var UserService = /** @class */ (function () {
         return this.http.post(this.usersUrl + '/login', user);
     };
     UserService.prototype.logout = function () {
+        this.administrator = null;
         return this.http.get(this.usersUrl + '/logout');
     };
     UserService.prototype.setUser = function (user) {
         var stringUser = JSON.stringify(user);
+        this.administrator = user;
         return localStorage.setItem('user', stringUser);
     };
     UserService.prototype.removeUser = function () {
