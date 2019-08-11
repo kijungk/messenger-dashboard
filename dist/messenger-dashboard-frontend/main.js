@@ -651,6 +651,7 @@ var EventsComponent = /** @class */ (function () {
         };
     }
     EventsComponent.prototype.ngOnInit = function () {
+        console.log(this.controller['ordersMenu']);
         this.id = this.route.snapshot.params.id;
         console.log(this.id);
         if (Number(this.id) === 2) {
