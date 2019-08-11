@@ -59,11 +59,16 @@ passport.deserializeUser((administrator, done) => {
 passport.use(new LocalStrategy((username, password, done) => {
   return knex.raw(`
     SELECT
-      *
+      a.username,
+      p.description,
+      p.vendor_id
     FROM
-      administrators
+      administrators a
+    JOIN
+      permissions p
+      ON p.id = a.permission_id
     WHERE
-      username = :username
+      a.username = :username
   `, {
       username
     })
