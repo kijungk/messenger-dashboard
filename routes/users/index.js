@@ -44,7 +44,12 @@ router.route('/')
 
 router.route('/login')
   .post(passport.authenticate('local'), (request, response) => {
-    console.log(request);
+    const { user } = request;
+
+    return response.status(200).send({
+      id: user.id,
+      username: user.username
+    });
   });
 
 module.exports = router;
