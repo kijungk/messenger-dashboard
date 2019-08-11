@@ -42,9 +42,9 @@ passport.deserializeUser((administrator, done) => {
     FROM
       administrators
     WHERE
-      id = :administratorId
+      username = :username
   `, {
-      administratorId: administrator.id
+      username: administrator.username
     })
     .then((result) => {
       const administrator = result.rows[0];
