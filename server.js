@@ -12,6 +12,11 @@ const
   LocalStrategy = require('passport-local'),
   bcrypt = require('bcrypt');
 
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
+
 app.use(session({
   store: new RedisStore(),
   secret: 'keyboard cat',
@@ -103,11 +108,6 @@ passport.use(new LocalStrategy((username, password, done) => {
 
 
 
-
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
-app.use(bodyParser.json());
 
 const forceSSL = function() {
   return function(req, res, next) {
