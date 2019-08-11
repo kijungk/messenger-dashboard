@@ -446,6 +446,7 @@ var LoginComponent = /** @class */ (function () {
         event.preventDefault();
         this.userService.login(this.user).subscribe(function (response) {
             _this.userService.setUser(response);
+            _this.administrator = _this.userService.getUser();
             _this.controller['login'] = true;
         });
     };
