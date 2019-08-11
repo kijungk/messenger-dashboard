@@ -604,7 +604,7 @@ var OrdersComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"events\">\n      <div *ngIf=\"event | async as event\" id=\"event\">\n        <img src={{event.url}} alt={{event.description}} id=\"event-image\">\n        <div id=\"title-container\">\n          <div class=\"oswald\">\n            {{event.description}}\n          </div>\n          <div class=\"roboto\">\n            Dashboard\n          </div>\n        </div>\n      </div>\n      <div id=\"menu\">\n        <div class=\"card\" (click)=\"open('broadcast')\">\n          <i class=\"fas fa-bullhorn\"></i>\n          <div class=\"oswald\">\n            Push Notification\n          </div>\n        </div>\n        <div class=\"card\" (click)=\"open('orders')\" *ngIf=\"!controller.ordersMenu\">\n          <i class=\"fas fa-cash-register\"></i>\n          <div class=\"oswald\">\n            Orders\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <app-orders *ngIf=\"controller.orders\"></app-orders>\n  <app-broadcast *ngIf=\"controller.broadcast\"></app-broadcast>\n</div>"
+module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"events\">\n      <div *ngIf=\"event | async as event\" id=\"event\">\n        <img src={{event.url}} alt={{event.description}} id=\"event-image\">\n        <div id=\"title-container\">\n          <div class=\"oswald\">\n            {{event.description}}\n          </div>\n          <div class=\"roboto\">\n            Dashboard\n          </div>\n        </div>\n      </div>\n      <div id=\"menu\">\n        <div class=\"card\" (click)=\"open('broadcast')\">\n          <i class=\"fas fa-bullhorn\"></i>\n          <div class=\"oswald\">\n            Push Notification\n          </div>\n        </div>\n        <div class=\"card\" (click)=\"open('orders')\" *ngIf=\"controller.ordersMenu\">\n          <i class=\"fas fa-cash-register\"></i>\n          <div class=\"oswald\">\n            Orders\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <app-orders *ngIf=\"controller.orders\"></app-orders>\n  <app-broadcast *ngIf=\"controller.broadcast\"></app-broadcast>\n</div>"
 
 /***/ }),
 
@@ -647,16 +647,13 @@ var EventsComponent = /** @class */ (function () {
         this.controller = {
             broadcast: false,
             orders: false,
-            ordersMenu: true
+            ordersMenu: false
         };
     }
     EventsComponent.prototype.ngOnInit = function () {
-        console.log(this.controller['ordersMenu']);
         this.id = this.route.snapshot.params.id;
-        console.log(this.id);
-        if (Number(this.id) === 2) {
-            console.log(Number(this.id), 'hit');
-            this.controller['ordersMenu'] = false;
+        if (Number(this.id) === 1) {
+            this.controller['ordersMenu'] = true;
         }
         this.controller = this.modalsService.controller;
         this.event = this.getEvent(this.id);
