@@ -10,6 +10,7 @@ const isAuthenticated = require('../../utilities/auth/authentication');
 
 router.route('/')
   .post((request, response) => {
+    console.log('hit');
     const { username, password } = request.body;
 
     const newUser = {
