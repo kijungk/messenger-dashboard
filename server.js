@@ -14,8 +14,9 @@ const
   bcrypt = require('bcrypt');
 
 app.use(session({
-  client,
-  store: new RedisStore(),
+  store: new RedisStore({
+    client
+  }),
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: false,
