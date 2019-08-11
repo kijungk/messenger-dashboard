@@ -29,13 +29,11 @@ app.use(passport.session());
 passport.serializeUser((administrator, done) => {
   return done(null, {
     id: administrator.id,
-    username: administrator.username,
-    role: administrator.role
+    username: administrator.username
   });
 });
 
 passport.deserializeUser((administrator, done) => {
-  console.log(administrator);
   return knex.raw(`
     SELECT
       *
@@ -51,8 +49,7 @@ passport.deserializeUser((administrator, done) => {
 
       return done(null, {
         id: administrator.id,
-        username: administrator.username,
-        role: administrator.role
+        username: administrator.username
       });
     })
     .catch((error) => {

@@ -56,7 +56,7 @@ router.route('/login')
 
 router.route('/logout')
   .get((request, response) => {
-    console.log(request.session);
+    request.session.destroy();
     request.logOut();
     return response.status(200).json({ success: true });
   });
