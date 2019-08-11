@@ -403,7 +403,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">LOGIN</div>\n    <div class=\"login\" *ngIf=\"!controller.login\">\n      <input type=\"text\" [(ngModel)]=\"user.username\" placeholder=\"username\">\n      <input type=\"password\" [(ngModel)]=\"user.password\" placeholder=\"username\">\n      <div class=\"login-button\" (click)=\"login($event)\">LOGIN</div>\n    </div>\n    <div class=\"loggedin\" *ngIf=\"controller.login\">\n      Welcome {{administrator.username}}!\n      <!-- continue/logout button -->\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">LOGIN</div>\n    <div class=\"login oswald\" *ngIf=\"!controller.login\">\n      <input type=\"text\" [(ngModel)]=\"user.username\" placeholder=\"username\">\n      <input type=\"password\" [(ngModel)]=\"user.password\" placeholder=\"username\">\n      <div class=\"login-button\" (click)=\"login($event)\">LOGIN</div>\n    </div>\n    <div class=\"loggedin oswald\" *ngIf=\"controller.login\">\n      <div class=\"oswald\">\n        Welcome {{administrator.username}}! If you'd like to login to another account. Please logout first.\n      </div>\n      <div class=\"confirm-button\" (click)=\"close($event)\">CONTINUE</div>\n      <div class=\"logout-button\" (click)=\"logout($event)\">LOGOUT</div>\n      <!-- continue/logout button -->\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -414,7 +414,7 @@ module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvbG9naW4vbG9naW4uY29tcG9uZW50LnNjc3MifQ== */"
+module.exports = ".login {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin: 12px; }\n  .login .login-button {\n    color: green; }\n  .login .login-button:hover {\n      cursor: pointer;\n      transform: scale(1.2); }\n  .loggedin {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin: 12px; }\n  .loggedin .confirm-button {\n    color: green; }\n  .loggedin .confirm-button:hover {\n      cursor: pointer;\n      transform: scale(1.2); }\n  .loggedin .logout-button {\n    color: red; }\n  .loggedin .logout-button:hover {\n      cursor: pointer;\n      transform: scale(1.2); }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9sb2dpbi9DOlxcVXNlcnNcXEtpIEp1bmcgS2ltXFxEZXNrdG9wXFxQcm9qZWN0c1xcbWVzc2VuZ2VyLWRhc2hib2FyZC1mcm9udGVuZC9zcmNcXGFwcFxcY29tcG9uZW50c1xcbG9naW5cXGxvZ2luLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsYUFBYTtFQUNiLHNCQUFzQjtFQUN0QixtQkFBbUI7RUFFbkIsWUFBWSxFQUFBO0VBTGQ7SUFRSSxZQUFZLEVBQUE7RUFSaEI7TUFXTSxlQUFlO01BQ2YscUJBQXFCLEVBQUE7RUFLM0I7RUFDRSxhQUFhO0VBQ2Isc0JBQXNCO0VBQ3RCLG1CQUFtQjtFQUVuQixZQUFZLEVBQUE7RUFMZDtJQVFJLFlBQVksRUFBQTtFQVJoQjtNQVdNLGVBQWU7TUFDZixxQkFBcUIsRUFBQTtFQVozQjtJQWlCSSxVQUFVLEVBQUE7RUFqQmQ7TUFvQk0sZUFBZTtNQUNmLHFCQUFxQixFQUFBIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9sb2dpbi9sb2dpbi5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5sb2dpbiB7XHJcbiAgZGlzcGxheTogZmxleDtcclxuICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xyXG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcblxyXG4gIG1hcmdpbjogMTJweDtcclxuXHJcbiAgLmxvZ2luLWJ1dHRvbiB7XHJcbiAgICBjb2xvcjogZ3JlZW47XHJcblxyXG4gICAgJjpob3ZlciB7XHJcbiAgICAgIGN1cnNvcjogcG9pbnRlcjtcclxuICAgICAgdHJhbnNmb3JtOiBzY2FsZSgxLjIpO1xyXG4gICAgfVxyXG4gIH1cclxufVxyXG5cclxuLmxvZ2dlZGluIHtcclxuICBkaXNwbGF5OiBmbGV4O1xyXG4gIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XHJcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuXHJcbiAgbWFyZ2luOiAxMnB4O1xyXG5cclxuICAuY29uZmlybS1idXR0b24ge1xyXG4gICAgY29sb3I6IGdyZWVuO1xyXG5cclxuICAgICY6aG92ZXIge1xyXG4gICAgICBjdXJzb3I6IHBvaW50ZXI7XHJcbiAgICAgIHRyYW5zZm9ybTogc2NhbGUoMS4yKTtcclxuICAgIH1cclxuICB9XHJcblxyXG4gIC5sb2dvdXQtYnV0dG9uIHtcclxuICAgIGNvbG9yOiByZWQ7XHJcblxyXG4gICAgJjpob3ZlciB7XHJcbiAgICAgIGN1cnNvcjogcG9pbnRlcjtcclxuICAgICAgdHJhbnNmb3JtOiBzY2FsZSgxLjIpO1xyXG4gICAgfVxyXG4gIH1cclxufSJdfQ== */"
 
 /***/ }),
 
@@ -465,6 +465,13 @@ var LoginComponent = /** @class */ (function () {
             _this.userService.setUser(response);
             _this.controller['login'] = true;
             _this.administrator = response;
+        });
+    };
+    LoginComponent.prototype.logout = function (event) {
+        event.preventDefault();
+        this.userService.logout().subscribe(function (response) {
+            console.log(response);
+            return;
         });
     };
     LoginComponent.prototype.close = function (event) {
@@ -984,6 +991,9 @@ var UserService = /** @class */ (function () {
     }
     UserService.prototype.login = function (user) {
         return this.http.post(this.usersUrl + '/login', user);
+    };
+    UserService.prototype.logout = function () {
+        return this.http.get(this.usersUrl + '/logout');
     };
     UserService.prototype.setUser = function (user) {
         var stringUser = JSON.stringify(user);
