@@ -193,26 +193,6 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/classes/user.ts":
-/*!*********************************!*\
-  !*** ./src/app/classes/user.ts ***!
-  \*********************************/
-/*! exports provided: User */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "User", function() { return User; });
-var User = /** @class */ (function () {
-    function User() {
-    }
-    return User;
-}());
-
-
-
-/***/ }),
-
 /***/ "./src/app/components/broadcast/broadcast.component.html":
 /*!***************************************************************!*\
   !*** ./src/app/components/broadcast/broadcast.component.html ***!
@@ -438,8 +418,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/user.service */ "./src/app/services/user.service.ts");
 /* harmony import */ var _services_modals_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/modals.service */ "./src/app/services/modals.service.ts");
-/* harmony import */ var _classes_user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../classes/user */ "./src/app/classes/user.ts");
-
 
 
 
@@ -455,7 +433,6 @@ var LoginComponent = /** @class */ (function () {
         this.controller = {
             login: false
         };
-        this.administrator = new _classes_user__WEBPACK_IMPORTED_MODULE_4__["User"]();
     }
     LoginComponent.prototype.ngOnInit = function () {
         var isUserStored = this.userService.checkUser();
@@ -477,8 +454,8 @@ var LoginComponent = /** @class */ (function () {
         event.preventDefault();
         this.userService.logout().subscribe(function (response) {
             if (response['success']) {
-                _this.controller['login'] = false;
                 _this.userService.removeUser();
+                _this.controller['login'] = false;
             }
             return;
         });
