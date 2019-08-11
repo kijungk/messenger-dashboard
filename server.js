@@ -6,7 +6,7 @@ const
 
 const
   passport = require('passport'),
-  session = require('passport-session'),
+  session = require('express-session'),
   RedisStore = require('connect-redis')(session),
   LocalStrategy = require('passport-local'),
   bcrypt = require('bcrypt');
