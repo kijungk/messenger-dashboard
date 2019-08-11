@@ -144,6 +144,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_footer_footer_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/footer/footer.component */ "./src/app/components/footer/footer.component.ts");
 /* harmony import */ var _components_orders_orders_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/orders/orders.component */ "./src/app/components/orders/orders.component.ts");
 /* harmony import */ var _components_broadcast_broadcast_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/broadcast/broadcast.component */ "./src/app/components/broadcast/broadcast.component.ts");
+/* harmony import */ var _components_login_login_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/login/login.component */ "./src/app/components/login/login.component.ts");
+
 
 
 
@@ -171,7 +173,8 @@ var AppModule = /** @class */ (function () {
                 _pages_events_events_component__WEBPACK_IMPORTED_MODULE_10__["EventsComponent"],
                 _components_footer_footer_component__WEBPACK_IMPORTED_MODULE_11__["FooterComponent"],
                 _components_orders_orders_component__WEBPACK_IMPORTED_MODULE_12__["OrdersComponent"],
-                _components_broadcast_broadcast_component__WEBPACK_IMPORTED_MODULE_13__["BroadcastComponent"]
+                _components_broadcast_broadcast_component__WEBPACK_IMPORTED_MODULE_13__["BroadcastComponent"],
+                _components_login_login_component__WEBPACK_IMPORTED_MODULE_14__["LoginComponent"]
             ],
             imports: [
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_5__["AppRoutingModule"],
@@ -244,6 +247,7 @@ var BroadcastComponent = /** @class */ (function () {
     BroadcastComponent.prototype.sendBroadcast = function (event) {
         event.preventDefault();
         console.log(this.text);
+        this.close(event);
     };
     BroadcastComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -366,6 +370,84 @@ var HeaderComponent = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
     ], HeaderComponent);
     return HeaderComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/login/login.component.html":
+/*!*******************************************************!*\
+  !*** ./src/app/components/login/login.component.html ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">LOGIN</div>\n    <div class=\"login\">\n      <input type=\"text\" [(ngModel)]=\"user.username\" placeholder=\"username\">\n      <input type=\"password\" [(ngModel)]=\"user.password\" placeholder=\"username\">\n      <div class=\"login-button\" (click)=\"login(e$event)\">LOGIN</div>\n    </div>\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/components/login/login.component.scss":
+/*!*******************************************************!*\
+  !*** ./src/app/components/login/login.component.scss ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvbG9naW4vbG9naW4uY29tcG9uZW50LnNjc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/components/login/login.component.ts":
+/*!*****************************************************!*\
+  !*** ./src/app/components/login/login.component.ts ***!
+  \*****************************************************/
+/*! exports provided: LoginComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginComponent", function() { return LoginComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/user.service */ "./src/app/services/user.service.ts");
+/* harmony import */ var _services_modals_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/modals.service */ "./src/app/services/modals.service.ts");
+
+
+
+
+var LoginComponent = /** @class */ (function () {
+    function LoginComponent(modalsService, userService) {
+        this.modalsService = modalsService;
+        this.userService = userService;
+        this.user = {
+            username: '',
+            password: ''
+        };
+    }
+    LoginComponent.prototype.ngOnInit = function () {
+    };
+    LoginComponent.prototype.login = function (event) {
+        event.preventDefault();
+        this.userService.login(this.user).subscribe(function (response) {
+            console.log(response);
+        });
+    };
+    LoginComponent.prototype.close = function (event) {
+        event.preventDefault();
+        this.modalsService.toggleModal('login');
+        return;
+    };
+    LoginComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-login',
+            template: __webpack_require__(/*! ./login.component.html */ "./src/app/components/login/login.component.html"),
+            styles: [__webpack_require__(/*! ./login.component.scss */ "./src/app/components/login/login.component.scss")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_modals_service__WEBPACK_IMPORTED_MODULE_3__["ModalsService"],
+            _services_user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"]])
+    ], LoginComponent);
+    return LoginComponent;
 }());
 
 
@@ -557,7 +639,7 @@ var EventsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"home\">\n      <div class=\"oswald\">\n        Welcome!\n      </div>\n      <div class=\"roboto\">\n        Please select an event. If no events are available, contact administrator for access.\n      </div>\n      <div id=\"events-container\">\n        <div class=\"event event\" *ngFor=\"let event of events | async\" (click)=\"navigateTo(event.id)\">\n          <img src={{event.url}} alt={{event.description}} class=\"event-icon\">\n          <div class=\"roboto\">\n            {{ event.description }}\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"home\">\n      <div class=\"oswald\">\n        Welcome!\n      </div>\n      <div class=\"roboto\">\n        Please select an event. If no events are available, contact administrator for access.\n      </div>\n      <div id=\"events-container\">\n        <div class=\"event event\" *ngFor=\"let event of events | async\" (click)=\"navigateTo(event.id)\">\n          <img src={{event.url}} alt={{event.description}} class=\"event-icon\">\n          <div class=\"roboto\">\n            {{ event.description }}\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <app-login *ngIf=\"\"></app-login>\n</div>"
 
 /***/ }),
 
@@ -584,18 +666,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HomeComponent", function() { return HomeComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _services_events_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/events.service */ "./src/app/services/events.service.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _services_events_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/events.service */ "./src/app/services/events.service.ts");
+/* harmony import */ var _services_modals_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/modals.service */ "./src/app/services/modals.service.ts");
+
 
 
 
 
 var HomeComponent = /** @class */ (function () {
-    function HomeComponent(eventsService, router) {
+    function HomeComponent(eventsService, modalsService, router) {
         this.eventsService = eventsService;
+        this.modalsService = modalsService;
         this.router = router;
+        this.controller = {
+            login: true
+        };
     }
     HomeComponent.prototype.ngOnInit = function () {
+        this.controller = this.modalsService.controller;
         this.events = this.getEvents();
     };
     HomeComponent.prototype.getEvents = function () {
@@ -610,8 +699,9 @@ var HomeComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./home.component.html */ "./src/app/pages/home/home.component.html"),
             styles: [__webpack_require__(/*! ./home.component.scss */ "./src/app/pages/home/home.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_events_service__WEBPACK_IMPORTED_MODULE_2__["EventsService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_events_service__WEBPACK_IMPORTED_MODULE_3__["EventsService"],
+            _services_modals_service__WEBPACK_IMPORTED_MODULE_4__["ModalsService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
     ], HomeComponent);
     return HomeComponent;
 }());
@@ -734,7 +824,8 @@ var ModalsService = /** @class */ (function () {
     function ModalsService() {
         this.controller = {
             orders: false,
-            broadcast: false
+            broadcast: false,
+            login: true
         };
     }
     ModalsService.prototype.toggleModal = function (modal) {
@@ -830,6 +921,51 @@ var OrdersService = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"]])
     ], OrdersService);
     return OrdersService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/services/user.service.ts":
+/*!******************************************!*\
+  !*** ./src/app/services/user.service.ts ***!
+  \******************************************/
+/*! exports provided: UserService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserService", function() { return UserService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+
+
+
+var UserService = /** @class */ (function () {
+    function UserService(http) {
+        this.http = http;
+        this.usersUrl = '/api/users';
+    }
+    UserService.prototype.login = function (user) {
+        return this.http.post(this.usersUrl + '/login', user);
+    };
+    UserService.prototype.setUser = function (user) {
+        JSON.stringify(user);
+        return localStorage.setItem('user', user);
+    };
+    UserService.prototype.getUser = function () {
+        var user = localStorage.getItem('user');
+        return JSON.parse(user);
+    };
+    UserService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+    ], UserService);
+    return UserService;
 }());
 
 
