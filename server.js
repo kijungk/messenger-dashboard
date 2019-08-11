@@ -35,6 +35,7 @@ passport.serializeUser((administrator, done) => {
 });
 
 passport.deserializeUser((administrator, done) => {
+  console.log(administrator);
   return knex.raw(`
     SELECT
       *
