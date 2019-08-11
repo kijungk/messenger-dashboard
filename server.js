@@ -1,6 +1,5 @@
 const
   bodyParser = require('body-parser'),
-  cookieParser = require('cookie-parser'),
   express = require('express'),
   routes = require('./routes'),
   app = express();
@@ -9,13 +8,13 @@ const
   knex = require('./db/knex'),
   passport = require('passport'),
   session = require('express-session'),
+  client = require('redis').createClient(process.env.REDIS_URL),
   RedisStore = require('connect-redis')(session),
   LocalStrategy = require('passport-local'),
   bcrypt = require('bcrypt');
 
-app.use(cookieParser());
-
 app.use(session({
+  client,
   store: new RedisStore(),
   secret: 'keyboard cat',
   resave: false,
