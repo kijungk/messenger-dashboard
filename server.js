@@ -1,5 +1,6 @@
 const
   bodyParser = require('body-parser'),
+  cookieParser = require('cookie-parser'),
   express = require('express'),
   routes = require('./routes'),
   app = express();
@@ -12,7 +13,7 @@ const
   LocalStrategy = require('passport-local'),
   bcrypt = require('bcrypt');
 
-app.use(express.cookieParser());
+app.use(cookieParser());
 
 app.use(session({
   store: new RedisStore(),
