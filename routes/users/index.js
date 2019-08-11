@@ -48,7 +48,9 @@ router.route('/login')
 
     return response.status(200).send({
       id: user.id,
-      username: user.username
+      username: user.username,
+      permission: user.description,
+      vendor_id: user.vendor_id
     });
   });
 
