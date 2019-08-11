@@ -60,6 +60,7 @@ passport.use(new LocalStrategy((username, password, done) => {
   return knex.raw(`
     SELECT
       a.username,
+      a.password,
       p.description,
       p.vendor_id
     FROM
