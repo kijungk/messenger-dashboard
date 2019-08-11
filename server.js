@@ -5,6 +5,7 @@ const
   app = express();
 
 const
+  knex = require('./db/knex'),
   passport = require('passport'),
   session = require('express-session'),
   RedisStore = require('connect-redis')(session),
