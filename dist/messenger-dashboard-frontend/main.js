@@ -470,7 +470,6 @@ var LoginComponent = /** @class */ (function () {
         this.userService.login(this.user).subscribe(function (response) {
             _this.userService.setUser(response);
             _this.controller['login'] = true;
-            _this.administrator = _this.userService.administrator;
         });
     };
     LoginComponent.prototype.logout = function (event) {
@@ -663,7 +662,7 @@ var EventsComponent = /** @class */ (function () {
     }
     EventsComponent.prototype.ngOnInit = function () {
         this.id = this.route.snapshot.params.id;
-        this.administrator = this.userService.administrator;
+        this.administrator = this.userService.getUser();
         this.controller = this.modalsService.controller;
         if (Number(this.id) === 1) {
             this.menuController['ordersMenu'] = true;
@@ -1014,12 +1013,10 @@ var UserService = /** @class */ (function () {
         return this.http.post(this.usersUrl + '/login', user);
     };
     UserService.prototype.logout = function () {
-        this.administrator = null;
         return this.http.get(this.usersUrl + '/logout');
     };
     UserService.prototype.setUser = function (user) {
         var stringUser = JSON.stringify(user);
-        this.administrator = user;
         return localStorage.setItem('user', stringUser);
     };
     UserService.prototype.removeUser = function () {
