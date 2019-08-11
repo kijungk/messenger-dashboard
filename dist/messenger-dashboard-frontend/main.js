@@ -193,6 +193,26 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/classes/user.ts":
+/*!*********************************!*\
+  !*** ./src/app/classes/user.ts ***!
+  \*********************************/
+/*! exports provided: User */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "User", function() { return User; });
+var User = /** @class */ (function () {
+    function User() {
+    }
+    return User;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/components/broadcast/broadcast.component.html":
 /*!***************************************************************!*\
   !*** ./src/app/components/broadcast/broadcast.component.html ***!
@@ -383,7 +403,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">LOGIN</div>\n    <div class=\"login\">\n      <input type=\"text\" [(ngModel)]=\"user.username\" placeholder=\"username\">\n      <input type=\"password\" [(ngModel)]=\"user.password\" placeholder=\"username\">\n      <div class=\"login-button\" (click)=\"login($event)\">LOGIN</div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">LOGIN</div>\n    <div class=\"login\" *ngIf=\"!controller.login\">\n      <input type=\"text\" [(ngModel)]=\"user.username\" placeholder=\"username\">\n      <input type=\"password\" [(ngModel)]=\"user.password\" placeholder=\"username\">\n      <div class=\"login-button\" (click)=\"login($event)\">LOGIN</div>\n    </div>\n    <div class=\"loggedin\" *ngIf=\"controller.login\">\n      Welcome {{administrator.username}}!\n      <!-- continue/logout button -->\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -412,6 +432,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/user.service */ "./src/app/services/user.service.ts");
 /* harmony import */ var _services_modals_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/modals.service */ "./src/app/services/modals.service.ts");
+/* harmony import */ var _classes_user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../classes/user */ "./src/app/classes/user.ts");
+
 
 
 
@@ -424,13 +446,25 @@ var LoginComponent = /** @class */ (function () {
             username: '',
             password: ''
         };
+        this.controller = {
+            login: false
+        };
+        this.administrator = new _classes_user__WEBPACK_IMPORTED_MODULE_4__["User"]();
     }
     LoginComponent.prototype.ngOnInit = function () {
+        var isUserStored = this.userService.checkUser();
+        if (isUserStored) {
+            this.controller['login'] = true;
+            this.administrator = this.userService.getUser();
+        }
     };
     LoginComponent.prototype.login = function (event) {
+        var _this = this;
         event.preventDefault();
         this.userService.login(this.user).subscribe(function (response) {
-            console.log(response);
+            _this.userService.setUser(response);
+            _this.controller['login'] = true;
+            _this.administrator = response;
         });
     };
     LoginComponent.prototype.close = function (event) {
@@ -952,12 +986,19 @@ var UserService = /** @class */ (function () {
         return this.http.post(this.usersUrl + '/login', user);
     };
     UserService.prototype.setUser = function (user) {
-        JSON.stringify(user);
-        return localStorage.setItem('user', user);
+        var stringUser = JSON.stringify(user);
+        return localStorage.setItem('user', stringUser);
     };
     UserService.prototype.getUser = function () {
+        var stringUser = localStorage.getItem('user');
+        return JSON.parse(stringUser);
+    };
+    UserService.prototype.checkUser = function () {
         var user = localStorage.getItem('user');
-        return JSON.parse(user);
+        if (!user) {
+            return false;
+        }
+        return true;
     };
     UserService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
