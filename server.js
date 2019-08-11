@@ -14,7 +14,7 @@ const
 
 app.use(session({
   store: new RedisStore(),
-  secret: process.env.REDIS_SECRET,
+  secret: 'keyboard cat',
   resave: false,
   saveUninitialized: false
 }));
