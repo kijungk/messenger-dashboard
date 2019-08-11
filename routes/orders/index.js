@@ -37,7 +37,7 @@ function refundCoupon(knex, couponUserId) {
 
 router.route('/')
   .get((request, response) => {
-    console.log('check for request');
+    console.log('Orders Interval 5000');
     return knex.raw(`
       SELECT
         o.id,
@@ -56,6 +56,45 @@ router.route('/')
       WHERE
         o.complete = false
     `)
+      .then((result) => {
+        const { rows } = result;
+        return response.status(200).send(rows);
+      })
+      .catch((error) => {
+        console.log(error);
+        //error while fetching orders
+        return;
+      });
+  });
+
+router.route('/vendors/:vendorId')
+  .get((request, response) => {
+    const { vendorId } = request.params;
+
+    return knex.raw(`
+      SELECT
+        o.id,
+        o.created_at,
+        p.description,
+        p.vendor_id
+      FROM
+        orders o
+      JOIN
+        events e
+        ON e.id = o.event_id
+        AND e.description = 'FMS 2019'
+      JOIN
+        products p
+        ON p.id = o.product_id
+      JOIN
+        vendors v
+        ON v.id = p.vendor_id
+        AND v.id = :vendorId
+      WHERE
+        o.complete = false
+    `, {
+        vendorId
+      })
       .then((result) => {
         const { rows } = result;
         return response.status(200).send(rows);

@@ -540,16 +540,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services_orders_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/orders.service */ "./src/app/services/orders.service.ts");
 /* harmony import */ var _services_modals_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/modals.service */ "./src/app/services/modals.service.ts");
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/user.service */ "./src/app/services/user.service.ts");
+
 
 
 
 
 var OrdersComponent = /** @class */ (function () {
-    function OrdersComponent(modalsService, ordersService) {
+    function OrdersComponent(modalsService, ordersService, userService) {
         this.modalsService = modalsService;
         this.ordersService = ordersService;
+        this.userService = userService;
     }
     OrdersComponent.prototype.ngOnInit = function () {
+        this.administrator = this.userService.getUser();
         this.orders = this.getOrders();
     };
     OrdersComponent.prototype.close = function (event) {
@@ -558,7 +562,7 @@ var OrdersComponent = /** @class */ (function () {
         return;
     };
     OrdersComponent.prototype.getOrders = function () {
-        return this.ordersService.getOrders();
+        return this.ordersService.getOrders(this.administrator.permission, this.administrator.vendor_id);
     };
     OrdersComponent.prototype.completeOrderHandler = function (event) {
         var _this = this;
@@ -593,7 +597,8 @@ var OrdersComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./orders.component.scss */ "./src/app/components/orders/orders.component.scss")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_modals_service__WEBPACK_IMPORTED_MODULE_3__["ModalsService"],
-            _services_orders_service__WEBPACK_IMPORTED_MODULE_2__["OrdersService"]])
+            _services_orders_service__WEBPACK_IMPORTED_MODULE_2__["OrdersService"],
+            _services_user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"]])
     ], OrdersComponent);
     return OrdersComponent;
 }());
@@ -730,15 +735,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _services_events_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/events.service */ "./src/app/services/events.service.ts");
 /* harmony import */ var _services_modals_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/modals.service */ "./src/app/services/modals.service.ts");
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/user.service */ "./src/app/services/user.service.ts");
+
 
 
 
 
 
 var HomeComponent = /** @class */ (function () {
-    function HomeComponent(eventsService, modalsService, router) {
+    function HomeComponent(eventsService, modalsService, usersService, router) {
         this.eventsService = eventsService;
         this.modalsService = modalsService;
+        this.usersService = usersService;
         this.router = router;
         this.controller = {
             login: true
@@ -746,6 +754,7 @@ var HomeComponent = /** @class */ (function () {
     }
     HomeComponent.prototype.ngOnInit = function () {
         this.controller = this.modalsService.controller;
+        this.administrator = this.usersService.getUser();
         this.events = this.getEvents();
     };
     HomeComponent.prototype.getEvents = function () {
@@ -762,6 +771,7 @@ var HomeComponent = /** @class */ (function () {
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_events_service__WEBPACK_IMPORTED_MODULE_3__["EventsService"],
             _services_modals_service__WEBPACK_IMPORTED_MODULE_4__["ModalsService"],
+            _services_user_service__WEBPACK_IMPORTED_MODULE_5__["UserService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
     ], HomeComponent);
     return HomeComponent;
@@ -931,10 +941,17 @@ var OrdersService = /** @class */ (function () {
         this.http = http;
         this.ordersUrl = '/api/orders';
     }
-    OrdersService.prototype.getOrders = function () {
+    OrdersService.prototype.getOrders = function (permission, vendorId) {
         var _this = this;
+        var url;
+        if (permission === 'superuser') {
+            url = this.ordersUrl;
+        }
+        if (permission === 'vendor') {
+            url = this.ordersUrl + ("/vendors/" + vendorId);
+        }
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["interval"])(5000).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["startWith"])(0)).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["flatMap"])(function () {
-            return _this.http.get(_this.ordersUrl)
+            return _this.http.get(url)
                 .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (response) {
                 response.forEach(function (order) {
                     var orderTime = order['created_at'];
