@@ -654,6 +654,7 @@ var EventsComponent = /** @class */ (function () {
         this.id = this.route.snapshot.params.id;
         console.log(this.id);
         if (Number(this.id) === 2) {
+            console.log(Number(this.id), 'hit');
             this.controller['ordersMenu'] = false;
         }
         this.controller = this.modalsService.controller;
