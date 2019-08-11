@@ -11,7 +11,7 @@ const isAuthenticated = require('../../utilities/auth/authentication');
 router.route('/')
   .post((request, response) => {
     const { username, password } = request.body;
-    console.log(request);
+
     const newUser = {
       username,
       hashedPassword: ''
@@ -31,13 +31,12 @@ router.route('/')
             (:username, :hashedPassword)
         `, newUser);
       })
-      .then((result) => {
-        console.log(result);
-        return;
+      .then(() => {
+        return response.status(200).json({ success: true });
       })
       .catch((error) => {
         console.log(error);
-        return;
+        return response.sendStatus(500);
       })
 
 
