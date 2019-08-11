@@ -383,7 +383,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">LOGIN</div>\n    <div class=\"login\">\n      <input type=\"text\" [(ngModel)]=\"user.username\" placeholder=\"username\">\n      <input type=\"password\" [(ngModel)]=\"user.password\" placeholder=\"username\">\n      <div class=\"login-button\" (click)=\"login(e$event)\">LOGIN</div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">LOGIN</div>\n    <div class=\"login\">\n      <input type=\"text\" [(ngModel)]=\"user.username\" placeholder=\"username\">\n      <input type=\"password\" [(ngModel)]=\"user.password\" placeholder=\"username\">\n      <div class=\"login-button\" (click)=\"login($event)\">LOGIN</div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
