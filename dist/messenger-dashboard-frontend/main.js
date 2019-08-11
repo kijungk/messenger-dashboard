@@ -403,7 +403,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">LOGIN</div>\n    <div class=\"login oswald\" *ngIf=\"!controller.login\">\n      <input type=\"text\" [(ngModel)]=\"user.username\" placeholder=\"username\">\n      <input type=\"password\" [(ngModel)]=\"user.password\" placeholder=\"username\">\n      <div class=\"login-button\" (click)=\"login($event)\">LOGIN</div>\n    </div>\n    <div class=\"loggedin oswald\" *ngIf=\"controller.login\">\n      <div class=\"oswald\">\n        Welcome {{administrator.username}}! If you'd like to login to another account. Please logout first.\n      </div>\n      <div class=\"confirm-button\" (click)=\"close($event)\">CONTINUE</div>\n      <div class=\"logout-button\" (click)=\"logout($event)\">LOGOUT</div>\n      <!-- continue/logout button -->\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">LOGIN</div>\n    <div class=\"login oswald\" *ngIf=\"!controller.login\">\n      <input type=\"text\" [(ngModel)]=\"user.username\" placeholder=\"username\">\n      <input type=\"password\" [(ngModel)]=\"user.password\" placeholder=\"password\">\n      <div class=\"login-button\" (click)=\"login($event)\">LOGIN</div>\n    </div>\n    <div class=\"loggedin oswald\" *ngIf=\"controller.login\">\n      <div class=\"oswald\">\n        Welcome {{administrator.username}}! If you'd like to login to another account. Please logout first.\n      </div>\n      <div class=\"button-container\">\n        <div class=\"confirm-button\" (click)=\"close($event)\">CONTINUE</div>\n        <div class=\"logout-button\" (click)=\"logout($event)\">LOGOUT</div>\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -468,9 +468,13 @@ var LoginComponent = /** @class */ (function () {
         });
     };
     LoginComponent.prototype.logout = function (event) {
+        var _this = this;
         event.preventDefault();
         this.userService.logout().subscribe(function (response) {
-            console.log(response);
+            if (response['success']) {
+                _this.controller['login'] = false;
+                _this.userService.removeUser();
+            }
             return;
         });
     };
@@ -998,6 +1002,9 @@ var UserService = /** @class */ (function () {
     UserService.prototype.setUser = function (user) {
         var stringUser = JSON.stringify(user);
         return localStorage.setItem('user', stringUser);
+    };
+    UserService.prototype.removeUser = function () {
+        return localStorage.removeItem('user');
     };
     UserService.prototype.getUser = function () {
         var stringUser = localStorage.getItem('user');
