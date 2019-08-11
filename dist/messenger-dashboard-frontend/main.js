@@ -639,7 +639,7 @@ var EventsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"home\">\n      <div class=\"oswald\">\n        Welcome!\n      </div>\n      <div class=\"roboto\">\n        Please select an event. If no events are available, contact administrator for access.\n      </div>\n      <div id=\"events-container\">\n        <div class=\"event event\" *ngFor=\"let event of events | async\" (click)=\"navigateTo(event.id)\">\n          <img src={{event.url}} alt={{event.description}} class=\"event-icon\">\n          <div class=\"roboto\">\n            {{ event.description }}\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <app-login *ngIf=\"\"></app-login>\n</div>"
+module.exports = "<div class=\"page\">\n  <div class=\"page-container\">\n    <div id=\"home\">\n      <div class=\"oswald\">\n        Welcome!\n      </div>\n      <div class=\"roboto\">\n        Please select an event. If no events are available, contact administrator for access.\n      </div>\n      <div id=\"events-container\">\n        <div class=\"event event\" *ngFor=\"let event of events | async\" (click)=\"navigateTo(event.id)\">\n          <img src={{event.url}} alt={{event.description}} class=\"event-icon\">\n          <div class=\"roboto\">\n            {{ event.description }}\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <app-login *ngIf=\"controller.login\"></app-login>\n</div>"
 
 /***/ }),
 
