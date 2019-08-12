@@ -98,9 +98,9 @@ router.route('/')
                 return rp(labelOptions);
 
               })
-              .then(() => {
+              .then((result) => {
                 payload = assignPayload(event);
-                console.log(payload);
+                console.log(result);
                 return processPayload(access_token, entryId, userId, payload, senderId);
               })
               .catch((error) => {
