@@ -100,7 +100,7 @@ router.route('/')
               })
               .then(() => {
                 payload = assignPayload(event);
-
+                console.log(payload);
                 return processPayload(access_token, entryId, userId, payload, senderId);
               })
               .catch((error) => {
