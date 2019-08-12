@@ -79,9 +79,10 @@ router.route('/')
                     (:name, :id)
                   RETURNING
                     id, facebook_id
-                `, user)
+                `, user);
               })
               .then((result) => {
+                console.log('hit');
                 userId = result[0].id;
                 console.log(entryIdLabels[entryId]);
 
