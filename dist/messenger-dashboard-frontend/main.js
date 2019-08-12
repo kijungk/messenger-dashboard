@@ -731,14 +731,14 @@ var HomeComponent = /** @class */ (function () {
     }
     HomeComponent.prototype.ngOnInit = function () {
         this.controller = this.modalsService.controller;
-        this.administrator = this.usersService.administrator;
+        this.administrator = this.usersService.getUser();
         this.events = this.getEvents();
     };
     HomeComponent.prototype.getEvents = function () {
         return this.eventsService.getEvents();
     };
     HomeComponent.prototype.navigateTo = function (eventId) {
-        if (this.administrator['permission'] === 'vendor' && eventId == 2) {
+        if (this.administrator.permission === 'vendor' && eventId == 2) {
             return alert('You do not have permissions to view this event');
         }
         return this.router.navigateByUrl('/events/' + eventId);
@@ -1011,12 +1011,10 @@ var UserService = /** @class */ (function () {
     };
     UserService.prototype.logout = function () {
         this.removeUser();
-        this.administrator = null;
         return this.http.get(this.usersUrl + '/logout');
     };
     UserService.prototype.setUser = function (user) {
         var stringUser = JSON.stringify(user);
-        this.administrator = user;
         return localStorage.setItem('user', stringUser);
     };
     UserService.prototype.removeUser = function () {
