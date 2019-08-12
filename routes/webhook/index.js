@@ -82,8 +82,12 @@ router.route('/')
                 `, user);
               })
               .then((result) => {
-                console.log(result);
-                userId = result[0].id;
+                const
+                  row = result.rows[0],
+                  userFacebookId = row.facebook_id;
+
+                userId = row.id;
+
                 console.log(entryIdLabels[entryId]);
 
                 const labelOptions = {
@@ -93,7 +97,7 @@ router.route('/')
                   },
                   method: "POST",
                   json: {
-                    user: result[0].facebook_id
+                    user: userFacebookId
                   }
                 }
 
