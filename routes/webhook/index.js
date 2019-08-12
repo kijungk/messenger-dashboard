@@ -33,6 +33,10 @@ router.route('/')
 
   .post((request, response) => {
     const body = request.body;
+    const entryIdLabels = {
+      '2248986022080033': '2923778247694414',
+      '636910476828386': '2609710575715602'
+    }
 
     if (body.object !== 'page') {
       // TODO error log
@@ -67,16 +71,34 @@ router.route('/')
             rp(options)
               .then((response) => {
                 const user = JSON.parse(response);
-                return knex('users')
-                  .returning('id')
-                  .insert({
-                    facebook_id: user.id,
-                    name: user.name
-                  })
+
+                return knex.raw(`
+                  INSERT INTO
+                    users (name, facebook_id)
+                  VALUES
+                    (:name, :id)
+                  RETURNING
+                    id, facebook_id
+                `, user)
               })
               .then((result) => {
-                userId = result[0];
+                userId = result[0].id;
 
+                const labelOptions = {
+                  uri: `https://graph.facebook.com/v2.11/${entryIdLabels[entryId]}/label`,
+                  qs: {
+                    access_token
+                  },
+                  method: "POST",
+                  json: {
+                    user: result[0].facebook_id
+                  }
+                }
+
+                return rp(labelOptions);
+
+              })
+              .then(() => {
                 payload = assignPayload(event);
 
                 return processPayload(access_token, entryId, userId, payload, senderId);

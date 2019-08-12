@@ -12,3 +12,9 @@ curl -X POST -H "Content-Type: application/json" -d '{
     }
 ]
 }' "https://graph.facebook.com/v2.6/me/thread_settings?access_token=PAGE_ACCESS_TOKEN"
+
+
+#### Creating page label for Broadcast API
+curl -X POST -H "Content-Type: application/json" -d '{
+  "name": "<LABEL_NAME>",
+}' "https://graph.facebook.com/v2.11/me/custom_labels?access_token=<PAGE_ACCESS_TOKEN>"
