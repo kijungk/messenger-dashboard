@@ -738,7 +738,7 @@ var HomeComponent = /** @class */ (function () {
         return this.eventsService.getEvents();
     };
     HomeComponent.prototype.navigateTo = function (eventId) {
-        if (this.administrator.permission === 'vendor' && eventId == 2) {
+        if (this.administrator['permission'] === 'vendor' && eventId == 2) {
             return alert('You do not have permissions to view this event');
         }
         return this.router.navigateByUrl('/events/' + eventId);
