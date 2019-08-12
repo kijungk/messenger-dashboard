@@ -83,6 +83,7 @@ router.route('/')
               })
               .then((result) => {
                 userId = result[0].id;
+                console.log(entryIdLabels[entryId]);
 
                 const labelOptions = {
                   uri: `https://graph.facebook.com/v2.11/${entryIdLabels[entryId]}/label`,
@@ -95,8 +96,7 @@ router.route('/')
                   }
                 }
 
-                return rp(labelOptions);
-
+                return rp(labelOptions)
               })
               .then((result) => {
                 payload = assignPayload(event);
