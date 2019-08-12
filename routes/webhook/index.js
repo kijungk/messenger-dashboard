@@ -82,7 +82,7 @@ router.route('/')
                 `, user);
               })
               .then((result) => {
-                console.log('hit');
+                console.log(result[0]);
                 userId = result[0].id;
                 console.log(entryIdLabels[entryId]);
 
