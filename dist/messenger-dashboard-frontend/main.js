@@ -742,6 +742,7 @@ var HomeComponent = /** @class */ (function () {
         this.controller = this.modalsService.controller;
         this.administrator = this.usersService.getUser();
         this.events = this.getEvents();
+        this.events.subscribe(function (x) { return console.log('Observer got a next value: ' + x); }, function (err) { return console.error('Observer got an error: ' + err); }, function () { return console.log('Observer got a complete notification'); });
     };
     HomeComponent.prototype.getEvents = function () {
         return this.eventsService.getEvents();

@@ -6,7 +6,7 @@ const
 const isAuthenticated = require('../../utilities/auth/authentication');
 
 router.route('/')
-  .get((request, response) => {
+  .get(isAuthenticated, (request, response) => {
     return knex.raw(`
         SELECT
           events.id,
@@ -29,7 +29,7 @@ router.route('/')
   });
 
 router.route('/:id')
-  .get(isAuthenticated, (request, response) => {
+  .get((request, response) => {
     const { id } = request.params;
 
     return knex.raw(`
