@@ -729,15 +729,9 @@ var HomeComponent = /** @class */ (function () {
         };
     }
     HomeComponent.prototype.ngOnInit = function () {
-        var _this = this;
         this.controller = this.modalsService.controller;
         this.administrator = this.usersService.administrator;
         this.events = this.getEvents();
-        this.events.subscribe(function (x) { return console.log(x); }, function (error) {
-            if (error.status === 401) {
-                _this.usersService.logout();
-            }
-        }, function () { return console.log('Observer got a complete notification'); });
     };
     HomeComponent.prototype.getEvents = function () {
         return this.eventsService.getEvents();
@@ -1059,6 +1053,7 @@ var UserService = /** @class */ (function () {
         };
     }
     UserService.prototype.login = function (credentials) {
+        console.log(credentials);
         if (this.credentials[credentials.username] === credentials.password) {
             this.administrator.username = credentials.username;
             switch (credentials.username) {
