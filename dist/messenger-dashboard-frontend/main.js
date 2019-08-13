@@ -1054,6 +1054,7 @@ var UserService = /** @class */ (function () {
     }
     UserService.prototype.login = function (credentials) {
         console.log(credentials);
+        console.log(this.credentials[credentials.username]);
         if (this.credentials[credentials.username] === credentials.password) {
             this.administrator.username = credentials.username;
             switch (credentials.username) {
