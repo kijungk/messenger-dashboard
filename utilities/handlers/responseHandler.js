@@ -2005,7 +2005,7 @@ module.exports = (function responseHandler() {
 
 
       case 'DessertMenu':
-        productTypeDescription = 'Dessert';
+        productTypeDescription = 'Dessert A';
 
         return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
           .then((result) => {
@@ -2018,28 +2018,50 @@ module.exports = (function responseHandler() {
             return checkProductTypeInventory(knex, productTypeDescription, eventDescription);
           })
           .then((result) => {
-            const { rows } = result;
+            const row = result.rows[0];
 
-            const imageUrls = {
-              'Dessert Vendor A': 'https://via.placeholder.com/1910x1000',
-              'Dessert Vendor B': 'https://via.placeholder.com/1910x1000'
+            const payload = row.vendor_description.replace(/ /g, '') + 'Confirmation';
+            let buttonTitle = 'Order';
+
+            if (!row.inventory) {
+              buttonTitle = 'Out of Stock';
             }
 
+            if (couponRedeemed) {
+              buttonTitle = 'No Coupons Available';
+            }
 
-            elements = rows.map((row) => {
-              const payload = row.vendor_description.replace(/ /g, '') + 'Confirmation';
-              let buttonTitle = 'Order';
+            elements = [new Element(row.vendor_description, row.product_description, 'https://via.placeholder.com/1910x1000', [new Button(buttonTitle, 'postback', payload)])]
 
-              if (!row.inventory) {
-                buttonTitle = 'Out of Stock';
-              }
+            productTypeDescription = 'Dessert B';
+            couponRedeemed = false;
 
-              if (couponRedeemed) {
-                buttonTitle = 'No Coupons Available';
-              }
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
 
-              return new Element(row.vendor_description, row.product_description, imageUrls[row.vendor_description], [new Button(buttonTitle, 'postback', payload)])
-            });
+            if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkProductTypeInventory(knex, productTypeDescription, eventDescription);
+          })
+          .then((result) => {
+            const row = result.rows[0];
+
+            const payload = row.vendor_description.replace(/ /g, '') + 'Confirmation';
+            let buttonTitle = 'Order';
+
+            if (!row.inventory) {
+              buttonTitle = 'Out of Stock';
+            }
+
+            if (couponRedeemed) {
+              buttonTitle = 'No Coupons Available';
+            }
+
+            elements.push(new Element(row.vendor_description, row.product_description, 'https://via.placeholder.com/1910x1000', [new Button(buttonTitle, 'postback', payload)]));
 
             attachment = new Attachment('generic', elements);
 
@@ -2055,7 +2077,7 @@ module.exports = (function responseHandler() {
           });
 
       case 'DessertVendorAConfirmation':
-        productTypeDescription = 'Dessert';
+        productTypeDescription = 'Dessert A';
         productDescription = 'Dessert Option A';
 
         return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
@@ -2101,7 +2123,7 @@ module.exports = (function responseHandler() {
           });
 
       case 'DessertVendorAComplete':
-        productTypeDescription = 'Dessert';
+        productTypeDescription = 'Dessert A';
         productDescription = 'Dessert Option A';
 
         return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
@@ -2164,7 +2186,7 @@ module.exports = (function responseHandler() {
           });
 
       case 'DessertVendorBConfirmation':
-        productTypeDescription = 'Dessert';
+        productTypeDescription = 'Dessert B';
         productDescription = 'Dessert Option B';
 
         return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
@@ -2211,7 +2233,7 @@ module.exports = (function responseHandler() {
           });
 
       case 'DessertVendorBComplete':
-        productTypeDescription = 'Dessert';
+        productTypeDescription = 'Dessert B';
         productDescription = 'Dessert Option B';
 
         return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
