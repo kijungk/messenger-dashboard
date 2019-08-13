@@ -15,8 +15,6 @@ router.route('/')
 
     const message = new Message(text);
 
-    console.log(message);
-
     sendBroadcast(message, eventId);
     return response.sendStatus(200);
   });
@@ -49,9 +47,8 @@ function sendBroadcast(message, eventId) {
 
   return rp(options)
     .then((result) => {
-      console.log(result);
       const broadcastObject = {
-        message_creative_id: result.body.message_creative_id,
+        message_creative_id: result.message_creative_id,
         notification_type: "REGULAR",
         messaging_type: "MESSAGE_TAG",
         tag: "NON_PROMOTIONAL_SUBSCRIPTION",
