@@ -1,4 +1,5 @@
 const
+  rp = require('request-promise'),
   express = require('express'),
   router = express.Router();
 
