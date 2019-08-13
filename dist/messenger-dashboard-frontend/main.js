@@ -193,6 +193,26 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/classes/user.ts":
+/*!*********************************!*\
+  !*** ./src/app/classes/user.ts ***!
+  \*********************************/
+/*! exports provided: User */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "User", function() { return User; });
+var User = /** @class */ (function () {
+    function User() {
+    }
+    return User;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/components/broadcast/broadcast.component.html":
 /*!***************************************************************!*\
   !*** ./src/app/components/broadcast/broadcast.component.html ***!
@@ -1036,10 +1056,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserService", function() { return UserService; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _classes_user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../classes/user */ "./src/app/classes/user.ts");
+
 
 
 var UserService = /** @class */ (function () {
     function UserService() {
+        this.administrator = new _classes_user__WEBPACK_IMPORTED_MODULE_2__["User"]();
         this.credentials = {
             superuser: 'savestheday',
             fritz: 'coffeeandbread',
