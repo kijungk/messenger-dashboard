@@ -427,14 +427,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/user.service */ "./src/app/services/user.service.ts");
 /* harmony import */ var _services_modals_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/modals.service */ "./src/app/services/modals.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
 
 
 
 
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(modalsService, userService) {
+    function LoginComponent(modalsService, userService, route) {
         this.modalsService = modalsService;
         this.userService = userService;
+        this.route = route;
         this.user = {
             username: '',
             password: ''
@@ -456,6 +459,7 @@ var LoginComponent = /** @class */ (function () {
         this.userService.login(this.user).subscribe(function (response) {
             _this.userService.setUser(response);
             _this.administrator = _this.userService.getUser();
+            _this.route.navigateByUrl('/');
         });
     };
     LoginComponent.prototype.logout = function (event) {
@@ -480,7 +484,8 @@ var LoginComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./login.component.scss */ "./src/app/components/login/login.component.scss")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_modals_service__WEBPACK_IMPORTED_MODULE_3__["ModalsService"],
-            _services_user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"]])
+            _services_user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]])
     ], LoginComponent);
     return LoginComponent;
 }());
