@@ -746,7 +746,7 @@ var HomeComponent = /** @class */ (function () {
         this.events.subscribe(function (x) { return console.log(x); }, function (error) {
             if (error.status === 401) {
                 _this.usersService.logout();
-                location.reload();
+                _this.router.navigateByUrl('/');
             }
         }, function () { return console.log('Observer got a complete notification'); });
     };
