@@ -11,8 +11,14 @@ module.exports = (function constants() {
     CXO2019: '636910476828386'
   };
 
+  const entryIdLabels = {
+    '2248986022080033': '2923778247694414',
+    '636910476828386': '2609710575715602'
+  }
+
   return {
     entryIds: entryIds,
-    httpStatusCodes: httpStatusCodes
+    httpStatusCodes: httpStatusCodes,
+    entryIdLabels: entryIdLabels
   }
 })();

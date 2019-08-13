@@ -1,6 +1,6 @@
 const
   express = require('express'),
-  { httpStatusCodes } = require('../../utilities/constants'),
+  { httpStatusCodes, entryIdLabels } = require('../../utilities/constants'),
   { assignPayload, processEntryId } = require('../../utilities/handlers/eventHandler'),
   { processPayload } = require('../../utilities/handlers/payloadHandler'),
   knex = require('../../db/knex'),
@@ -33,10 +33,6 @@ router.route('/')
 
   .post((request, response) => {
     const body = request.body;
-    const entryIdLabels = {
-      '2248986022080033': '2923778247694414',
-      '636910476828386': '2609710575715602'
-    }
 
     if (body.object !== 'page') {
       // TODO error log
@@ -88,8 +84,6 @@ router.route('/')
 
                 userId = row.id;
 
-                console.log(entryIdLabels[entryId]);
-
                 const labelOptions = {
                   uri: `https://graph.facebook.com/v2.11/${entryIdLabels[entryId]}/label`,
                   qs: {
@@ -103,13 +97,14 @@ router.route('/')
 
                 return rp(labelOptions)
               })
-              .then((result) => {
+              .then(() => {
                 payload = assignPayload(event);
-                console.log(result);
                 return processPayload(access_token, entryId, userId, payload, senderId);
               })
               .catch((error) => {
                 //Todo error log
+                console.log(error);
+                return;
                 //Inserting new user failed
               });
           }
@@ -121,6 +116,8 @@ router.route('/')
           return processPayload(access_token, entryId, userId, payload, senderId);
         })
         .catch((error) => {
+          console.log(error);
+          return;
           //Todo error log
           //finding user in database failed
         });

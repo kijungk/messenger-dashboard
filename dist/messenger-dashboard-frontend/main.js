@@ -227,12 +227,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BroadcastComponent", function() { return BroadcastComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _services_modals_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/modals.service */ "./src/app/services/modals.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _services_modals_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/modals.service */ "./src/app/services/modals.service.ts");
+/* harmony import */ var _services_broadcast_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/broadcast.service */ "./src/app/services/broadcast.service.ts");
+
+
 
 
 
 var BroadcastComponent = /** @class */ (function () {
-    function BroadcastComponent(modalsService) {
+    function BroadcastComponent(route, broadcastService, modalsService) {
+        this.route = route;
+        this.broadcastService = broadcastService;
         this.modalsService = modalsService;
     }
     BroadcastComponent.prototype.ngOnInit = function () {
@@ -246,8 +252,9 @@ var BroadcastComponent = /** @class */ (function () {
     };
     BroadcastComponent.prototype.sendBroadcast = function (event) {
         event.preventDefault();
-        console.log(this.text);
-        this.close(event);
+        var eventId = this.route.snapshot.params.id;
+        this.broadcastService.sendBroadcast(this.text, eventId);
+        return this.close(event);
     };
     BroadcastComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -255,7 +262,9 @@ var BroadcastComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./broadcast.component.html */ "./src/app/components/broadcast/broadcast.component.html"),
             styles: [__webpack_require__(/*! ./broadcast.component.scss */ "./src/app/components/broadcast/broadcast.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_modals_service__WEBPACK_IMPORTED_MODULE_2__["ModalsService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
+            _services_broadcast_service__WEBPACK_IMPORTED_MODULE_4__["BroadcastService"],
+            _services_modals_service__WEBPACK_IMPORTED_MODULE_3__["ModalsService"]])
     ], BroadcastComponent);
     return BroadcastComponent;
 }());
@@ -811,6 +820,46 @@ var NotFoundComponent = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
     ], NotFoundComponent);
     return NotFoundComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/services/broadcast.service.ts":
+/*!***********************************************!*\
+  !*** ./src/app/services/broadcast.service.ts ***!
+  \***********************************************/
+/*! exports provided: BroadcastService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BroadcastService", function() { return BroadcastService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+
+
+
+var BroadcastService = /** @class */ (function () {
+    function BroadcastService(http) {
+        this.http = http;
+    }
+    BroadcastService.prototype.sendBroadcast = function (text, eventId) {
+        var body = {
+            text: text,
+            eventId: eventId
+        };
+        return this.http.post('/api/broadcasts', body).subscribe(function (x) { return console.log('Observer got a next value: ' + x); }, function (err) { return console.error('Observer got an error: ' + err); }, function () { return console.log('Observer got a complete notification'); });
+    };
+    BroadcastService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+    ], BroadcastService);
+    return BroadcastService;
 }());
 
 
