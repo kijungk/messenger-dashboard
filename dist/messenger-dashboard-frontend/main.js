@@ -1041,20 +1041,12 @@ __webpack_require__.r(__webpack_exports__);
 var UserService = /** @class */ (function () {
     function UserService() {
         this.credentials = {
-            superuser: {
-                password: 'savestheday'
-            },
-            fritz: {
-                password: 'coffeeandbread'
-            },
-            altdif: {
-                password: 'teaandlife'
-            }
+            superuser: 'savestheday',
+            fritz: 'coffeeandbread',
+            altdif: 'teaandlife'
         };
     }
     UserService.prototype.login = function (credentials) {
-        console.log(credentials);
-        console.log(this.credentials[credentials.username]);
         if (this.credentials[credentials.username] === credentials.password) {
             this.administrator.username = credentials.username;
             switch (credentials.username) {
