@@ -444,9 +444,9 @@ var LoginComponent = /** @class */ (function () {
         };
     }
     LoginComponent.prototype.ngOnInit = function () {
+        this.controller = this.userService.controller;
         var isUserStored = this.userService.checkUser();
         if (isUserStored) {
-            this.controller['login'] = true;
             this.administrator = this.userService.getUser();
         }
     };
@@ -456,7 +456,6 @@ var LoginComponent = /** @class */ (function () {
         this.userService.login(this.user).subscribe(function (response) {
             _this.userService.setUser(response);
             _this.administrator = _this.userService.getUser();
-            _this.controller['login'] = true;
         });
     };
     LoginComponent.prototype.logout = function (event) {
@@ -746,7 +745,6 @@ var HomeComponent = /** @class */ (function () {
         this.events.subscribe(function (x) { return console.log(x); }, function (error) {
             if (error.status === 401) {
                 _this.usersService.logout();
-                _this.controller['login'] = false;
             }
         }, function () { return console.log('Observer got a complete notification'); });
     };
@@ -1061,16 +1059,21 @@ var UserService = /** @class */ (function () {
     function UserService(http) {
         this.http = http;
         this.usersUrl = '/api/users';
+        this.controller = {
+            login: false
+        };
     }
     UserService.prototype.login = function (user) {
         return this.http.post(this.usersUrl + '/login', user);
     };
     UserService.prototype.logout = function () {
         this.removeUser();
+        this.controller['login'] = false;
         return this.http.get(this.usersUrl + '/logout');
     };
     UserService.prototype.setUser = function (user) {
         var stringUser = JSON.stringify(user);
+        this.controller['login'] = true;
         return localStorage.setItem('user', stringUser);
     };
     UserService.prototype.removeUser = function () {
@@ -1083,8 +1086,10 @@ var UserService = /** @class */ (function () {
     UserService.prototype.checkUser = function () {
         var user = localStorage.getItem('user');
         if (!user) {
+            this.controller['login'] = false;
             return false;
         }
+        this.controller['login'] = true;
         return true;
     };
     UserService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
