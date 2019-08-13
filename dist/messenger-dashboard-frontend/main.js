@@ -1090,7 +1090,7 @@ var UserService = /** @class */ (function () {
         return false;
     };
     UserService.prototype.logout = function () {
-        this.administrator = null;
+        this.administrator = new _classes_user__WEBPACK_IMPORTED_MODULE_2__["User"]();
     };
     UserService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
