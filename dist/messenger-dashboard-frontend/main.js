@@ -427,17 +427,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/user.service */ "./src/app/services/user.service.ts");
 /* harmony import */ var _services_modals_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/modals.service */ "./src/app/services/modals.service.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-
 
 
 
 
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(modalsService, userService, route) {
+    function LoginComponent(modalsService, userService) {
         this.modalsService = modalsService;
         this.userService = userService;
-        this.route = route;
         this.user = {
             username: '',
             password: ''
@@ -447,30 +444,20 @@ var LoginComponent = /** @class */ (function () {
         };
     }
     LoginComponent.prototype.ngOnInit = function () {
-        this.controller = this.userService.controller;
-        var isUserStored = this.userService.checkUser();
-        if (isUserStored) {
-            this.administrator = this.userService.getUser();
-        }
+        this.administrator = this.userService.administrator;
     };
     LoginComponent.prototype.login = function (event) {
-        var _this = this;
         event.preventDefault();
-        this.userService.login(this.user).subscribe(function (response) {
-            _this.userService.setUser(response);
-            _this.administrator = _this.userService.getUser();
-            _this.route.navigateByUrl('/');
-        });
+        var login = this.userService.login(this.user);
+        if (!login) {
+            return alert('Please doublecheck your credentials');
+        }
+        return this.controller['login'] = true;
     };
     LoginComponent.prototype.logout = function (event) {
-        var _this = this;
         event.preventDefault();
-        this.userService.logout().subscribe(function (response) {
-            if (response['success']) {
-                _this.controller['login'] = false;
-            }
-            return;
-        });
+        this.userService.logout();
+        return this.controller['login'] = false;
     };
     LoginComponent.prototype.close = function (event) {
         event.preventDefault();
@@ -484,8 +471,7 @@ var LoginComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./login.component.scss */ "./src/app/components/login/login.component.scss")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_modals_service__WEBPACK_IMPORTED_MODULE_3__["ModalsService"],
-            _services_user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]])
+            _services_user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"]])
     ], LoginComponent);
     return LoginComponent;
 }());
@@ -543,7 +529,7 @@ var OrdersComponent = /** @class */ (function () {
         this.userService = userService;
     }
     OrdersComponent.prototype.ngOnInit = function () {
-        this.administrator = this.userService.getUser();
+        this.administrator = this.userService.administrator;
         this.orders = this.getOrders();
     };
     OrdersComponent.prototype.close = function (event) {
@@ -657,7 +643,7 @@ var EventsComponent = /** @class */ (function () {
     }
     EventsComponent.prototype.ngOnInit = function () {
         this.id = this.route.snapshot.params.id;
-        this.administrator = this.userService.getUser();
+        this.administrator = this.userService.administrator;
         this.controller = this.modalsService.controller;
         if (Number(this.id) === 1) {
             this.menuController['ordersMenu'] = true;
@@ -745,7 +731,7 @@ var HomeComponent = /** @class */ (function () {
     HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.controller = this.modalsService.controller;
-        this.administrator = this.usersService.getUser();
+        this.administrator = this.usersService.administrator;
         this.events = this.getEvents();
         this.events.subscribe(function (x) { return console.log(x); }, function (error) {
             if (error.status === 401) {
@@ -1056,52 +1042,50 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserService", function() { return UserService; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-
 
 
 var UserService = /** @class */ (function () {
-    function UserService(http) {
-        this.http = http;
-        this.usersUrl = '/api/users';
-        this.controller = {
-            login: false
+    function UserService() {
+        this.credentials = {
+            superuser: {
+                password: 'savestheday'
+            },
+            fritz: {
+                password: 'coffeeandbread'
+            },
+            altdif: {
+                password: 'teaandlife'
+            }
         };
     }
-    UserService.prototype.login = function (user) {
-        return this.http.post(this.usersUrl + '/login', user);
+    UserService.prototype.login = function (credentials) {
+        if (this.credentials[credentials.username] === credentials.password) {
+            this.administrator.username = credentials.username;
+            switch (credentials.username) {
+                case 'fritz':
+                    this.administrator.permission = 'vendor';
+                    this.administrator.vendor_id = 1;
+                    break;
+                case 'altdif':
+                    this.administrator.permission = 'vendor';
+                    this.administrator.vendor_id = 2;
+                    break;
+                default:
+                    this.administrator.permission = 'superuser';
+                    break;
+            }
+            return true;
+        }
+        return false;
     };
     UserService.prototype.logout = function () {
-        this.removeUser();
-        this.controller['login'] = false;
-        return this.http.get(this.usersUrl + '/logout');
-    };
-    UserService.prototype.setUser = function (user) {
-        var stringUser = JSON.stringify(user);
-        this.controller['login'] = true;
-        return localStorage.setItem('user', stringUser);
-    };
-    UserService.prototype.removeUser = function () {
-        return localStorage.removeItem('user');
-    };
-    UserService.prototype.getUser = function () {
-        var stringUser = localStorage.getItem('user');
-        return JSON.parse(stringUser);
-    };
-    UserService.prototype.checkUser = function () {
-        var user = localStorage.getItem('user');
-        if (!user) {
-            this.controller['login'] = false;
-            return false;
-        }
-        this.controller['login'] = true;
-        return true;
+        this.administrator = null;
     };
     UserService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
     ], UserService);
     return UserService;
 }());

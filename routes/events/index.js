@@ -3,10 +3,8 @@ const
   router = express.Router(),
   knex = require('../../db/knex');
 
-const isAuthenticated = require('../../utilities/auth/authentication');
-
 router.route('/')
-  .get(isAuthenticated, (request, response) => {
+  .get((request, response) => {
     return knex.raw(`
         SELECT
           events.id,
