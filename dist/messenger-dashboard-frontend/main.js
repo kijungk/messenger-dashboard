@@ -39,6 +39,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_home_home_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/home/home.component */ "./src/app/pages/home/home.component.ts");
 /* harmony import */ var _pages_events_events_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages/events/events.component */ "./src/app/pages/events/events.component.ts");
 /* harmony import */ var _pages_not_found_not_found_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/not-found/not-found.component */ "./src/app/pages/not-found/not-found.component.ts");
+/* harmony import */ var _guards_login_guard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./guards/login.guard */ "./src/app/guards/login.guard.ts");
+
 
 
 
@@ -47,7 +49,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var routes = [
     { path: '', component: _pages_home_home_component__WEBPACK_IMPORTED_MODULE_3__["HomeComponent"] },
-    { path: 'events/:id', component: _pages_events_events_component__WEBPACK_IMPORTED_MODULE_4__["EventsComponent"] },
+    { path: 'events/:id', component: _pages_events_events_component__WEBPACK_IMPORTED_MODULE_4__["EventsComponent"], canActivate: [_guards_login_guard__WEBPACK_IMPORTED_MODULE_6__["LoginGuard"]] },
     { path: '**', component: _pages_not_found_not_found_component__WEBPACK_IMPORTED_MODULE_5__["NotFoundComponent"] }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -629,6 +631,49 @@ var OrdersComponent = /** @class */ (function () {
             _services_user_service__WEBPACK_IMPORTED_MODULE_5__["UserService"]])
     ], OrdersComponent);
     return OrdersComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/guards/login.guard.ts":
+/*!***************************************!*\
+  !*** ./src/app/guards/login.guard.ts ***!
+  \***************************************/
+/*! exports provided: LoginGuard */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginGuard", function() { return LoginGuard; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/user.service */ "./src/app/services/user.service.ts");
+
+
+
+
+var LoginGuard = /** @class */ (function () {
+    function LoginGuard(userService, router) {
+        this.userService = userService;
+        this.router = router;
+    }
+    LoginGuard.prototype.canActivate = function (next, state) {
+        if (this.userService.administrator.username) {
+            return true;
+        }
+        return this.router.parseUrl('/');
+    };
+    LoginGuard = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_user_service__WEBPACK_IMPORTED_MODULE_3__["UserService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
+    ], LoginGuard);
+    return LoginGuard;
 }());
 
 
