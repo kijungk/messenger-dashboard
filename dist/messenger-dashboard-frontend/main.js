@@ -534,9 +534,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrdersComponent", function() { return OrdersComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _services_orders_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/orders.service */ "./src/app/services/orders.service.ts");
-/* harmony import */ var _services_modals_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/modals.service */ "./src/app/services/modals.service.ts");
-/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/user.service */ "./src/app/services/user.service.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var _services_orders_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/orders.service */ "./src/app/services/orders.service.ts");
+/* harmony import */ var _services_modals_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/modals.service */ "./src/app/services/modals.service.ts");
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/user.service */ "./src/app/services/user.service.ts");
+
 
 
 
@@ -558,7 +560,25 @@ var OrdersComponent = /** @class */ (function () {
         return;
     };
     OrdersComponent.prototype.getOrders = function () {
-        return this.ordersService.getOrders(this.administrator.permission, this.administrator.vendor_id);
+        return this.ordersService.getOrders(this.administrator.permission, this.administrator.vendor_id)
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (data) {
+            console.log(data);
+            return data;
+        }));
+    };
+    OrdersComponent.prototype.processOrderHandler = function (event) {
+        var _this = this;
+        var orderId = Number(event.target.parentElement.firstChild.textContent);
+        return this.ordersService.processOrder(orderId).subscribe(function (response) {
+            if (response['success']) {
+                console.log('Order successfully completed. User has been notified');
+                _this.orders = _this.getOrders();
+            }
+            ;
+        }, function (error) {
+            console.log(error);
+            return;
+        });
     };
     OrdersComponent.prototype.completeOrderHandler = function (event) {
         var _this = this;
@@ -571,6 +591,7 @@ var OrdersComponent = /** @class */ (function () {
             ;
         }, function (error) {
             console.log(error);
+            return;
         });
     };
     OrdersComponent.prototype.cancelOrderHandler = function (event) {
@@ -592,9 +613,9 @@ var OrdersComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./orders.component.html */ "./src/app/components/orders/orders.component.html"),
             styles: [__webpack_require__(/*! ./orders.component.scss */ "./src/app/components/orders/orders.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_modals_service__WEBPACK_IMPORTED_MODULE_3__["ModalsService"],
-            _services_orders_service__WEBPACK_IMPORTED_MODULE_2__["OrdersService"],
-            _services_user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_modals_service__WEBPACK_IMPORTED_MODULE_4__["ModalsService"],
+            _services_orders_service__WEBPACK_IMPORTED_MODULE_3__["OrdersService"],
+            _services_user_service__WEBPACK_IMPORTED_MODULE_5__["UserService"]])
     ], OrdersComponent);
     return OrdersComponent;
 }());
@@ -1003,8 +1024,11 @@ var OrdersService = /** @class */ (function () {
             }));
         }));
     };
+    OrdersService.prototype.processOrder = function (id) {
+        return this.http.put(this.ordersUrl + ("/" + id), { orderStatusId: 2 });
+    };
     OrdersService.prototype.completeOrder = function (id) {
-        return this.http.put(this.ordersUrl + ("/" + id + "/complete"), {});
+        return this.http.put(this.ordersUrl + ("/" + id), { orderStatusId: 3 });
     };
     OrdersService.prototype.cancelOrder = function (id) {
         return this.http.delete(this.ordersUrl + ("/" + id + "/cancel"));

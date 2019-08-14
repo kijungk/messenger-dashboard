@@ -42,6 +42,7 @@ router.route('/')
       SELECT
         o.id,
         o.created_at,
+        o.order_status_id,
         p.description,
         p.vendor_id
       FROM
@@ -53,8 +54,6 @@ router.route('/')
       JOIN
         products p
         ON p.id = o.product_id
-      WHERE
-        o.complete = false
     `)
       .then((result) => {
         const { rows } = result;
@@ -75,6 +74,7 @@ router.route('/vendors/:vendorId')
       SELECT
         o.id,
         o.created_at,
+        o.order_status_id,
         p.description,
         p.vendor_id
       FROM
@@ -90,8 +90,6 @@ router.route('/vendors/:vendorId')
         vendors v
         ON v.id = p.vendor_id
         AND v.id = :vendorId
-      WHERE
-        o.complete = false
     `, {
         vendorId
       })
@@ -185,9 +183,11 @@ router.route('/:id/cancel')
       });
   });
 
-router.route('/:id/complete')
+router.route('/:id')
   .put((request, response) => {
-    const { id } = request.params;
+    const
+      { id } = request.params,
+      { orderStatusId } = request.body;
 
     let userId;
 
@@ -195,13 +195,14 @@ router.route('/:id/complete')
       UPDATE
         orders
       SET
-        complete = true
+        order_status_id = :orderStatusId
       WHERE
         id = :id
       RETURNING
         user_id, product_id
     `, {
-        id
+        id,
+        orderStatusId
       })
       .then((result) => {
         const
@@ -237,7 +238,17 @@ router.route('/:id/complete')
           productDescription = row.product_description,
           vendorDescription = row.vendor_description;
 
-        const attachment = `Your ${productDescription} is finished!\n\nPlease pick it up at the ${vendorDescription} booth.`;
+        let attachment;
+
+        if (orderStatusId == 2) {
+          attachment = `Your ${productDescription} is being made!\n\nPlease wait a few more minutes for it to be completed.`;
+        }
+
+        if (orderStatusId == 3) {
+          attachment = `Your ${productDescription} is finished!\n\nPlease pick it up at the ${vendorDescription} booth.`;
+        }
+
+
         const quickReplies = [new QuickReply('Home', 'Home')];
         const message = new Message(attachment, quickReplies);
 
