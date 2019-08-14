@@ -507,7 +507,7 @@ var LoginComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">ORDERS</div>\n    <div class=\"order oswald\" *ngFor=\"let order of orders | async\">\n      <div class=\"order-id\">\n        {{order.id}}\n      </div>\n      <div class=\"order-description\">\n        {{order.description}}\n      </div>\n      <div class=\"order-time\">\n        {{order.created_at}}\n      </div>\n      <i class=\"fas fa-check order-complete-icon\" (click)=\"completeOrderHandler($event)\"></i>\n      <i class=\"fas fa-ban order-cancel-icon\" (click)=\"cancelOrderHandler($event)\"></i>\n    </div>\n    <div class=\"modal-close oswald\" (click)=\"close($event)\">CLOSE</div>\n  </div>\n</div>"
+module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">ORDERS</div>\n\n\n    <div class=\"order-container-wrapper\">\n\n      <div class=\"order-container\">\n        <div class=\"order oswald\" *ngFor=\"let order of incomingOrders | async\">\n          <div class=\"order-id\">\n            {{order.id}}\n          </div>\n          <div class=\"order-description\">\n            {{order.description}}\n          </div>\n          <div class=\"order-time\">\n            {{order.created_at}}\n          </div>\n          <i class=\"fas fa-check order-complete-icon\" (click)=\"processOrderHandler($event)\"></i>\n          <i class=\"fas fa-ban order-cancel-icon\" (click)=\"cancelOrderHandler($event)\"></i>\n        </div>\n      </div>\n\n      <div class=\"order-container\">\n        <div class=\"order oswald\" *ngFor=\"let order of processed | async\">\n          <div class=\"order-id\">\n            {{order.id}}\n          </div>\n          <div class=\"order-description\">\n            {{order.description}}\n          </div>\n          <div class=\"order-time\">\n            {{order.created_at}}\n          </div>\n          <i class=\"fas fa-check order-complete-icon\" (click)=\"completeOrderHandler($event)\"></i>\n          <i class=\"fas fa-ban order-cancel-icon\" (click)=\"cancelOrderHandler($event)\"></i>\n        </div>\n      </div>\n\n      <div class=\"order-container\">\n        <div class=\"order oswald\" *ngFor=\"let order of completed | async\">\n          <div class=\"order-id\">\n            {{order.id}}\n          </div>\n          <div class=\"order-description\">\n            {{order.description}}\n          </div>\n          <div class=\"order-time\">\n            {{order.created_at}}\n          </div>\n        </div>\n      </div>\n\n    </div>\n\n\n    <div class=\"modal-close oswald\" (click)=\"close($event)\">CLOSE</div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -518,7 +518,7 @@ module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".order {\n  width: 90%;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  margin: 6px;\n  padding: 6px;\n  background-color: white;\n  border: 1px solid #222233;\n  border-radius: 8px;\n  text-align: center; }\n  .order:hover {\n    transform: scale(1.2); }\n  .order .order-id {\n    min-width: 15%; }\n  .order .order-description {\n    min-width: 30%; }\n  .order .order-time {\n    min-width: 35%; }\n  .order .order-complete-icon {\n    width: 10%;\n    color: green; }\n  .order .order-complete-icon:hover {\n      cursor: pointer;\n      transform: scale(1.2); }\n  .order .order-cancel-icon {\n    width: 10%;\n    color: red; }\n  .order .order-cancel-icon:hover {\n      cursor: pointer;\n      transform: scale(1.2); }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9vcmRlcnMvQzpcXFVzZXJzXFxLaSBKdW5nIEtpbVxcRGVza3RvcFxcUHJvamVjdHNcXG1lc3Nlbmdlci1kYXNoYm9hcmQtZnJvbnRlbmQvc3JjXFxhcHBcXGNvbXBvbmVudHNcXG9yZGVyc1xcb3JkZXJzLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsVUFBVTtFQUVWLGFBQWE7RUFDYixtQkFBbUI7RUFDbkIsbUJBQW1CO0VBRW5CLFdBQVc7RUFDWCxZQUFZO0VBRVosdUJBQXVCO0VBRXZCLHlCQUF5QjtFQUN6QixrQkFBa0I7RUFFbEIsa0JBQWtCLEVBQUE7RUFmcEI7SUFrQkkscUJBQXFCLEVBQUE7RUFsQnpCO0lBc0JJLGNBQWMsRUFBQTtFQXRCbEI7SUEwQkksY0FBYyxFQUFBO0VBMUJsQjtJQThCSSxjQUFjLEVBQUE7RUE5QmxCO0lBa0NJLFVBQVU7SUFDVixZQUFZLEVBQUE7RUFuQ2hCO01Bc0NNLGVBQWU7TUFDZixxQkFBcUIsRUFBQTtFQXZDM0I7SUE0Q0ksVUFBVTtJQUNWLFVBQVUsRUFBQTtFQTdDZDtNQWdETSxlQUFlO01BQ2YscUJBQXFCLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL29yZGVycy9vcmRlcnMuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIub3JkZXIge1xyXG4gIHdpZHRoOiA5MCU7XHJcblxyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgZmxleC1kaXJlY3Rpb246IHJvdztcclxuICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG5cclxuICBtYXJnaW46IDZweDtcclxuICBwYWRkaW5nOiA2cHg7XHJcblxyXG4gIGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xyXG5cclxuICBib3JkZXI6IDFweCBzb2xpZCAjMjIyMjMzO1xyXG4gIGJvcmRlci1yYWRpdXM6IDhweDtcclxuXHJcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xyXG5cclxuICAmOmhvdmVyIHtcclxuICAgIHRyYW5zZm9ybTogc2NhbGUoMS4yKTtcclxuICB9XHJcblxyXG4gIC5vcmRlci1pZCB7XHJcbiAgICBtaW4td2lkdGg6IDE1JTtcclxuICB9XHJcblxyXG4gIC5vcmRlci1kZXNjcmlwdGlvbiB7XHJcbiAgICBtaW4td2lkdGg6IDMwJTtcclxuICB9XHJcblxyXG4gIC5vcmRlci10aW1lIHtcclxuICAgIG1pbi13aWR0aDogMzUlO1xyXG4gIH1cclxuXHJcbiAgLm9yZGVyLWNvbXBsZXRlLWljb24ge1xyXG4gICAgd2lkdGg6IDEwJTtcclxuICAgIGNvbG9yOiBncmVlbjtcclxuXHJcbiAgICAmOmhvdmVyIHtcclxuICAgICAgY3Vyc29yOiBwb2ludGVyO1xyXG4gICAgICB0cmFuc2Zvcm06IHNjYWxlKDEuMilcclxuICAgIH1cclxuICB9XHJcblxyXG4gIC5vcmRlci1jYW5jZWwtaWNvbiB7XHJcbiAgICB3aWR0aDogMTAlO1xyXG4gICAgY29sb3I6IHJlZDtcclxuXHJcbiAgICAmOmhvdmVyIHtcclxuICAgICAgY3Vyc29yOiBwb2ludGVyO1xyXG4gICAgICB0cmFuc2Zvcm06IHNjYWxlKDEuMilcclxuICAgIH1cclxuICB9XHJcbn0iXX0= */"
+module.exports = ".order-container-wrapper {\n  display: flex;\n  flex-direction: row; }\n  .order-container-wrapper .order-container {\n    display: flex;\n    flex-direction: column; }\n  .order-container-wrapper .order {\n    width: 90%;\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    margin: 6px;\n    padding: 6px;\n    background-color: white;\n    border: 1px solid #222233;\n    border-radius: 8px;\n    text-align: center; }\n  .order-container-wrapper .order:hover {\n      transform: scale(1.2); }\n  .order-container-wrapper .order .order-id {\n      min-width: 15%; }\n  .order-container-wrapper .order .order-description {\n      min-width: 30%; }\n  .order-container-wrapper .order .order-time {\n      min-width: 35%; }\n  .order-container-wrapper .order .order-complete-icon {\n      width: 10%;\n      color: green; }\n  .order-container-wrapper .order .order-complete-icon:hover {\n        cursor: pointer;\n        transform: scale(1.2); }\n  .order-container-wrapper .order .order-cancel-icon {\n      width: 10%;\n      color: red; }\n  .order-container-wrapper .order .order-cancel-icon:hover {\n        cursor: pointer;\n        transform: scale(1.2); }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9vcmRlcnMvQzpcXFVzZXJzXFxLaSBKdW5nIEtpbVxcRGVza3RvcFxcUHJvamVjdHNcXG1lc3Nlbmdlci1kYXNoYm9hcmQtZnJvbnRlbmQvc3JjXFxhcHBcXGNvbXBvbmVudHNcXG9yZGVyc1xcb3JkZXJzLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsYUFBYTtFQUNiLG1CQUFtQixFQUFBO0VBRnJCO0lBTUksYUFBYTtJQUNiLHNCQUFzQixFQUFBO0VBUDFCO0lBYUksVUFBVTtJQUVWLGFBQWE7SUFDYixtQkFBbUI7SUFDbkIsbUJBQW1CO0lBRW5CLFdBQVc7SUFDWCxZQUFZO0lBRVosdUJBQXVCO0lBRXZCLHlCQUF5QjtJQUN6QixrQkFBa0I7SUFFbEIsa0JBQWtCLEVBQUE7RUEzQnRCO01BOEJNLHFCQUFxQixFQUFBO0VBOUIzQjtNQWtDTSxjQUFjLEVBQUE7RUFsQ3BCO01Bc0NNLGNBQWMsRUFBQTtFQXRDcEI7TUEwQ00sY0FBYyxFQUFBO0VBMUNwQjtNQThDTSxVQUFVO01BQ1YsWUFBWSxFQUFBO0VBL0NsQjtRQWtEUSxlQUFlO1FBQ2YscUJBQXFCLEVBQUE7RUFuRDdCO01Bd0RNLFVBQVU7TUFDVixVQUFVLEVBQUE7RUF6RGhCO1FBNERRLGVBQWU7UUFDZixxQkFBcUIsRUFBQSIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvb3JkZXJzL29yZGVycy5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5vcmRlci1jb250YWluZXItd3JhcHBlciB7XHJcbiAgZGlzcGxheTogZmxleDtcclxuICBmbGV4LWRpcmVjdGlvbjogcm93O1xyXG5cclxuXHJcbiAgLm9yZGVyLWNvbnRhaW5lciB7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICB9XHJcblxyXG5cclxuXHJcbiAgLm9yZGVyIHtcclxuICAgIHdpZHRoOiA5MCU7XHJcblxyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XHJcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG5cclxuICAgIG1hcmdpbjogNnB4O1xyXG4gICAgcGFkZGluZzogNnB4O1xyXG5cclxuICAgIGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xyXG5cclxuICAgIGJvcmRlcjogMXB4IHNvbGlkICMyMjIyMzM7XHJcbiAgICBib3JkZXItcmFkaXVzOiA4cHg7XHJcblxyXG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xyXG5cclxuICAgICY6aG92ZXIge1xyXG4gICAgICB0cmFuc2Zvcm06IHNjYWxlKDEuMik7XHJcbiAgICB9XHJcblxyXG4gICAgLm9yZGVyLWlkIHtcclxuICAgICAgbWluLXdpZHRoOiAxNSU7XHJcbiAgICB9XHJcblxyXG4gICAgLm9yZGVyLWRlc2NyaXB0aW9uIHtcclxuICAgICAgbWluLXdpZHRoOiAzMCU7XHJcbiAgICB9XHJcblxyXG4gICAgLm9yZGVyLXRpbWUge1xyXG4gICAgICBtaW4td2lkdGg6IDM1JTtcclxuICAgIH1cclxuXHJcbiAgICAub3JkZXItY29tcGxldGUtaWNvbiB7XHJcbiAgICAgIHdpZHRoOiAxMCU7XHJcbiAgICAgIGNvbG9yOiBncmVlbjtcclxuXHJcbiAgICAgICY6aG92ZXIge1xyXG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcclxuICAgICAgICB0cmFuc2Zvcm06IHNjYWxlKDEuMilcclxuICAgICAgfVxyXG4gICAgfVxyXG5cclxuICAgIC5vcmRlci1jYW5jZWwtaWNvbiB7XHJcbiAgICAgIHdpZHRoOiAxMCU7XHJcbiAgICAgIGNvbG9yOiByZWQ7XHJcblxyXG4gICAgICAmOmhvdmVyIHtcclxuICAgICAgICBjdXJzb3I6IHBvaW50ZXI7XHJcbiAgICAgICAgdHJhbnNmb3JtOiBzY2FsZSgxLjIpXHJcbiAgICAgIH1cclxuICAgIH1cclxuICB9XHJcbn1cclxuXHJcblxyXG5cclxuXHJcblxyXG5cclxuIl19 */"
 
 /***/ }),
 
@@ -552,7 +552,7 @@ var OrdersComponent = /** @class */ (function () {
     }
     OrdersComponent.prototype.ngOnInit = function () {
         this.administrator = this.userService.administrator;
-        this.orders = this.getOrders();
+        this.getOrders();
     };
     OrdersComponent.prototype.close = function (event) {
         event.preventDefault();
@@ -560,10 +560,21 @@ var OrdersComponent = /** @class */ (function () {
         return;
     };
     OrdersComponent.prototype.getOrders = function () {
-        return this.ordersService.getOrders(this.administrator.permission, this.administrator.vendor_id)
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (data) {
-            console.log(data);
-            return data;
+        this.orders = this.ordersService.getOrders(this.administrator.permission, this.administrator.vendor_id);
+        this.incomingOrders = this.orders.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (orders) {
+            return orders.filter(function (order) {
+                return order.order_status_id === 1;
+            });
+        }));
+        this.processedOrders = this.orders.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (orders) {
+            return orders.filter(function (order) {
+                return order.order_status_id === 2;
+            });
+        }));
+        this.completedOrders = this.orders.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (orders) {
+            return orders.filter(function (order) {
+                return order.order_status_id === 3;
+            });
         }));
     };
     OrdersComponent.prototype.processOrderHandler = function (event) {
@@ -572,7 +583,7 @@ var OrdersComponent = /** @class */ (function () {
         return this.ordersService.processOrder(orderId).subscribe(function (response) {
             if (response['success']) {
                 console.log('Order successfully completed. User has been notified');
-                _this.orders = _this.getOrders();
+                _this.getOrders();
             }
             ;
         }, function (error) {
@@ -586,7 +597,7 @@ var OrdersComponent = /** @class */ (function () {
         return this.ordersService.completeOrder(orderId).subscribe(function (response) {
             if (response['success']) {
                 console.log('Order successfully completed. User has been notified');
-                _this.orders = _this.getOrders();
+                _this.getOrders();
             }
             ;
         }, function (error) {
@@ -600,7 +611,7 @@ var OrdersComponent = /** @class */ (function () {
         return this.ordersService.cancelOrder(orderId).subscribe(function (response) {
             if (response['success']) {
                 console.log('Order successfully cancelled. User has been notified');
-                _this.orders = _this.getOrders();
+                _this.getOrders();
             }
             ;
         }, function (error) {
