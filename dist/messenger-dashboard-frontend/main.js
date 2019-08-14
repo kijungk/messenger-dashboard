@@ -582,7 +582,7 @@ var OrdersComponent = /** @class */ (function () {
     OrdersComponent.prototype.processOrderHandler = function (event) {
         var _this = this;
         console.log(event);
-        var orderId = Number(event.target.parentElement.firstChild.firstChild.textContent);
+        var orderId = Number(event.target.parentElement.parentElement.firstChild.firstChild.textContent);
         return this.ordersService.processOrder(orderId).subscribe(function (response) {
             if (response['success']) {
                 console.log('Order successfully completed. User has been notified');
@@ -596,7 +596,7 @@ var OrdersComponent = /** @class */ (function () {
     };
     OrdersComponent.prototype.completeOrderHandler = function (event) {
         var _this = this;
-        var orderId = Number(event.target.parentElement.firstChild.firstChild.textContent);
+        var orderId = Number(event.target.parentElement.parentElement.firstChild.firstChild.textContent);
         return this.ordersService.completeOrder(orderId).subscribe(function (response) {
             if (response['success']) {
                 console.log('Order successfully completed. User has been notified');
@@ -610,7 +610,7 @@ var OrdersComponent = /** @class */ (function () {
     };
     OrdersComponent.prototype.cancelOrderHandler = function (event) {
         var _this = this;
-        var orderId = Number(event.target.parentElement.firstChild.firstChild.textContent);
+        var orderId = Number(event.target.parentElement.parentElement.firstChild.firstChild.textContent);
         return this.ordersService.cancelOrder(orderId).subscribe(function (response) {
             if (response['success']) {
                 console.log('Order successfully cancelled. User has been notified');
