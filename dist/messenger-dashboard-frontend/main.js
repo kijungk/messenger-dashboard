@@ -581,7 +581,7 @@ var OrdersComponent = /** @class */ (function () {
     };
     OrdersComponent.prototype.processOrderHandler = function (event) {
         var _this = this;
-        console.log(event.target);
+        console.log(event);
         var orderId = Number(event.target.parentElement.firstChild.firstChild.textContent);
         return this.ordersService.processOrder(orderId).subscribe(function (response) {
             if (response['success']) {
