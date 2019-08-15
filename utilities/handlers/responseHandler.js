@@ -2314,6 +2314,8 @@ module.exports = (function responseHandler() {
             ON pt.id = c.product_type_id
           WHERE
             cu.user_id = :userId
+          ORDER BY
+            pt.description
         `, {
             eventDescription,
             userId
