@@ -647,7 +647,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -696,7 +696,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -757,7 +757,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -806,7 +806,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -867,7 +867,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -916,7 +916,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -1027,7 +1027,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -1076,7 +1076,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -1137,7 +1137,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -1186,7 +1186,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -1247,7 +1247,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -1296,7 +1296,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -1446,7 +1446,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -1494,7 +1494,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -1571,7 +1571,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -1619,7 +1619,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -1761,7 +1761,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -1809,7 +1809,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -1886,7 +1886,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -1934,7 +1934,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -2094,7 +2094,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -2142,7 +2142,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -2203,7 +2203,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
@@ -2252,7 +2252,7 @@ module.exports = (function responseHandler() {
             const { inventory } = result.rows[0];
 
             if (couponRedeemed) {
-              attachment = 'You already redeemed this coupon!';
+              attachment = 'You do not have a coupon to use for this item!';
 
               quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
             }
