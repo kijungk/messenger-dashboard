@@ -2325,13 +2325,12 @@ module.exports = (function responseHandler() {
               usableCoupons = [];
 
             if (!rows.length) {
-              console.log('hit');
               attachment = 'You need to register at the event to receive digital vouchers!';
             }
 
             let
-              redeemedText,
-              usableText;
+              redeemedText = '',
+              usableText = '';
 
             rows.forEach((coupon) => {
               if (coupon.redeemed) {
