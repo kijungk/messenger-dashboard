@@ -2296,12 +2296,78 @@ module.exports = (function responseHandler() {
           });
 
       case 'MobileOrderStatus':
-        attachment = 'Under construction';
+        return knex.raw(`
+          SELECT
+            pt.description,
+            cu.redeemed
+          FROM
+            coupons_users cu
+          JOIN
+            coupons c
+            ON c.id = cu.coupon_id
+          JOIN
+            events e
+            ON e.id = c.event_id
+            AND e.description = :eventDescription
+          JOIN
+            product_types pt
+            ON pt.id = c.product_type_id
+          WHERE
+            cu.user_id = :userId
+        `, {
+            eventDescription,
+            userId
+          })
+          .then((result) => {
+            const
+              { rows } = result,
+              redeemedCoupons = [],
+              usableCoupons = [];
 
-        quickReplies = [new QuickReply('Back', 'MobileOrder'), new QuickReply('Home', 'Home')];
+            let
+              redeemedText,
+              usableText;
 
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
+            rows.forEach((coupon) => {
+              if (coupon.redeemed) {
+                redeemedCoupons.push(coupon);
+              }
+
+              usableCoupons.push(coupon);
+            });
+
+            if (redeemedCoupons.length) {
+              redeemedText = '[Redeemed Coupons]';
+
+              redeemedCoupons.forEach((coupon) => {
+                redeemedText += `\n${coupon.description} coupon`
+              });
+            }
+
+            if (usableCoupons.length) {
+              usableText = '[Usable Coupons]';
+
+              usableCoupons.forEach((coupon) => {
+                usableText += `\n${coupon.description} coupon`
+              });
+            }
+
+            if (redeemedText) {
+              attachment = redeemedText + '\n\n' + usableText;
+            } else {
+              attachment = redeemedText + usableText;
+            }
+
+            quickReplies = [new QuickReply('Back', 'MobileOrder'), new QuickReply('Home', 'Home')];
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking for coupons;
+            return;
+          });
 
       default:
         attachment = 'I don\'t understand that input :('
