@@ -308,6 +308,8 @@ module.exports = (function responseHandler() {
           });
 
       case 'Home':
+        console.log('new Date(): ', new Date());
+
         buttons = [
           new Button('Agenda', 'postback', 'AgendaCarousel'),
           new Button('Experience', 'postback', 'Experience'),
