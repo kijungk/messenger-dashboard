@@ -2324,6 +2324,10 @@ module.exports = (function responseHandler() {
               redeemedCoupons = [],
               usableCoupons = [];
 
+            if (!rows.length) {
+              attachment = 'You need to register at the event to receive digital vouchers!';
+            }
+
             let
               redeemedText,
               usableText;
