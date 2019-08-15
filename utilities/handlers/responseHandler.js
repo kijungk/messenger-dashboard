@@ -2359,7 +2359,9 @@ module.exports = (function responseHandler() {
 
             if (redeemedText) {
               attachment = redeemedText + '\n\n' + usableText;
-            } else {
+            }
+
+            if (!redeemedText && usableText) {
               attachment = redeemedText + usableText;
             }
 
