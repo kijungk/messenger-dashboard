@@ -309,6 +309,7 @@ module.exports = (function responseHandler() {
 
       case 'Home':
         console.log('new Date(): ', new Date());
+        console.log(new Date('2019-08-15T20:35:00'));
 
         buttons = [
           new Button('Agenda', 'postback', 'AgendaCarousel'),
