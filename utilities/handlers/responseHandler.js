@@ -308,8 +308,10 @@ module.exports = (function responseHandler() {
           });
 
       case 'Home':
-        console.log('new Date(): ', new Date());
-        console.log(new Date('2019-08-15T20:35:00'));
+        const now = new Date();
+        const notNow = new Date('2019-08-15T20:35:00');
+
+        console.log(now < notNow);
 
         buttons = [
           new Button('Agenda', 'postback', 'AgendaCarousel'),
