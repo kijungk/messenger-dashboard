@@ -509,7 +509,7 @@ var LoginComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">ORDERS</div>\n\n\n    <div class=\"order-container-wrapper\">\n\n      <div class=\"order-container\">\n        <div class=\"oswald\">NEW</div>\n        <div class=\"order oswald\" *ngFor=\"let order of incomingOrders | async\">\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-id\">\n              {{order.id}}\n            </div>\n            <div class=\"order-description\">\n              {{order.description}}\n            </div>\n          </div>\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-time\">\n              {{order.created_at}}\n            </div>\n            <i class=\"fas fa-check order-complete-icon\" (click)=\"processOrderHandler($event)\"></i>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"order-container\">\n        <div class=\"oswald\">IN PROGRESS</div>\n        <div class=\"order oswald\" *ngFor=\"let order of processedOrders | async\">\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-id\">\n              {{order.id}}\n            </div>\n            <div class=\"order-time\">\n              {{order.created_at}}\n            </div>\n          </div>\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-description\">\n              {{order.description}}\n            </div>\n            <i class=\"fas fa-check order-complete-icon\" (click)=\"completeOrderHandler($event)\"></i>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"order-container\">\n        <div class=\"oswald\">COMPLETED</div>\n        <div class=\"order oswald\" *ngFor=\"let order of completedOrders | async\">\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-id\">\n              {{order.id}}\n            </div>\n            <div class=\"order-time\">\n              {{order.created_at}}\n            </div>\n          </div>\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-description\">\n              {{order.description}}\n            </div>\n          </div>\n        </div>\n      </div>\n\n    </div>\n\n\n    <div class=\"modal-close oswald\" (click)=\"close($event)\">CLOSE</div>\n  </div>\n</div>"
+module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">ORDERS</div>\n\n\n    <div class=\"order-container-wrapper\">\n\n      <div class=\"order-container\">\n        <div class=\"oswald\">NEW</div>\n        <div class=\"order oswald\" *ngFor=\"let order of incomingOrders | async\">\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-id\">\n              {{order.id}}\n            </div>\n            <div class=\"order-description\">\n              {{order.description}}\n            </div>\n          </div>\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-time\">\n              {{order.created_at}}\n            </div>\n            <i class=\"fas fa-check order-complete-icon\" (click)=\"processOrderHandler($event)\"></i>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"order-container\">\n        <div class=\"oswald\">IN PROGRESS</div>\n        <div class=\"order oswald\" *ngFor=\"let order of processedOrders | async\">\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-id\">\n              {{order.id}}\n            </div>\n            <div class=\"order-description\">\n              {{order.description}}\n            </div>\n          </div>\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-time\">\n              {{order.created_at}}\n            </div>\n            <i class=\"fas fa-check order-complete-icon\" (click)=\"completeOrderHandler($event)\"></i>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"order-container\">\n        <div class=\"oswald\">COMPLETED</div>\n        <div class=\"order oswald\" *ngFor=\"let order of completedOrders | async\">\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-id\">\n              {{order.id}}\n            </div>\n            <div class=\"order-description\">\n              {{order.description}}\n            </div>\n          </div>\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-time\">\n              {{order.created_at}}\n            </div>\n          </div>\n        </div>\n      </div>\n\n    </div>\n\n\n    <div class=\"modal-close oswald\" (click)=\"close($event)\">CLOSE</div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -562,19 +562,16 @@ var OrdersComponent = /** @class */ (function () {
         return;
     };
     OrdersComponent.prototype.getOrders = function () {
+        var _this = this;
         this.orders = this.ordersService.getOrders(this.administrator.permission, this.administrator.vendor_id);
-        this.incomingOrders = this.orders.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (orders) {
-            return orders.filter(function (order) {
+        this.orders.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (orders) {
+            _this.incomingOrders = orders.filter(function (order) {
                 return order.order_status_id === 1;
             });
-        }));
-        this.processedOrders = this.orders.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (orders) {
-            return orders.filter(function (order) {
+            _this.processedOrders = orders.filter(function (order) {
                 return order.order_status_id === 2;
             });
-        }));
-        this.completedOrders = this.orders.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (orders) {
-            return orders.filter(function (order) {
+            _this.completedOrders = orders.filter(function (order) {
                 return order.order_status_id === 3;
             });
         }));
