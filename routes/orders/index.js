@@ -46,6 +46,8 @@ router.route('/')
       JOIN
         products p
         ON p.id = o.product_id
+      ORDER BY
+        o.id
     `)
       .then((result) => {
         const { rows } = result;
@@ -82,6 +84,8 @@ router.route('/vendors/:vendorId')
         vendors v
         ON v.id = p.vendor_id
         AND v.id = :vendorId
+      ORDER BY
+        o.id
     `, {
         vendorId
       })
