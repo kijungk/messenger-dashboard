@@ -30,7 +30,6 @@ function decreaseInventory(knex, eventDescription, productDescription) {
 
 router.route('/')
   .get((request, response) => {
-    console.log('Orders Interval 5000');
     return knex.raw(`
       SELECT
         o.id,
