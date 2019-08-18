@@ -8,30 +8,23 @@ const
   QuickReply = require('../../utilities/models/QuickReply'),
   { sendMessage } = require('../../utilities/handlers/sendHandler');
 
-
-function increaseInventory(knex, productDescription) {
+function decreaseInventory(knex, eventDescription, productDescription) {
   return knex.raw(`
-    UPDATE
-      products
-    SET
-      inventory = inventory + 1
-    WHERE
-      description = :productDescription
-  `, {
+      UPDATE
+        products
+      SET
+        inventory = inventory - 1
+      FROM
+        vendors,
+        events
+      WHERE
+        vendors.id = products.vendor_id
+      AND events.id = vendors.event_id
+      AND events.description = :eventDescription
+      AND products.description = :productDescription
+    `, {
+      eventDescription,
       productDescription
-    });
-}
-
-function refundCoupon(knex, couponUserId) {
-  return knex.raw(`
-    UPDATE
-      coupons_users
-    SET
-      redeemed = false
-    WHERE
-      id = :couponUserId
-  `, {
-      couponUserId
     });
 }
 
@@ -104,85 +97,6 @@ router.route('/vendors/:vendorId')
       });
   });
 
-router.route('/:id/cancel')
-  .delete((request, response) => {
-    const { id } = request.params;
-
-    let
-      userId,
-      facebookId,
-      couponUserId,
-      attachment,
-      quickReplies,
-      message;
-
-    return knex.raw(`
-      DELETE FROM
-        orders
-      WHERE
-        id = :id
-      RETURNING
-        user_id, product_id, coupon_user_id
-    `, {
-        id
-      })
-      .then((result) => {
-        const
-          row = result.rows[0],
-          productId = row.product_id;
-
-        userId = row.user_id;
-        couponUserId = row.coupon_user_id;
-
-        return knex.raw(`
-          SELECT
-            p.description AS product_description,
-            v.description AS vendor_description,
-            u.facebook_id
-          FROM
-            products p
-          JOIN
-            vendors v
-            ON v.id = p.vendor_id
-          JOIN
-            users u
-            ON u.id = :userId
-          WHERE
-            p.id = :productId
-        `, {
-            productId,
-            userId
-          });
-      })
-      .then((result) => {
-        const row = result.rows[0];
-        const
-          productDescription = row.product_description,
-          vendorDescription = row.vendor_description;
-
-        facebookId = row.facebook_id;
-
-        attachment = `Your ${productDescription} was cancelled!\n\nPlease see an attendant at ${vendorDescription} booth if there's any issues.`;
-        quickReplies = [new QuickReply('Home', 'Home')];
-        message = new Message(attachment, quickReplies);
-
-        const promises = [
-          refundCoupon(knex, userId, couponUserId),
-          increaseInventory(knex, productDescription)
-        ];
-
-        return Promise.all(promises);
-      })
-      .then(() => {
-        sendMessage(process.env.FMS2019, facebookId, message);
-        return response.status(200).send({ success: true });
-      })
-      .catch((error) => {
-        console.log(error);
-        return;
-      });
-  });
-
 router.route('/:id')
   .put((request, response) => {
     const
@@ -241,6 +155,7 @@ router.route('/:id')
         let attachment;
 
         if (orderStatusId == 2) {
+          decreaseInventory(knex, 'FMS 2019', row.product_description);
           attachment = `Your ${productDescription} is being made!\n\nPlease wait a few more minutes for it to be completed.`;
         }
 

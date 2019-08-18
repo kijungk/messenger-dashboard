@@ -162,6 +162,32 @@ module.exports = (function responseHandler() {
         userId
       });
   }
+  -
+    function checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription) {
+      return knex.raw(`
+        SELECT
+          o.id
+        FROM
+          orders o
+        JOIN
+          events e
+          ON e.id = o.event_id
+          AND e.description = :eventDescription
+        JOIN
+          products p
+          ON p.id = o.product_id
+        JOIN
+          vendors v
+          ON v.id = p.vendor_id
+          AND v.description = :vendorDescription
+        WHERE
+          user_id = :userId
+    `, {
+          eventDescription,
+          vendorDescription,
+          userId
+        });
+    }
 
   function checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription) {
     return knex.raw(`
@@ -182,6 +208,7 @@ module.exports = (function responseHandler() {
         AND pt.description = :productTypeDescription
       WHERE
         cu.redeemed = false
+      AND cu.user_id = :userId
     `, {
         productTypeDescription,
         eventDescription,
@@ -1396,6 +1423,15 @@ module.exports = (function responseHandler() {
               couponRedeemed = true;
             }
 
+            return checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              couponRedeemed = true;
+            }
+
             return checkVendorInventory(knex, productTypeDescription, eventDescription, vendorDescription);
           })
           .then((result) => {
@@ -1434,6 +1470,7 @@ module.exports = (function responseHandler() {
           });
 
       case 'FritzAmericanoConfirmation':
+        vendorDescription = 'Fritz';
         productTypeDescription = 'Beverage';
         productDescription = 'Americano';
 
@@ -1442,6 +1479,15 @@ module.exports = (function responseHandler() {
             const count = result.rows.length;
 
             if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
               couponRedeemed = true;
             }
 
@@ -1480,6 +1526,7 @@ module.exports = (function responseHandler() {
           });
 
       case 'FritzAmericanoComplete':
+        vendorDescription = 'Fritz';
         productTypeDescription = 'Beverage';
         productDescription = 'Americano';
 
@@ -1490,6 +1537,15 @@ module.exports = (function responseHandler() {
             if (count) {
               unusedCouponId = result.rows[0].id;
             } else {
+              couponRedeemed = true;
+            }
+
+            return checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
               couponRedeemed = true;
             }
 
@@ -1524,7 +1580,6 @@ module.exports = (function responseHandler() {
             if (transactionComplete) {
               const promises = [
                 redeemCoupon(knex, unusedCouponId),
-                decreaseInventory(knex, eventDescription, productDescription)
               ];
 
               return Promise.all(promises);
@@ -1559,6 +1614,7 @@ module.exports = (function responseHandler() {
           });
 
       case 'FritzLatteConfirmation':
+        vendorDescription = 'Fritz';
         productTypeDescription = 'Beverage';
         productDescription = 'Latte';
 
@@ -1567,6 +1623,15 @@ module.exports = (function responseHandler() {
             const count = result.rows.length;
 
             if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
               couponRedeemed = true;
             }
 
@@ -1605,6 +1670,7 @@ module.exports = (function responseHandler() {
           });
 
       case 'FritzLatteComplete':
+        vendorDescription = 'Fritz';
         productTypeDescription = 'Beverage';
         productDescription = 'Latte';
 
@@ -1615,6 +1681,15 @@ module.exports = (function responseHandler() {
             if (count) {
               unusedCouponId = result.rows[0].id;
             } else {
+              couponRedeemed = true;
+            }
+
+            return checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
               couponRedeemed = true;
             }
 
@@ -1649,7 +1724,6 @@ module.exports = (function responseHandler() {
             if (transactionComplete) {
               const promises = [
                 redeemCoupon(knex, unusedCouponId),
-                decreaseInventory(knex, eventDescription, productDescription)
               ];
 
               return Promise.all(promises);
@@ -1711,6 +1785,15 @@ module.exports = (function responseHandler() {
               couponRedeemed = true;
             }
 
+            return checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              couponRedeemed = true;
+            }
+
             return checkVendorInventory(knex, productTypeDescription, eventDescription, vendorDescription);
           })
           .then((result) => {
@@ -1749,6 +1832,7 @@ module.exports = (function responseHandler() {
           });
 
       case 'AltdifMilkConfirmation':
+        vendorDescription = 'Altdif';
         productTypeDescription = 'Beverage';
         productDescription = 'Milk';
 
@@ -1757,6 +1841,15 @@ module.exports = (function responseHandler() {
             const count = result.rows.length;
 
             if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
               couponRedeemed = true;
             }
 
@@ -1795,6 +1888,7 @@ module.exports = (function responseHandler() {
           });
 
       case 'AltdifMilkComplete':
+        vendorDescription = 'Altdif'
         productTypeDescription = 'Beverage';
         productDescription = 'Milk';
 
@@ -1805,6 +1899,15 @@ module.exports = (function responseHandler() {
             if (count) {
               unusedCouponId = result.rows[0].id;
             } else {
+              couponRedeemed = true;
+            }
+
+            return checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
               couponRedeemed = true;
             }
 
@@ -1839,7 +1942,6 @@ module.exports = (function responseHandler() {
             if (transactionComplete) {
               const promises = [
                 redeemCoupon(knex, unusedCouponId),
-                decreaseInventory(knex, eventDescription, productDescription)
               ];
 
               return Promise.all(promises);
@@ -1874,6 +1976,7 @@ module.exports = (function responseHandler() {
           });
 
       case 'AltdifChocolateMilkConfirmation':
+        vendorDescription = 'Altdif';
         productTypeDescription = 'Beverage';
         productDescription = 'Chocolate Milk';
 
@@ -1882,6 +1985,15 @@ module.exports = (function responseHandler() {
             const count = result.rows.length;
 
             if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
               couponRedeemed = true;
             }
 
@@ -1920,6 +2032,7 @@ module.exports = (function responseHandler() {
           });
 
       case 'AltdifChocolateMilkComplete':
+        vendorDescription = 'Altdif';
         productTypeDescription = 'Beverage';
         productDescription = 'Chocolate Milk';
 
@@ -1930,6 +2043,15 @@ module.exports = (function responseHandler() {
             if (count) {
               unusedCouponId = result.rows[0].id;
             } else {
+              couponRedeemed = true;
+            }
+
+            return checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
               couponRedeemed = true;
             }
 
@@ -1964,7 +2086,6 @@ module.exports = (function responseHandler() {
             if (transactionComplete) {
               const promises = [
                 redeemCoupon(knex, unusedCouponId),
-                decreaseInventory(knex, eventDescription, productDescription)
               ];
 
               return Promise.all(promises);
