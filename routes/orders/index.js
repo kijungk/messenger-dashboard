@@ -103,7 +103,10 @@ router.route('/:id')
       { id } = request.params,
       { orderStatusId } = request.body;
 
-    let userId;
+    let
+      userId,
+      attachment,
+      facebookId;
 
     return knex.raw(`
       UPDATE
@@ -148,22 +151,21 @@ router.route('/:id')
       .then((result) => {
         const row = result.rows[0];
         const
-          facebookId = row.facebook_id,
           productDescription = row.product_description,
           vendorDescription = row.vendor_description;
 
-        let attachment;
+        facebookId = row.facebook_id;
 
         if (orderStatusId == 2) {
-          decreaseInventory(knex, 'FMS 2019', row.product_description);
           attachment = `Your ${productDescription} is being made!\n\nPlease wait a few more minutes for it to be completed.`;
+          return decreaseInventory(knex, 'FMS 2019', row.product_description);
         }
 
         if (orderStatusId == 3) {
-          attachment = `Your ${productDescription} is finished!\n\nPlease pick it up at the ${vendorDescription} booth.`;
+          return attachment = `Your ${productDescription} is finished!\n\nPlease pick it up at the ${vendorDescription} booth.`;
         }
-
-
+      })
+      .then(() => {
         const quickReplies = [new QuickReply('Home', 'Home')];
         const message = new Message(attachment, quickReplies);
 
