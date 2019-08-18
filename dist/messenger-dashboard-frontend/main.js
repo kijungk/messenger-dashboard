@@ -571,6 +571,7 @@ var OrdersComponent = /** @class */ (function () {
             _this.processedOrders = orders.filter(function (order) {
                 return order.order_status_id === 2;
             });
+            console.log(_this.processedOrders);
             _this.completedOrders = orders.filter(function (order) {
                 return order.order_status_id === 3;
             });
