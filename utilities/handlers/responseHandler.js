@@ -162,9 +162,9 @@ module.exports = (function responseHandler() {
         userId
       });
   }
-  -
-    function checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription) {
-      return knex.raw(`
+
+  function checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription) {
+    return knex.raw(`
         SELECT
           o.id
         FROM
@@ -183,11 +183,11 @@ module.exports = (function responseHandler() {
         WHERE
           user_id = :userId
     `, {
-          eventDescription,
-          vendorDescription,
-          userId
-        });
-    }
+        eventDescription,
+        vendorDescription,
+        userId
+      });
+  }
 
   function checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription) {
     return knex.raw(`
