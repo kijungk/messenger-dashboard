@@ -118,7 +118,7 @@ module.exports = (function responseHandler() {
   function completeBooth(knex, userId, boothDescription) {
     return knex.raw(`
       INSERT INTO
-        booths_users bu (booth_id, user_id)
+        booths_users (booth_id, user_id)
       SELECT
         id,
         :userId
