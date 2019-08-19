@@ -112,6 +112,7 @@ router.route('/')
           userId = result[0].id;
 
           payload = assignPayload(event);
+          console.log(payload);
 
           return processPayload(access_token, entryId, userId, payload, senderId);
         })
