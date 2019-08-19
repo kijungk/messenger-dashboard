@@ -558,6 +558,7 @@ var OrdersComponent = /** @class */ (function () {
     OrdersComponent.prototype.ngOnInit = function () {
         this.administrator = this.userService.administrator;
         this.getOrders();
+        this.getProducts();
     };
     OrdersComponent.prototype.close = function (event) {
         event.preventDefault();
