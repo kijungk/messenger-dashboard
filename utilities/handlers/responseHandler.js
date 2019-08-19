@@ -295,8 +295,9 @@ module.exports = (function responseHandler() {
       boothDescription,
       couponRedeemed,
       productDescription,
-      vendorDescription,
+      swagRedeemed,
       transactionComplete,
+      vendorDescription,
       unusedCouponId;
 
     switch (payload) {
@@ -454,12 +455,17 @@ module.exports = (function responseHandler() {
             const count = result.rows.length;
 
             if (count) {
+              swagRedeemed = true;
               return;
             }
 
             return completeBooth(knex, userId, boothDescription);
           })
           .then(() => {
+            if (swagRedeemed) {
+              attachment = `You've already completed ${boothDescription}! Check out what other booths are available!`;
+            }
+
             attachment = `You\'ve completed ${boothDescription}. Check out what other booths are available!`;
 
             quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
@@ -481,12 +487,17 @@ module.exports = (function responseHandler() {
             const count = result.rows.length;
 
             if (count) {
+              swagRedeemed = true;
               return;
             }
 
             return completeBooth(knex, userId, boothDescription);
           })
           .then(() => {
+            if (swagRedeemed) {
+              attachment = `You've already completed ${boothDescription}! Check out what other booths are available!`;
+            }
+
             attachment = `You\'ve completed ${boothDescription}. Check out what other booths are available!`;
 
             quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
@@ -508,12 +519,17 @@ module.exports = (function responseHandler() {
             const count = result.rows.length;
 
             if (count) {
+              swagRedeemed = true;
               return;
             }
 
             return completeBooth(knex, userId, boothDescription);
           })
           .then(() => {
+            if (swagRedeemed) {
+              attachment = `You've already completed ${boothDescription}! Check out what other booths are available!`;
+            }
+
             attachment = `You\'ve completed ${boothDescription}. Check out what other booths are available!`;
 
             quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
@@ -535,12 +551,17 @@ module.exports = (function responseHandler() {
             const count = result.rows.length;
 
             if (count) {
+              swagRedeemed = true;
               return;
             }
 
             return completeBooth(knex, userId, boothDescription);
           })
           .then(() => {
+            if (swagRedeemed) {
+              attachment = `You've already completed ${boothDescription}! Check out what other booths are available!`;
+            }
+
             attachment = `You\'ve completed ${boothDescription}. Check out what other booths are available!`;
 
             quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
