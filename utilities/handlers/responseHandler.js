@@ -2505,16 +2505,51 @@ module.exports = (function responseHandler() {
           });
 
       case 'SurveyComplete':
-        elements = [
-          new Element('Thank you for completing the survey!', 'Please show this to a staff to earn SWAG', 'https://via.placeholder.com/1910x1000')
-        ];
+        const title = 'Thank you for your feedback!';
 
-        attachment = new Attachment('generic', elements);
+        let
+          subtitle,
+          imageUrl;
 
-        quickReplies = [new QuickReply('Complete', 'Home')];
+        boothDescription = 'FMS 2019 Exit Survey';
 
-        message = new Message(attachment, quickReplies);
-        return sendMessage(accessToken, senderId, message);
+        return checkBooth(knex, userId, boothDescription)
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              swagRedeemed = true;
+              return;
+            }
+
+            return completeBooth(knex, userId, boothDescription);
+          })
+          .then(() => {
+            if (swagRedeemed) {
+              subtitle = 'It seems you\'ve already completed this survey';
+              imageUrl = 'https://via.placeholder.com/1910x1000';
+              quickReplies = [new QuickReply('Home', 'Home')];
+            }
+
+            if (!swagRedeemed) {
+              subtitle = 'Please show this menu and button to a staff for SWAG!';
+              imageUrl = 'https://via.placeholder.com/1910x1000';
+              quickReplies = [new QuickReply('Complete', 'Home')];
+            }
+
+            elements = [
+              new Element(title, subtitle, imageUrl)
+            ];
+
+            attachment = new Attachment('generic', elements);
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            return;
+          });
 
       default:
         attachment = 'I don\'t understand that input :('
