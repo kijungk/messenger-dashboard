@@ -412,8 +412,7 @@ module.exports = (function responseHandler() {
           new Element('Booth 1', 'Participate and earn SWAG', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
           new Element('Booth 2', 'Participate and earn SWAG', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
           new Element('Booth 3', 'Participate and earn SWAG', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
-          new Element('Booth 4', 'Participate and earn SWAG', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
-          new Element('Booth 5', 'Participate and earn SWAG', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')]),
+          new Element('Booth 4', 'Participate and earn SWAG', 'https://via.placeholder.com/1910x1000', [new Button('Link', 'web_url', 'https://facebook.com')])
         ];
 
         attachment = new Attachment('generic', elements);
@@ -530,33 +529,6 @@ module.exports = (function responseHandler() {
 
       case 'BoothFourComplete':
         boothDescription = 'FMS 2019 Demo Booth 4';
-
-        return checkBooth(knex, userId, boothDescription)
-          .then((result) => {
-            const count = result.rows.length;
-
-            if (count) {
-              return;
-            }
-
-            return completeBooth(knex, userId, boothDescription);
-          })
-          .then(() => {
-            attachment = `You\'ve completed ${boothDescription}. Check out what other booths are available!`;
-
-            quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
-
-            message = new Message(attachment, quickReplies);
-            return sendMessage(accessToken, senderId, message);
-          })
-          .catch((error) => {
-            console.log(error);
-            //error while completing booth 1 for user
-            return;
-          });
-
-      case 'BoothFiveComplete':
-        boothDescription = 'FMS 2019 Demo Booth 5';
 
         return checkBooth(knex, userId, boothDescription)
           .then((result) => {
@@ -1456,7 +1428,7 @@ module.exports = (function responseHandler() {
               return new Element(row.vendor_description, row.product_description, imageUrls[row.product_description], [new Button(buttonTitle, 'postback', payload)]);
             });
 
-            attachment = new Attachment('list', elements, 'compact');
+            attachment = new Attachment('generic', elements);
 
             quickReplies = [new QuickReply('Back', 'BeverageMenu'), new QuickReply('Home', 'Home')];
 
@@ -1818,7 +1790,7 @@ module.exports = (function responseHandler() {
               return new Element(row.vendor_description, row.product_description, imageUrls[row.product_description], [new Button(buttonTitle, 'postback', payload)]);
             });
 
-            attachment = new Attachment('list', elements, 'compact');
+            attachment = new Attachment('generic', elements);
 
             quickReplies = [new QuickReply('Back', 'BeverageMenu'), new QuickReply('Home', 'Home')];
 
@@ -2502,6 +2474,18 @@ module.exports = (function responseHandler() {
             //error while checking for coupons;
             return;
           });
+
+      case 'SurveyComplete':
+        elements = [
+          new Element('Thank you for completing the survey!', 'Please show this to a staff to earn SWAG', 'https://via.placeholder.com/1910x1000')
+        ];
+
+        attachment = new Attachment('generic', elements);
+
+        quickReplies = [new QuickReply('Complete', 'Home')];
+
+        message = new Message(attachment, quickReplies);
+        return sendMessage(accessToken, senderId, message);
 
       default:
         attachment = 'I don\'t understand that input :('
