@@ -466,7 +466,9 @@ module.exports = (function responseHandler() {
               attachment = `You've already completed ${boothDescription}! Check out what other booths are available!`;
             }
 
-            attachment = `You\'ve completed ${boothDescription}. Check out what other booths are available!`;
+            if (!swagRedeemed) {
+              attachment = `You\'ve completed ${boothDescription}. Check out what other booths are available!`;
+            }
 
             quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
@@ -498,7 +500,9 @@ module.exports = (function responseHandler() {
               attachment = `You've already completed ${boothDescription}! Check out what other booths are available!`;
             }
 
-            attachment = `You\'ve completed ${boothDescription}. Check out what other booths are available!`;
+            if (!swagRedeemed) {
+              attachment = `You\'ve completed ${boothDescription}. Check out what other booths are available!`;
+            }
 
             quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
@@ -530,7 +534,9 @@ module.exports = (function responseHandler() {
               attachment = `You've already completed ${boothDescription}! Check out what other booths are available!`;
             }
 
-            attachment = `You\'ve completed ${boothDescription}. Check out what other booths are available!`;
+            if (!swagRedeemed) {
+              attachment = `You\'ve completed ${boothDescription}. Check out what other booths are available!`;
+            }
 
             quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
@@ -562,7 +568,9 @@ module.exports = (function responseHandler() {
               attachment = `You've already completed ${boothDescription}! Check out what other booths are available!`;
             }
 
-            attachment = `You\'ve completed ${boothDescription}. Check out what other booths are available!`;
+            if (!swagRedeemed) {
+              attachment = `You\'ve completed ${boothDescription}. Check out what other booths are available!`;
+            }
 
             quickReplies = [new QuickReply('Booths', 'BoothCarousel'), new QuickReply('Home', 'Home')];
 
