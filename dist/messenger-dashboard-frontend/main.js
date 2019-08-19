@@ -509,7 +509,7 @@ var LoginComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">ORDERS</div>\n\n\n    <div class=\"order-container-wrapper\">\n\n      <div class=\"order-container\">\n        <div class=\"oswald\">NEW</div>\n        <div class=\"order oswald\" *ngFor=\"let order of incomingOrders | async\">\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-id\">\n              {{order.id}}\n            </div>\n            <div class=\"order-description\">\n              {{order.description}}\n            </div>\n          </div>\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-time\">\n              {{order.created_at}}\n            </div>\n            <i class=\"fas fa-check order-complete-icon\" (click)=\"processOrderHandler($event)\"></i>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"order-container\">\n        <div class=\"oswald\">IN PROGRESS</div>\n        <div class=\"order oswald\" *ngFor=\"let order of processedOrders | async\">\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-id\">\n              {{order.id}}\n            </div>\n            <div class=\"order-description\">\n              {{order.description}}\n            </div>\n          </div>\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-time\">\n              {{order.created_at}}\n            </div>\n            <i class=\"fas fa-check order-complete-icon\" (click)=\"completeOrderHandler($event)\"></i>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"order-container\">\n        <div class=\"oswald\">COMPLETED</div>\n        <div class=\"order oswald\" *ngFor=\"let order of completedOrders | async\">\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-id\">\n              {{order.id}}\n            </div>\n            <div class=\"order-description\">\n              {{order.description}}\n            </div>\n          </div>\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-time\">\n              {{order.created_at}}\n            </div>\n          </div>\n        </div>\n      </div>\n\n    </div>\n\n\n    <div class=\"modal-close oswald\" (click)=\"close($event)\">CLOSE</div>\n  </div>\n</div>"
+module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">ORDERS</div>\n\n    <div class=\"inventory-container\" *ngIf=\"administrator.permission === 'vendor'\">\n      <div class=\"inventory\" *ngFor=\"let product of products | async\">\n        <div class=\"product-label\">{{product.description}}</div>\n        <input class=\"product-inventory\" type=\"text\" [(ngModel)]=\"product.inventory\">\n        <i class=\"fas fa-check order-complete-icon\"></i>\n      </div>\n    </div>\n\n    <div class=\"order-container-wrapper\">\n\n      <div class=\"order-container\">\n        <div class=\"oswald\">NEW</div>\n        <div class=\"order oswald\" *ngFor=\"let order of incomingOrders | async\">\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-id\">\n              {{order.id}}\n            </div>\n            <div class=\"order-description\">\n              {{order.description}}\n            </div>\n          </div>\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-time\">\n              {{order.created_at}}\n            </div>\n            <i class=\"fas fa-check order-complete-icon\" (click)=\"processOrderHandler($event)\"></i>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"order-container\">\n        <div class=\"oswald\">IN PROGRESS</div>\n        <div class=\"order oswald\" *ngFor=\"let order of processedOrders | async\">\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-id\">\n              {{order.id}}\n            </div>\n            <div class=\"order-description\">\n              {{order.description}}\n            </div>\n          </div>\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-time\">\n              {{order.created_at}}\n            </div>\n            <i class=\"fas fa-check order-complete-icon\" (click)=\"completeOrderHandler($event)\"></i>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"order-container\">\n        <div class=\"oswald\">COMPLETED</div>\n        <div class=\"order oswald\" *ngFor=\"let order of completedOrders | async\">\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-id\">\n              {{order.id}}\n            </div>\n            <div class=\"order-description\">\n              {{order.description}}\n            </div>\n          </div>\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-time\">\n              {{order.created_at}}\n            </div>\n          </div>\n        </div>\n      </div>\n\n    </div>\n\n\n    <div class=\"modal-close oswald\" (click)=\"close($event)\">CLOSE</div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -540,6 +540,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_orders_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/orders.service */ "./src/app/services/orders.service.ts");
 /* harmony import */ var _services_modals_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/modals.service */ "./src/app/services/modals.service.ts");
 /* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/user.service */ "./src/app/services/user.service.ts");
+/* harmony import */ var _services_products_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../services/products.service */ "./src/app/services/products.service.ts");
+
 
 
 
@@ -547,9 +549,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var OrdersComponent = /** @class */ (function () {
-    function OrdersComponent(modalsService, ordersService, userService) {
+    function OrdersComponent(modalsService, ordersService, productsService, userService) {
         this.modalsService = modalsService;
         this.ordersService = ordersService;
+        this.productsService = productsService;
         this.userService = userService;
     }
     OrdersComponent.prototype.ngOnInit = function () {
@@ -560,6 +563,9 @@ var OrdersComponent = /** @class */ (function () {
         event.preventDefault();
         this.modalsService.toggleModal('orders');
         return;
+    };
+    OrdersComponent.prototype.getProducts = function () {
+        this.products = this.productsService.getProducts(this.administrator.vendor_id);
     };
     OrdersComponent.prototype.getOrders = function () {
         this.orders = this.ordersService.getOrders(this.administrator.permission, this.administrator.vendor_id);
@@ -615,6 +621,7 @@ var OrdersComponent = /** @class */ (function () {
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_modals_service__WEBPACK_IMPORTED_MODULE_4__["ModalsService"],
             _services_orders_service__WEBPACK_IMPORTED_MODULE_3__["OrdersService"],
+            _services_products_service__WEBPACK_IMPORTED_MODULE_6__["ProductsService"],
             _services_user_service__WEBPACK_IMPORTED_MODULE_5__["UserService"]])
     ], OrdersComponent);
     return OrdersComponent;
@@ -1105,6 +1112,44 @@ var OrdersService = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"]])
     ], OrdersService);
     return OrdersService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/services/products.service.ts":
+/*!**********************************************!*\
+  !*** ./src/app/services/products.service.ts ***!
+  \**********************************************/
+/*! exports provided: ProductsService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProductsService", function() { return ProductsService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+
+
+
+var ProductsService = /** @class */ (function () {
+    function ProductsService(http) {
+        this.http = http;
+        this.productsUrl = '/api/products';
+    }
+    ProductsService.prototype.getProducts = function (vendorId) {
+        var queryString = "?vendorId=" + vendorId + "&productTypeId=5";
+        return this.http.get(this.productsUrl + queryString);
+    };
+    ProductsService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+    ], ProductsService);
+    return ProductsService;
 }());
 
 

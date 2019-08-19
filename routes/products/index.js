@@ -3,12 +3,13 @@ const
   router = express.Router(),
   knex = require('../../db/knex');
 
-router.route('/vendors/:vendorId/product-types/:productTypeId/inventory')
+router.route('/')
   .get((request, response) => {
-    const { vendorId, productTypeId } = request.params;
+    const { vendorId, productTypeId } = request.query;
 
     return knex.raw(`
       SELECT
+        p.id,
         p.description,
         p.inventory
       FROM
@@ -40,5 +41,33 @@ router.route('/vendors/:vendorId/product-types/:productTypeId/inventory')
       });
   });
 
+router.route('/:id')
+  .put((request, response) => {
+    const
+      { id } = request.params,
+      { inventory } = request.body;
 
+    return knex.raw(`
+      UPDATE
+        products
+      SET
+        inventory = :inventory
+      WHERE
+        id = :id
+      RETURNING
+        inventory
+    `, {
+        id,
+        inventory
+      })
+      .then((result) => {
+        const row = result.rows[0];
+
+        return response.status(200).send(row);
+      })
+      .catch((error) => {
+        console.log(error);
+        return;
+      });
+  });
 module.exports = router;
