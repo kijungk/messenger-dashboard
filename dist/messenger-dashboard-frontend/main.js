@@ -588,7 +588,10 @@ var OrdersComponent = /** @class */ (function () {
     };
     OrdersComponent.prototype.setInventory = function (event) {
         event.preventDefault();
-        console.log(event);
+        var id = event.target.dataset.id;
+        var inventory = event.target.parentElement.firstChild.value;
+        console.log(id);
+        console.log(inventory);
     };
     OrdersComponent.prototype.processOrderHandler = function (event) {
         var _this = this;
