@@ -33,7 +33,28 @@ router.route('/')
 
 router.route('/:id')
   .put((request, response) => {
+    const
+      { id } = request.params,
+      { active } = request.body;
 
-  })
+    return knex.raw(`
+      UPDATE
+        controllers
+      SET
+        active = :active
+      WHERE
+        id = :id
+    `, {
+        active,
+        id
+      })
+      .then(() => {
+        return response.status(200).send({ success: true });
+      })
+      .catch((error) => {
+        console.log(error);
+        return;
+      });
+  });
 
 module.exports = router;

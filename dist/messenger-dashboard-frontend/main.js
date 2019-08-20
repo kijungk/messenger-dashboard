@@ -573,11 +573,19 @@ var OrdersComponent = /** @class */ (function () {
         this.controllers = this.controllersService.getControllers();
     };
     OrdersComponent.prototype.updateController = function (event) {
+        var _this = this;
         event.preventDefault();
         var id = event.target.dataset.id;
         var active = event.target.checked;
-        console.log(active);
-        console.log(id);
+        return this.controllersService.updateController(id, active).subscribe(function (response) {
+            if (response['success']) {
+                console.log('Menu controller updated');
+                _this.getControllers();
+            }
+        }, function (error) {
+            console.log(error);
+            return;
+        });
     };
     OrdersComponent.prototype.getProducts = function () {
         this.products = this.productsService.getProducts(this.administrator.vendor_id);
@@ -1004,6 +1012,9 @@ var ControllersService = /** @class */ (function () {
     }
     ControllersService.prototype.getControllers = function () {
         return this.http.get(this.controllerUrl);
+    };
+    ControllersService.prototype.updateController = function (id, active) {
+        return this.http.put(this.controllerUrl + ("/" + id), { active: active });
     };
     ControllersService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
