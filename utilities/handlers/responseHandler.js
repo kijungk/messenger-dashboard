@@ -2437,53 +2437,54 @@ module.exports = (function responseHandler() {
             productTypeDescription = 'Dessert B';
             couponRedeemed = false;
 
-            return checkController(knex, eventDescription, controllerDescription)
-              .then((result) => {
-                const { active } = result.rows[0];
+            return checkController(knex, eventDescription, controllerDescription);
+          })
+          .then((result) => {
+            const { active } = result.rows[0];
 
-                if (!active) {
-                  couponRedeemed = true;
-                }
+            if (!active) {
+              couponRedeemed = true;
+            }
 
-                return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
-              })
-              .then((result) => {
-                const count = result.rows.length;
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
 
-                if (!count) {
-                  couponRedeemed = true;
-                }
+            if (!count) {
+              couponRedeemed = true;
+            }
 
-                return checkProductTypeInventory(knex, productTypeDescription, eventDescription);
-              })
-              .then((result) => {
-                const row = result.rows[0];
+            return checkProductTypeInventory(knex, productTypeDescription, eventDescription);
+          })
+          .then((result) => {
+            const row = result.rows[0];
 
-                const payload = row.vendor_description.replace(/ /g, '') + 'Confirmation';
-                let buttonTitle = 'Order';
+            const payload = row.vendor_description.replace(/ /g, '') + 'Confirmation';
+            let buttonTitle = 'Order';
 
-                if (!row.inventory) {
-                  buttonTitle = 'Out of Stock';
-                }
+            if (!row.inventory) {
+              buttonTitle = 'Out of Stock';
+            }
 
-                if (couponRedeemed) {
-                  buttonTitle = 'No Coupons Available';
-                }
+            if (couponRedeemed) {
+              buttonTitle = 'No Coupons Available';
+            }
 
-                elements.push(new Element(row.vendor_description, row.product_description, 'https://via.placeholder.com/1910x1000', [new Button(buttonTitle, 'postback', payload)]));
+            elements.push(new Element(row.vendor_description, row.product_description, 'https://via.placeholder.com/1910x1000', [new Button(buttonTitle, 'postback', payload)]));
 
-                attachment = new Attachment('generic', elements);
+            attachment = new Attachment('generic', elements);
 
-                quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
 
-                message = new Message(attachment, quickReplies);
-                return sendMessage(accessToken, senderId, message);
-              })
-              .catch((error) => {
-                console.log(error);
-                //error while checking coupon usage and product inventory
-                return;
-              });
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking coupon usage and product inventory
+            return;
+          });
 
       case 'DessertVendorAConfirmation':
         controllerDescription = 'Dessert';
