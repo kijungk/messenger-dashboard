@@ -21,6 +21,7 @@ router.route('/')
     `)
       .then((result) => {
         const { rows } = result;
+        console.log(rows);
 
         return response.status(200).send(rows);
       })
