@@ -311,6 +311,7 @@ module.exports = (function responseHandler() {
 
     let
       boothDescription,
+      controllerDescription,
       couponRedeemed,
       productDescription,
       swagRedeemed,
@@ -625,9 +626,19 @@ module.exports = (function responseHandler() {
         return sendMessage(accessToken, senderId, message);
 
       case 'BreakfastMenu':
+        controllerDescription = 'Breakfast';
         productTypeDescription = 'Breakfast';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -676,10 +687,20 @@ module.exports = (function responseHandler() {
           });
 
       case 'BreakfastFritzConfirmation':
+        controllerDescription = 'Breakfast';
         productTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option A';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -723,10 +744,20 @@ module.exports = (function responseHandler() {
           });
 
       case 'BreakfastFritzComplete':
+        controllerDescription = 'Breakfast';
         productTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option A';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -786,10 +817,20 @@ module.exports = (function responseHandler() {
           });
 
       case 'BreakfastAltdifConfirmation':
+        controllerDescription = 'Breakfast';
         productTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option B';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -833,10 +874,20 @@ module.exports = (function responseHandler() {
           });
 
       case 'BreakfastAltdifComplete':
+        controllerDescription = 'Breakfast';
         productTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option B';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -896,10 +947,20 @@ module.exports = (function responseHandler() {
           });
 
       case 'BreakfastBreakfastVendorCConfirmation':
+        controllerDescription = 'Breakfast';
         productTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option C';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -943,10 +1004,20 @@ module.exports = (function responseHandler() {
           });
 
       case 'BreakfastBreakfastVendorCComplete':
+        controllerDescription = 'Breakfast';
         productTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option C';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -1006,9 +1077,19 @@ module.exports = (function responseHandler() {
           });
 
       case 'LunchMenu':
+        controllerDescription = 'Lunch';
         productTypeDescription = 'Lunch';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -1056,10 +1137,20 @@ module.exports = (function responseHandler() {
           });
 
       case 'LunchVendorAConfirmation':
+        controllerDescription = 'Lunch';
         productTypeDescription = 'Lunch';
         productDescription = 'Lunch Option A';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -1103,10 +1194,20 @@ module.exports = (function responseHandler() {
           });
 
       case 'LunchVendorAComplete':
+        controllerDescription = 'Lunch';
         productTypeDescription = 'Lunch';
         productDescription = 'Lunch Option A';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -1166,10 +1267,20 @@ module.exports = (function responseHandler() {
           });
 
       case 'LunchVendorBConfirmation':
+        controllerDescription = 'Lunch';
         productTypeDescription = 'Lunch';
         productDescription = 'Lunch Option B';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -1213,10 +1324,20 @@ module.exports = (function responseHandler() {
           });
 
       case 'LunchVendorBComplete':
+        controllerDescription = 'Lunch';
         productTypeDescription = 'Lunch';
         productDescription = 'Lunch Option B';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -1276,10 +1397,20 @@ module.exports = (function responseHandler() {
           });
 
       case 'LunchVendorCConfirmation':
+        controllerDescription = 'Lunch';
         productTypeDescription = 'Lunch';
         productDescription = 'Lunch Option C';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -1323,10 +1454,20 @@ module.exports = (function responseHandler() {
           });
 
       case 'LunchVendorCComplete':
+        controllerDescription = 'Lunch';
         productTypeDescription = 'Lunch';
         productDescription = 'Lunch Option C';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -1386,9 +1527,19 @@ module.exports = (function responseHandler() {
           });
 
       case 'BeverageMenu':
+        controllerDescription = 'Beverage';
         productTypeDescription = 'Beverage';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -1426,10 +1577,20 @@ module.exports = (function responseHandler() {
 
 
       case 'BeverageFritzMenu':
+        controllerDescription = 'Beverage';
         productTypeDescription = 'Beverage';
         vendorDescription = 'Fritz';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -1484,11 +1645,21 @@ module.exports = (function responseHandler() {
           });
 
       case 'FritzAmericanoConfirmation':
-        vendorDescription = 'Fritz';
-        productTypeDescription = 'Beverage';
+        controllerDescription = 'Beverage';
         productDescription = 'Americano';
+        productTypeDescription = 'Beverage';
+        vendorDescription = 'Fritz';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -1540,11 +1711,21 @@ module.exports = (function responseHandler() {
           });
 
       case 'FritzAmericanoComplete':
-        vendorDescription = 'Fritz';
-        productTypeDescription = 'Beverage';
+        controllerDescription = 'Beverage';
         productDescription = 'Americano';
+        productTypeDescription = 'Beverage';
+        vendorDescription = 'Fritz';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -1628,11 +1809,21 @@ module.exports = (function responseHandler() {
           });
 
       case 'FritzLatteConfirmation':
-        vendorDescription = 'Fritz';
-        productTypeDescription = 'Beverage';
+        controllerDescription = 'Beverage';
         productDescription = 'Latte';
+        productTypeDescription = 'Beverage';
+        vendorDescription = 'Fritz';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -1684,11 +1875,21 @@ module.exports = (function responseHandler() {
           });
 
       case 'FritzLatteComplete':
-        vendorDescription = 'Fritz';
-        productTypeDescription = 'Beverage';
+        controllerDescription = 'Beverage';
         productDescription = 'Latte';
+        productTypeDescription = 'Beverage';
+        vendorDescription = 'Fritz';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -1788,10 +1989,20 @@ module.exports = (function responseHandler() {
 
 
       case 'BeverageAltdifMenu':
+        controllerDescription = 'Beverage';
         productTypeDescription = 'Beverage';
         vendorDescription = 'Altdif';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -1807,17 +2018,6 @@ module.exports = (function responseHandler() {
             if (count) {
               couponRedeemed = true;
             }
-
-
-            const now = new Date();
-            const notNow = new Date('2019-08-20T04:17:00');
-
-            if (now > notNow) {
-              couponRedeemed = true;
-            }
-
-            console.log(now < notNow);
-
 
             return checkVendorInventory(knex, productTypeDescription, eventDescription, vendorDescription);
           })
@@ -1857,11 +2057,21 @@ module.exports = (function responseHandler() {
           });
 
       case 'AltdifMilkConfirmation':
-        vendorDescription = 'Altdif';
-        productTypeDescription = 'Beverage';
+        controllerDescription = 'Beverage';
         productDescription = 'Milk';
+        productTypeDescription = 'Beverage';
+        vendorDescription = 'Altdif';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -1913,11 +2123,21 @@ module.exports = (function responseHandler() {
           });
 
       case 'AltdifMilkComplete':
-        vendorDescription = 'Altdif'
-        productTypeDescription = 'Beverage';
+        controllerDescription = 'Beverage';
         productDescription = 'Milk';
+        productTypeDescription = 'Beverage';
+        vendorDescription = 'Altdif'
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -2001,11 +2221,21 @@ module.exports = (function responseHandler() {
           });
 
       case 'AltdifChocolateMilkConfirmation':
-        vendorDescription = 'Altdif';
-        productTypeDescription = 'Beverage';
+        controllerDescription = 'Beverage';
         productDescription = 'Chocolate Milk';
+        productTypeDescription = 'Beverage';
+        vendorDescription = 'Altdif';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -2057,11 +2287,21 @@ module.exports = (function responseHandler() {
           });
 
       case 'AltdifChocolateMilkComplete':
-        vendorDescription = 'Altdif';
-        productTypeDescription = 'Beverage';
+        controllerDescription = 'Beverage';
         productDescription = 'Chocolate Milk';
+        productTypeDescription = 'Beverage';
+        vendorDescription = 'Altdif';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -2156,9 +2396,19 @@ module.exports = (function responseHandler() {
 
 
       case 'DessertMenu':
+        controllerDescription = 'Dessert';
         productTypeDescription = 'Dessert A';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -2228,10 +2478,20 @@ module.exports = (function responseHandler() {
           });
 
       case 'DessertVendorAConfirmation':
+        controllerDescription = 'Dessert';
         productTypeDescription = 'Dessert A';
         productDescription = 'Dessert Option A';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -2274,10 +2534,20 @@ module.exports = (function responseHandler() {
           });
 
       case 'DessertVendorAComplete':
+        controllerDescription = 'Dessert';
         productTypeDescription = 'Dessert A';
         productDescription = 'Dessert Option A';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -2337,10 +2607,20 @@ module.exports = (function responseHandler() {
           });
 
       case 'DessertVendorBConfirmation':
+        controllerDescription = 'Dessert';
         productTypeDescription = 'Dessert B';
         productDescription = 'Dessert Option B';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
@@ -2384,10 +2664,20 @@ module.exports = (function responseHandler() {
           });
 
       case 'DessertVendorBComplete':
+        controllerDescription = 'Dessert';
         productTypeDescription = 'Dessert B';
         productDescription = 'Dessert Option B';
 
-        return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
           .then((result) => {
             const count = result.rows.length;
 
