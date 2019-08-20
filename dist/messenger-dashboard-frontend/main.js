@@ -575,7 +575,7 @@ var OrdersComponent = /** @class */ (function () {
     OrdersComponent.prototype.updateController = function (event) {
         event.preventDefault();
         var id = event.target.dataset.id;
-        var active = event.target;
+        var active = event;
         console.log(active);
         console.log(id);
     };
