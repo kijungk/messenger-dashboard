@@ -8,6 +8,24 @@ module.exports = (function responseHandler() {
     knex = require('../../db/knex'),
     { sendMessage } = require('../../utilities/handlers/sendHandler');
 
+  function checkController(knex, eventDescription, controllerDescription) {
+    return knex.raw(`
+      SELECT
+        c.active
+      FROM
+        controllers c
+      JOIN
+        events e
+        ON e.id = c.event_id
+        AND e.description = :eventDescription
+      WHERE
+        c.description = :controllerDescription
+    `, {
+        controllerDescription,
+        eventDescription
+      });
+  }
+
   function receiveOrder(knex, eventDescription, productDescription, couponUserId, userId) {
     return knex.raw(`
       INSERT INTO
