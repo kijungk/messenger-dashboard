@@ -54,16 +54,13 @@ router.route('/:id')
         inventory = :inventory
       WHERE
         id = :id
-      RETURNING
-        inventory
     `, {
         id,
         inventory
       })
-      .then((result) => {
-        const row = result.rows[0];
+      .then(() => {
 
-        return response.status(200).send(row);
+        return response.status(200).send({ success: true });
       })
       .catch((error) => {
         console.log(error);

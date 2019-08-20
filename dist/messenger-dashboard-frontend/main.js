@@ -509,7 +509,7 @@ var LoginComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">ORDERS</div>\n\n    <div class=\"product-container\" *ngIf=\"administrator.permission === 'vendor'\">\n      <div class=\"product oswald\" *ngFor=\"let product of products | async\">\n        <div class=\"product-label\">{{product.description}}</div>\n        <div class=\"product-inner-wrapper\">\n          <input class=\"product-inventory\" type=\"text\" [(ngModel)]=\"product.inventory\">\n          <i class=\"fas fa-check inventory-change-icon\" [attr.data-id]=\"product.id\" (click)=\"setInventory($event)\"></i>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"order-container-wrapper\">\n\n      <div class=\"order-container\">\n        <div class=\"oswald\">NEW</div>\n        <div class=\"order oswald\" *ngFor=\"let order of incomingOrders | async\">\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-id\">\n              {{order.id}}\n            </div>\n            <div class=\"order-description\">\n              {{order.description}}\n            </div>\n          </div>\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-time\">\n              {{order.created_at}}\n            </div>\n            <i class=\"fas fa-check order-complete-icon\" (click)=\"processOrderHandler($event)\"></i>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"order-container\">\n        <div class=\"oswald\">IN PROGRESS</div>\n        <div class=\"order oswald\" *ngFor=\"let order of processedOrders | async\">\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-id\">\n              {{order.id}}\n            </div>\n            <div class=\"order-description\">\n              {{order.description}}\n            </div>\n          </div>\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-time\">\n              {{order.created_at}}\n            </div>\n            <i class=\"fas fa-check order-complete-icon\" (click)=\"completeOrderHandler($event)\"></i>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"order-container\">\n        <div class=\"oswald\">COMPLETED</div>\n        <div class=\"order oswald\" *ngFor=\"let order of completedOrders | async\">\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-id\">\n              {{order.id}}\n            </div>\n            <div class=\"order-description\">\n              {{order.description}}\n            </div>\n          </div>\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-time\">\n              {{order.created_at}}\n            </div>\n          </div>\n        </div>\n      </div>\n\n    </div>\n\n\n    <div class=\"modal-close oswald\" (click)=\"close($event)\">CLOSE</div>\n  </div>\n</div>"
+module.exports = "<div class=\"modal\">\n  <div class=\"modal-container\">\n    <div class=\"modal-title oswald\">ORDERS</div>\n\n    <div class=\"product-container\" *ngIf=\"administrator.permission === 'vendor'\">\n      <div class=\"product oswald\" *ngFor=\"let product of products | async\">\n        <div class=\"product-label\">{{product.description}}</div>\n        <div class=\"product-inner-wrapper\">\n          <input class=\"product-inventory\" type=\"text\" [(ngModel)]=\"product.inventory\">\n          <i class=\"fas fa-check inventory-change-icon\" [attr.data-id]=\"product.id\"\n            (click)=\"updateInventory($event)\"></i>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"order-container-wrapper\">\n\n      <div class=\"order-container\">\n        <div class=\"oswald\">NEW</div>\n        <div class=\"order oswald\" *ngFor=\"let order of incomingOrders | async\">\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-id\">\n              {{order.id}}\n            </div>\n            <div class=\"order-description\">\n              {{order.description}}\n            </div>\n          </div>\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-time\">\n              {{order.created_at}}\n            </div>\n            <i class=\"fas fa-check order-complete-icon\" (click)=\"processOrderHandler($event)\"></i>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"order-container\">\n        <div class=\"oswald\">IN PROGRESS</div>\n        <div class=\"order oswald\" *ngFor=\"let order of processedOrders | async\">\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-id\">\n              {{order.id}}\n            </div>\n            <div class=\"order-description\">\n              {{order.description}}\n            </div>\n          </div>\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-time\">\n              {{order.created_at}}\n            </div>\n            <i class=\"fas fa-check order-complete-icon\" (click)=\"completeOrderHandler($event)\"></i>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"order-container\">\n        <div class=\"oswald\">COMPLETED</div>\n        <div class=\"order oswald\" *ngFor=\"let order of completedOrders | async\">\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-id\">\n              {{order.id}}\n            </div>\n            <div class=\"order-description\">\n              {{order.description}}\n            </div>\n          </div>\n          <div class=\"order-inner-wrapper\">\n            <div class=\"order-time\">\n              {{order.created_at}}\n            </div>\n          </div>\n        </div>\n      </div>\n\n    </div>\n\n\n    <div class=\"modal-close oswald\" (click)=\"close($event)\">CLOSE</div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -586,12 +586,20 @@ var OrdersComponent = /** @class */ (function () {
             });
         }));
     };
-    OrdersComponent.prototype.setInventory = function (event) {
+    OrdersComponent.prototype.updateInventory = function (event) {
+        var _this = this;
         event.preventDefault();
         var id = event.target.dataset.id;
         var inventory = event.target.parentElement.firstChild.value;
-        console.log(id);
-        console.log(inventory);
+        return this.productsService.updateInventory(id, inventory).subscribe(function (response) {
+            if (response['success']) {
+                console.log('Inventory updated');
+                _this.getProducts();
+            }
+        }, function (error) {
+            console.log(error);
+            return;
+        });
     };
     OrdersComponent.prototype.processOrderHandler = function (event) {
         var _this = this;
@@ -601,6 +609,7 @@ var OrdersComponent = /** @class */ (function () {
             if (response['success']) {
                 console.log('Order successfully completed. User has been notified');
                 _this.getOrders();
+                _this.getProducts();
             }
             ;
         }, function (error) {
@@ -1149,6 +1158,9 @@ var ProductsService = /** @class */ (function () {
         this.http = http;
         this.productsUrl = '/api/products';
     }
+    ProductsService.prototype.updateInventory = function (id, inventory) {
+        return this.http.put(this.productsUrl + ("/" + id), { inventory: inventory });
+    };
     ProductsService.prototype.getProducts = function (vendorId) {
         var queryString = "?vendorId=" + vendorId + "&productTypeId=5";
         return this.http.get(this.productsUrl + queryString);
