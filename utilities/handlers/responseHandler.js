@@ -1792,7 +1792,7 @@ module.exports = (function responseHandler() {
 
 
             const now = new Date();
-            const notNow = new Date('2019-08-19T04:15:00');
+            const notNow = new Date('2019-08-20T04:17:00');
 
             if (now > notNow) {
               couponRedeemed = true;
