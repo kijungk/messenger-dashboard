@@ -26,6 +26,8 @@ router.route('/')
         product_types pt
         ON pt.id = p.product_type_id
         AND pt.id = :productTypeId
+      ORDER BY
+        p.description
     `, {
         productTypeId,
         vendorId
