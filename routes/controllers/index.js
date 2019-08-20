@@ -16,6 +16,8 @@ router.route('/')
         events e
         ON e.id = c.event_id
         AND e.description = 'FMS 2019'
+      ORDER BY
+        c.id
     `)
       .then((result) => {
         const { rows } = result;
