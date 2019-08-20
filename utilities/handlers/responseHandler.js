@@ -2437,45 +2437,53 @@ module.exports = (function responseHandler() {
             productTypeDescription = 'Dessert B';
             couponRedeemed = false;
 
-            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription);
-          })
-          .then((result) => {
-            const count = result.rows.length;
+            return checkController(knex, eventDescription, controllerDescription)
+              .then((result) => {
+                const { active } = result.rows[0];
 
-            if (!count) {
-              couponRedeemed = true;
-            }
+                if (!active) {
+                  couponRedeemed = true;
+                }
 
-            return checkProductTypeInventory(knex, productTypeDescription, eventDescription);
-          })
-          .then((result) => {
-            const row = result.rows[0];
+                return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+              })
+              .then((result) => {
+                const count = result.rows.length;
 
-            const payload = row.vendor_description.replace(/ /g, '') + 'Confirmation';
-            let buttonTitle = 'Order';
+                if (!count) {
+                  couponRedeemed = true;
+                }
 
-            if (!row.inventory) {
-              buttonTitle = 'Out of Stock';
-            }
+                return checkProductTypeInventory(knex, productTypeDescription, eventDescription);
+              })
+              .then((result) => {
+                const row = result.rows[0];
 
-            if (couponRedeemed) {
-              buttonTitle = 'No Coupons Available';
-            }
+                const payload = row.vendor_description.replace(/ /g, '') + 'Confirmation';
+                let buttonTitle = 'Order';
 
-            elements.push(new Element(row.vendor_description, row.product_description, 'https://via.placeholder.com/1910x1000', [new Button(buttonTitle, 'postback', payload)]));
+                if (!row.inventory) {
+                  buttonTitle = 'Out of Stock';
+                }
 
-            attachment = new Attachment('generic', elements);
+                if (couponRedeemed) {
+                  buttonTitle = 'No Coupons Available';
+                }
 
-            quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+                elements.push(new Element(row.vendor_description, row.product_description, 'https://via.placeholder.com/1910x1000', [new Button(buttonTitle, 'postback', payload)]));
 
-            message = new Message(attachment, quickReplies);
-            return sendMessage(accessToken, senderId, message);
-          })
-          .catch((error) => {
-            console.log(error);
-            //error while checking coupon usage and product inventory
-            return;
-          });
+                attachment = new Attachment('generic', elements);
+
+                quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+
+                message = new Message(attachment, quickReplies);
+                return sendMessage(accessToken, senderId, message);
+              })
+              .catch((error) => {
+                console.log(error);
+                //error while checking coupon usage and product inventory
+                return;
+              });
 
       case 'DessertVendorAConfirmation':
         controllerDescription = 'Dessert';
