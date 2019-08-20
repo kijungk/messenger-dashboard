@@ -2370,7 +2370,6 @@ module.exports = (function responseHandler() {
             let { id } = row;
             id = id.toString();
 
-
             if (id) {
               attachment += `\n\nThe order number is ${id.padStart(4, '0')}.`
             }
