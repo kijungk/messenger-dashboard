@@ -336,11 +336,6 @@ module.exports = (function responseHandler() {
           });
 
       case 'Home':
-        const now = new Date();
-        const notNow = new Date('2019-08-15T20:35:00');
-
-        console.log(now < notNow);
-
         buttons = [
           new Button('Agenda', 'postback', 'AgendaCarousel'),
           new Button('Experience', 'postback', 'Experience'),
@@ -1794,6 +1789,17 @@ module.exports = (function responseHandler() {
             if (count) {
               couponRedeemed = true;
             }
+
+
+            const now = new Date();
+            const notNow = new Date('2019-08-19T04:15:00');
+
+            if (now > notNow) {
+              couponRedeemed = true;
+            }
+
+            console.log(now < notNow);
+
 
             return checkVendorInventory(knex, productTypeDescription, eventDescription, vendorDescription);
           })
