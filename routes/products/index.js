@@ -41,38 +41,7 @@ router.route('/')
         console.log(error);
         return;
       })
-  })
-  .post((request, response) => {
-    const { description } = request.body;
-
-    return knex.raw(`
-            INSERT INTO
-              products (description)
-            VALUES
-              (:description)
-          `, {
-        description
-      })
-      .then(() => {
-        return response.sendStatus(200);
-      });
-  })
-  .put((request, response) => {
-    const { id, description } = request.body;
-    return knex.raw(`
-      UPDATE
-        products
-      SET
-        description = :description
-      WHERE
-        id = :id
-    `, {
-        id, description
-      })
-      .then(() => {
-        return response.sendStatus(200);
-      });
-  })
+  });
 
 router.route('/:id')
   .put((request, response) => {

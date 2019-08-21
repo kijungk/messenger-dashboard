@@ -2350,8 +2350,10 @@ module.exports = (function responseHandler() {
           .then((result) => {
             const { rows } = result;
             const imageUrls = {
-              'Milk': 'https://via.placeholder.com/1910x1000',
-              'Chocolate Milk': 'https://via.placeholder.com/1910x1000'
+              '따뜻한 논알콜 뱅쇼': 'https://via.placeholder.com/1910x1000',
+              '차가운 논알콜 뱅쇼 에이드': 'https://via.placeholder.com/1910x1000',
+              '차가운 샹들리에 블랙티 에이드': 'https://via.placeholder.com/1910x1000',
+              '차가운 벨벳 클라우드 밀크티': 'https://via.placeholder.com/1910x1000'
             }
 
             elements = rows.map((row) => {
@@ -2382,9 +2384,9 @@ module.exports = (function responseHandler() {
             return;
           });
 
-      case 'AltdifMilkConfirmation':
+      case 'Altdif따뜻한논알콜뱅쇼Confirmation':
         controllerDescription = 'Beverage';
-        productDescription = 'Milk';
+        productDescription = '따뜻한 논알콜 뱅쇼';
         productTypeDescription = 'Beverage';
         vendorDescription = 'Altdif';
 
@@ -2436,7 +2438,7 @@ module.exports = (function responseHandler() {
 
               attachment = new Attachment('generic', elements);
 
-              quickReplies = [new QuickReply('Confirm', 'AltdifMilkComplete'), new QuickReply('Cancel', 'BeverageFritzMenu')];
+              quickReplies = [new QuickReply('Confirm', 'Altdif따뜻한논알콜뱅쇼Complete'), new QuickReply('Cancel', 'BeverageAltdifMenu')];
             }
 
             message = new Message(attachment, quickReplies);
@@ -2448,9 +2450,9 @@ module.exports = (function responseHandler() {
             return;
           });
 
-      case 'AltdifMilkComplete':
+      case 'Altdif따뜻한논알콜뱅쇼Complete':
         controllerDescription = 'Beverage';
-        productDescription = 'Milk';
+        productDescription = '따뜻한 논알콜 뱅쇼';
         productTypeDescription = 'Beverage';
         vendorDescription = 'Altdif'
 
@@ -2546,9 +2548,9 @@ module.exports = (function responseHandler() {
             return;
           });
 
-      case 'AltdifChocolateMilkConfirmation':
+      case 'Altdif차가운논알콜뱅쇼에이드Confirmation':
         controllerDescription = 'Beverage';
-        productDescription = 'Chocolate Milk';
+        productDescription = '차가운 논알콜 뱅쇼 에이드';
         productTypeDescription = 'Beverage';
         vendorDescription = 'Altdif';
 
@@ -2600,7 +2602,7 @@ module.exports = (function responseHandler() {
 
               attachment = new Attachment('generic', elements);
 
-              quickReplies = [new QuickReply('Confirm', 'AltdifChocolateMilkComplete'), new QuickReply('Cancel', 'BeverageFritzMenu')];
+              quickReplies = [new QuickReply('Confirm', 'Altdif차가운논알콜뱅쇼에이드Complete'), new QuickReply('Cancel', 'BeverageAltdifMenu')];
             }
 
             message = new Message(attachment, quickReplies);
@@ -2612,9 +2614,9 @@ module.exports = (function responseHandler() {
             return;
           });
 
-      case 'AltdifChocolateMilkComplete':
+      case 'Altdif차가운논알콜뱅쇼에이드Complete':
         controllerDescription = 'Beverage';
-        productDescription = 'Chocolate Milk';
+        productDescription = '차가운 논알콜 뱅쇼 에이드';
         productTypeDescription = 'Beverage';
         vendorDescription = 'Altdif';
 
@@ -2709,9 +2711,331 @@ module.exports = (function responseHandler() {
             return;
           });
 
+      case 'Altdif차가운샹들리에블랙티에이드Confirmation':
+        controllerDescription = 'Beverage';
+        productDescription = '차가운 샹들리에 블랙티 에이드';
+        productTypeDescription = 'Beverage';
+        vendorDescription = 'Altdif';
 
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
 
+            if (!active) {
+              couponRedeemed = true;
+            }
 
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You do not have a coupon to use for this item!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'BeverageAltdifMenu'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && inventory) {
+              elements = [new Element('Confirm Order', 'It is difficult to cancel an order!', 'https://via.placeholder.com/1910x1000')];
+
+              attachment = new Attachment('generic', elements);
+
+              quickReplies = [new QuickReply('Confirm', 'Altdif차가운샹들리에블랙티에이드Complete'), new QuickReply('Cancel', 'BeverageAltdifMenu')];
+            }
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking inventory
+            return;
+          });
+
+      case 'Altdif차가운샹들리에블랙티에이드Complete':
+        controllerDescription = 'Beverage';
+        productDescription = '차가운 샹들리에 블랙티 에이드';
+        productTypeDescription = 'Beverage';
+        vendorDescription = 'Altdif';
+
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              unusedCouponId = result.rows[0].id;
+            } else {
+              couponRedeemed = true;
+            }
+
+            return checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You do not have a coupon to use for this item!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'BeverageAltdifMenu'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && inventory) {
+              attachment = 'You have successfully redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'BeverageMenu'), new QuickReply('Home', 'Home')];
+
+              transactionComplete = true;
+            }
+
+            return;
+          })
+          .then(() => {
+            if (transactionComplete) {
+              const promises = [
+                redeemCoupon(knex, unusedCouponId),
+              ];
+
+              return Promise.all(promises);
+            }
+
+            return;
+          })
+          .then(() => {
+            if (transactionComplete) {
+              return receiveOrder(knex, eventDescription, productDescription, unusedCouponId, userId);
+            }
+
+            return;
+          })
+          .then((result) => {
+            const row = result.rows[0];
+            let { id } = row;
+            id = id.toString();
+
+            if (id) {
+              attachment += `\n\nThe order number is ${id.padStart(4, '0')}.`
+            }
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking inventory
+            return;
+          });
+
+      case 'Altdif차가운벨벳클라우드밀크티Confirmation':
+        controllerDescription = 'Beverage';
+        productDescription = '차가운 벨벳 클라우드 밀크티';
+        productTypeDescription = 'Beverage';
+        vendorDescription = 'Altdif';
+
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You do not have a coupon to use for this item!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'BeverageAltdifMenu'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && inventory) {
+              elements = [new Element('Confirm Order', 'It is difficult to cancel an order!', 'https://via.placeholder.com/1910x1000')];
+
+              attachment = new Attachment('generic', elements);
+
+              quickReplies = [new QuickReply('Confirm', 'Altdif차가운벨벳클라우드밀크티Complete'), new QuickReply('Cancel', 'BeverageAltdifMenu')];
+            }
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking inventory
+            return;
+          });
+
+      case 'Altdif차가운벨벳클라우드밀크티Complete':
+        controllerDescription = 'Beverage';
+        productDescription = '차가운 벨벳 클라우드 밀크티';
+        productTypeDescription = 'Beverage';
+        vendorDescription = 'Altdif';
+
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              unusedCouponId = result.rows[0].id;
+            } else {
+              couponRedeemed = true;
+            }
+
+            return checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You do not have a coupon to use for this item!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'BeverageAltdifMenu'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && inventory) {
+              attachment = 'You have successfully redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'BeverageMenu'), new QuickReply('Home', 'Home')];
+
+              transactionComplete = true;
+            }
+
+            return;
+          })
+          .then(() => {
+            if (transactionComplete) {
+              const promises = [
+                redeemCoupon(knex, unusedCouponId),
+              ];
+
+              return Promise.all(promises);
+            }
+
+            return;
+          })
+          .then(() => {
+            if (transactionComplete) {
+              return receiveOrder(knex, eventDescription, productDescription, unusedCouponId, userId);
+            }
+
+            return;
+          })
+          .then((result) => {
+            const row = result.rows[0];
+            let { id } = row;
+            id = id.toString();
+
+            if (id) {
+              attachment += `\n\nThe order number is ${id.padStart(4, '0')}.`
+            }
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking inventory
+            return;
+          });
 
 
 
