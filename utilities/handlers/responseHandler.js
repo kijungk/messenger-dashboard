@@ -2530,11 +2530,11 @@ module.exports = (function responseHandler() {
             return;
           });
 
-      case 'AltdifMilkComplete':
+      case 'FourB따뜻한 롱블랙Complete':
         controllerDescription = 'Beverage';
-        productDescription = 'Milk';
+        productDescription = '따뜻한 롱블랙';
         productTypeDescription = 'Beverage';
-        vendorDescription = 'Altdif'
+        vendorDescription = 'Four B'
 
         return checkController(knex, eventDescription, controllerDescription)
           .then((result) => {
@@ -2578,7 +2578,7 @@ module.exports = (function responseHandler() {
             if (!couponRedeemed && !inventory) {
               attachment = 'This item is out of stock!';
 
-              quickReplies = [new QuickReply('Back', 'BeverageAltdifMenu'), new QuickReply('Home', 'Home')];
+              quickReplies = [new QuickReply('Back', 'BeverageFourBMenu'), new QuickReply('Home', 'Home')];
             }
 
             if (!couponRedeemed && inventory) {
