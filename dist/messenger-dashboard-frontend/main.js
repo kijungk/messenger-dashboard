@@ -1263,7 +1263,8 @@ var UserService = /** @class */ (function () {
         this.credentials = {
             superuser: 'savestheday',
             fritz: 'coffeeandbread',
-            altdif: 'teaandlife'
+            altdif: 'teaandlife',
+            fourb: 'doyourbest'
         };
     }
     UserService.prototype.login = function (credentials) {
@@ -1278,6 +1279,9 @@ var UserService = /** @class */ (function () {
                     this.administrator.permission = 'vendor';
                     this.administrator.vendor_id = 2;
                     break;
+                case 'fourb':
+                    this.administrator.permission = 'vendor';
+                    this.administrator.vendor_id = 3;
                 default:
                     this.administrator.permission = 'superuser';
                     break;
