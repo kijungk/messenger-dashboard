@@ -1612,8 +1612,10 @@ module.exports = (function responseHandler() {
           .then((result) => {
             const { rows } = result;
             const imageUrls = {
-              'Americano': 'https://via.placeholder.com/1910x1000',
-              'Latte': 'https://via.placeholder.com/1910x1000'
+              '따뜻한 라떼': 'https://via.placeholder.com/1910x1000',
+              '차가운 라떼': 'https://via.placeholder.com/1910x1000',
+              '따뜻한 아메리카노': 'https://via.placeholder.com/1910x1000',
+              '차가운 콜드브루': 'https://via.placeholder.com/1910x1000'
             }
 
             elements = rows.map((row) => {
@@ -1644,9 +1646,9 @@ module.exports = (function responseHandler() {
             return;
           });
 
-      case 'FritzAmericanoConfirmation':
+      case 'Fritz따뜻한라떼Confirmation':
         controllerDescription = 'Beverage';
-        productDescription = 'Americano';
+        productDescription = '따뜻한 라떼';
         productTypeDescription = 'Beverage';
         vendorDescription = 'Fritz';
 
@@ -1698,7 +1700,7 @@ module.exports = (function responseHandler() {
 
               attachment = new Attachment('generic', elements);
 
-              quickReplies = [new QuickReply('Confirm', 'FritzAmericanoComplete'), new QuickReply('Cancel', 'BeverageFritzMenu')];
+              quickReplies = [new QuickReply('Confirm', 'Fritz따뜻한라떼Complete'), new QuickReply('Cancel', 'BeverageFritzMenu')];
             }
 
             message = new Message(attachment, quickReplies);
@@ -1710,9 +1712,9 @@ module.exports = (function responseHandler() {
             return;
           });
 
-      case 'FritzAmericanoComplete':
+      case 'Fritz따뜻한라떼Complete':
         controllerDescription = 'Beverage';
-        productDescription = 'Americano';
+        productDescription = '따뜻한 라떼';
         productTypeDescription = 'Beverage';
         vendorDescription = 'Fritz';
 
@@ -1808,9 +1810,9 @@ module.exports = (function responseHandler() {
             return;
           });
 
-      case 'FritzLatteConfirmation':
+      case 'Fritz차가운라떼Confirmation':
         controllerDescription = 'Beverage';
-        productDescription = 'Latte';
+        productDescription = '차가운 라떼';
         productTypeDescription = 'Beverage';
         vendorDescription = 'Fritz';
 
@@ -1862,7 +1864,7 @@ module.exports = (function responseHandler() {
 
               attachment = new Attachment('generic', elements);
 
-              quickReplies = [new QuickReply('Confirm', 'FritzLatteComplete'), new QuickReply('Cancel', 'BeverageFritzMenu')];
+              quickReplies = [new QuickReply('Confirm', 'Fritz차가운라떼Complete'), new QuickReply('Cancel', 'BeverageFritzMenu')];
             }
 
             message = new Message(attachment, quickReplies);
@@ -1874,9 +1876,9 @@ module.exports = (function responseHandler() {
             return;
           });
 
-      case 'FritzLatteComplete':
+      case 'Fritz차가운라떼Complete':
         controllerDescription = 'Beverage';
-        productDescription = 'Latte';
+        productDescription = '차가운 라떼';
         productTypeDescription = 'Beverage';
         vendorDescription = 'Fritz';
 
@@ -1972,9 +1974,333 @@ module.exports = (function responseHandler() {
             return;
           });
 
+      case 'Fritz따뜻한아메리카노Confirmation':
+        controllerDescription = 'Beverage';
+        productDescription = '따뜻한 아메리카노';
+        productTypeDescription = 'Beverage';
+        vendorDescription = 'Fritz';
+
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You do not have a coupon to use for this item!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'BeverageFritzMenu'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && inventory) {
+              elements = [new Element('Confirm Order', 'It is difficult to cancel an order!', 'https://via.placeholder.com/1910x1000')];
+
+              attachment = new Attachment('generic', elements);
+
+              quickReplies = [new QuickReply('Confirm', 'Fritz따뜻한아메리카노Complete'), new QuickReply('Cancel', 'BeverageFritzMenu')];
+            }
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking inventory
+            return;
+          });
+
+      case 'Fritz따뜻한아메리카노Complete':
+        controllerDescription = 'Beverage';
+        productDescription = '따뜻한 아메리카노';
+        productTypeDescription = 'Beverage';
+        vendorDescription = 'Fritz';
+
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              unusedCouponId = result.rows[0].id;
+            } else {
+              couponRedeemed = true;
+            }
+
+            return checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You do not have a coupon to use for this item!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'BeverageFritzMenu'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && inventory) {
+              attachment = 'You have successfully redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'BeverageMenu'), new QuickReply('Home', 'Home')];
+
+              transactionComplete = true;
+            }
+
+            return;
+          })
+          .then(() => {
+            if (transactionComplete) {
+              const promises = [
+                redeemCoupon(knex, unusedCouponId),
+              ];
+
+              return Promise.all(promises);
+            }
+
+            return;
+          })
+          .then(() => {
+            if (transactionComplete) {
+              return receiveOrder(knex, eventDescription, productDescription, unusedCouponId, userId);
+            }
+
+            return;
+          })
+          .then((result) => {
+            const row = result.rows[0];
+            let { id } = row;
+            id = id.toString();
 
 
+            if (id) {
+              attachment += `\n\nThe order number is ${id.padStart(4, '0')}.`
+            }
 
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking inventory
+            return;
+          });
+
+      case 'Fritz차가운콜드브루Confirmation':
+        controllerDescription = 'Beverage';
+        productDescription = '차가운 콜드브루';
+        productTypeDescription = 'Beverage';
+        vendorDescription = 'Fritz';
+
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (!count) {
+              couponRedeemed = true;
+            }
+
+            return checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You do not have a coupon to use for this item!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'BeverageFritzMenu'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && inventory) {
+              elements = [new Element('Confirm Order', 'It is difficult to cancel an order!', 'https://via.placeholder.com/1910x1000')];
+
+              attachment = new Attachment('generic', elements);
+
+              quickReplies = [new QuickReply('Confirm', 'Fritz차가운콜드브루Complete'), new QuickReply('Cancel', 'BeverageFritzMenu')];
+            }
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking inventory
+            return;
+          });
+
+      case 'Fritz차가운콜드브루Complete':
+        controllerDescription = 'Beverage';
+        productDescription = '차가운 콜드브루';
+        productTypeDescription = 'Beverage';
+        vendorDescription = 'Fritz';
+
+        return checkController(knex, eventDescription, controllerDescription)
+          .then((result) => {
+            const { active } = result.rows[0];
+
+            if (!active) {
+              couponRedeemed = true;
+            }
+
+            return checkUnusedCoupon(knex, userId, productTypeDescription, eventDescription)
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              unusedCouponId = result.rows[0].id;
+            } else {
+              couponRedeemed = true;
+            }
+
+            return checkBeverageOrderByVendor(knex, userId, vendorDescription, eventDescription);
+          })
+          .then((result) => {
+            const count = result.rows.length;
+
+            if (count) {
+              couponRedeemed = true;
+            }
+
+            return checkProductInventory(knex, eventDescription, productDescription);
+          })
+          .then((result) => {
+            const { inventory } = result.rows[0];
+
+            if (couponRedeemed) {
+              attachment = 'You do not have a coupon to use for this item!';
+
+              quickReplies = [new QuickReply('Back', 'MobileOrderMenus'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && !inventory) {
+              attachment = 'This item is out of stock!';
+
+              quickReplies = [new QuickReply('Back', 'BeverageFritzMenu'), new QuickReply('Home', 'Home')];
+            }
+
+            if (!couponRedeemed && inventory) {
+              attachment = 'You have successfully redeemed this coupon!';
+
+              quickReplies = [new QuickReply('Back', 'BeverageMenu'), new QuickReply('Home', 'Home')];
+
+              transactionComplete = true;
+            }
+
+            return;
+          })
+          .then(() => {
+            if (transactionComplete) {
+              const promises = [
+                redeemCoupon(knex, unusedCouponId),
+              ];
+
+              return Promise.all(promises);
+            }
+
+            return;
+          })
+          .then(() => {
+            if (transactionComplete) {
+              return receiveOrder(knex, eventDescription, productDescription, unusedCouponId, userId);
+            }
+
+            return;
+          })
+          .then((result) => {
+            const row = result.rows[0];
+            let { id } = row;
+            id = id.toString();
+
+
+            if (id) {
+              attachment += `\n\nThe order number is ${id.padStart(4, '0')}.`
+            }
+
+            message = new Message(attachment, quickReplies);
+            return sendMessage(accessToken, senderId, message);
+          })
+          .catch((error) => {
+            console.log(error);
+            //error while checking inventory
+            return;
+          });
 
 
 
