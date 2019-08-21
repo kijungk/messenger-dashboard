@@ -41,21 +41,20 @@ router.route('/')
         console.log(error);
         return;
       })
+  })
+  .post((request, response) => {
+    const { description } = request.body;
 
-      .post((request, response) => {
-        const { description } = request.body;
-
-        return knex.raw(`
-          INSERT INTO
-            products (description)
-          VALUES
-            (:description)
-        `, {
-            description
-          })
-          .then(() => {
-            return response.sendStatus(200);
-          });
+    return knex.raw(`
+            INSERT INTO
+              products (description)
+            VALUES
+              (:description)
+          `, {
+        description
+      })
+      .then(() => {
+        return response.sendStatus(200);
       });
   });
 
