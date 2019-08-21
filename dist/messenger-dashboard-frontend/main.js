@@ -1282,6 +1282,7 @@ var UserService = /** @class */ (function () {
                 case 'fourb':
                     this.administrator.permission = 'vendor';
                     this.administrator.vendor_id = 3;
+                    break;
                 default:
                     this.administrator.permission = 'superuser';
                     break;
