@@ -56,7 +56,23 @@ router.route('/')
       .then(() => {
         return response.sendStatus(200);
       });
-  });
+  })
+  .put((request, response) => {
+    const { id, description } = request.body;
+    return knex.raw(`
+      UPDATE
+        products
+      SET
+        description = :description
+      WHERE
+        id = :id
+    `, {
+        id, description
+      })
+      .then(() => {
+        return response.sendStatus(200);
+      });
+  })
 
 router.route('/:id')
   .put((request, response) => {
