@@ -654,7 +654,7 @@ module.exports = (function responseHandler() {
             const imageUrls = {
               'Fritz': 'https://via.placeholder.com/1910x1000',
               'Altdif': 'https://via.placeholder.com/1910x1000',
-              'Breakfast Vendor C': 'https://via.placeholder.com/1910x1000'
+              'Four B': 'https://via.placeholder.com/1910x1000'
             }
 
             elements = rows.map((row) => {
@@ -946,7 +946,7 @@ module.exports = (function responseHandler() {
             return;
           });
 
-      case 'BreakfastBreakfastVendorCConfirmation':
+      case 'BreakfastFourBConfirmation':
         controllerDescription = 'Breakfast';
         productTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option C';
@@ -991,7 +991,7 @@ module.exports = (function responseHandler() {
 
               attachment = new Attachment('generic', elements);
 
-              quickReplies = [new QuickReply('Staff Confirm', 'BreakfastBreakfastVendorCComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
+              quickReplies = [new QuickReply('Staff Confirm', 'BreakfastFourBComplete'), new QuickReply('Cancel', 'BreakfastMenu')];
             }
 
             message = new Message(attachment, quickReplies);
@@ -1003,7 +1003,7 @@ module.exports = (function responseHandler() {
             return;
           });
 
-      case 'BreakfastBreakfastVendorCComplete':
+      case 'BreakfastFourBComplete':
         controllerDescription = 'Breakfast';
         productTypeDescription = 'Breakfast';
         productDescription = 'Breakfast Option C';
